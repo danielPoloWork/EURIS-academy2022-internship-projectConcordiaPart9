@@ -130,14 +130,17 @@ Scientists have tablets, at their disposal, with which they are connected to the
 	/member/{id}
 	
 #### Trello
-- [**GET** /1/card/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-card-id-get) 
-- [**GET** /1/card](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-card-get) 
- - [**GET** /1/list/{idList}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get)
-  - [**GET** /1/members](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-members-get)
-- [**GET** /1/members/{idMember}](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-members-id-get)
- - [**GET** /1/labels/{id}](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-labels-id-get)
- - [**GET** /1/boards/{idBoard}/labels](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get)
-- [**GET** /1/cards/{idCard}/actions?filter=commentCard](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-get)
+- [**GET** /1/cards/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-card-id-post) Get a task.
+- [**GET** /1/boards/{idBoard}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-cards-get) Get all task.
+ - [**GET** /1/lists/{idList}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get) Get all tasks in a list.
+  - [**GET** /1/boards/{idBoard}/members](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-members-get) Get all members of the board.
+- [**GET** /1/members/{idMember}](https://developer.atlassian.com/cloud/trello/rest/api-group-members/#api-members-id-get) Get a member.
+ - [**GET** /1/labels/{id}](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-id-get) Get a priority.
+ - [**GET** /1/boards/{idBoard}/labels](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get) Get all labels of the board.
+- [**GET** /1/cards/{idCard}/actions?filter=commentCard](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-get) Get all comments on a card.
+- [**POST** /1/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post) Create a new task.
+- [**POST** /1/cards/{idCard}/actions/comments](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post) Add a new comment to a Task.
+- [**PUT** /1/card/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put) Update a task.
  
 ## Job schedule
 ## Technologies
