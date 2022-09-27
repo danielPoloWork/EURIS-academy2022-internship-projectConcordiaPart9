@@ -83,6 +83,7 @@ Scientists have tablets, at their disposal, with which they are connected to the
 > |LOW|6331a62237ccc99fc3e4b2eb|Low Priority|BLUE|
 > |DONE|6331a62237ccc99fc3e4b2e3|Done|GREEN|
 > |ARCHIVED|6331a62237ccc99fc3e4b2ed|Archived|PURPLE|
+
 > **Status** in java is an enum('TO_DO', 'IN_PROGRESS', 'COMPLETED')
 > |LIST|ID|NAME|
 > |-|-|-|
