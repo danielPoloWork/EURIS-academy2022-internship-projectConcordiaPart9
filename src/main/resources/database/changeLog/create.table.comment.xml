@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns = "http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-table-comment-0001" author="4NTC">
+        <comment>Create table Comment</comment>
+
+        <createTable tableName="Comment">
+            <column name="id" type="CHAR(24)">
+                <constraints primaryKey="true" primaryKeyName="pkComment"/>
+            </column>
+            <column name="idTask" type="CHAR(24)">
+                <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkCommentTask"/>
+            </column>
+            <column name="idMember" type="CHAR(24)">
+                <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkCommentMember"/>
+            </column>
+            <column name="text" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="Comment"/>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>
