@@ -21,13 +21,13 @@
 
         <addForeignKeyConstraint baseColumnNames="idTask"
                                  baseTableName="Assignee"
-                                 constraintName="fkTaskId"
+                                 constraintName="fkAssigneeTaskId"
                                  referencedColumnNames="id"
                                  referencedTableName="Task"/>
 
         <addForeignKeyConstraint baseColumnNames="idMember"
                                  baseTableName="Assignee"
-                                 constraintName="fkMemberId"
+                                 constraintName="fkAssigneeMemberId"
                                  referencedColumnNames="id"
                                  referencedTableName="Member"/>
 
