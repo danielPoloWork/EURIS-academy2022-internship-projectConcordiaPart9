@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- FOLLOWING: APPLICATION-SPECIFIC CHANGELOGS -->
+    <changeSet id="create-table-member-0001" author="marcelloCescutti">
+        <comment>Create table Member</comment>
+
+        <createTable tableName="Member">
+            <column name="id" type="CHAR(24)">
+                <constraints primaryKey="true" primaryKeyName="pkMember"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="Member"/>
+        </rollback>
+
+    </changeSet>
+</databaseChangeLog>
