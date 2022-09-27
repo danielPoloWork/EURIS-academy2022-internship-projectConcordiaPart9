@@ -12,25 +12,13 @@
                 <constraints primaryKey="true" primaryKeyName="pkAssignee"/>
             </column>
             <column name="idTask" type="VARCHAR(24)">
-                <constraints nullable="false"/>
+                <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkAssigneeTask" nullable="false"/>
             </column>
             <column name="idMember" type="VARCHAR(24)">
-                <constraints nullable="false"/>
+                <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkAssigneeMember" nullable="false"/>
             </column>
         </createTable>
-
-        <addForeignKeyConstraint baseColumnNames="idTask"
-                                 baseTableName="Assignee"
-                                 constraintName="fkAssigneeTaskId"
-                                 referencedColumnNames="id"
-                                 referencedTableName="Task"/>
-
-        <addForeignKeyConstraint baseColumnNames="idMember"
-                                 baseTableName="Assignee"
-                                 constraintName="fkAssigneeMemberId"
-                                 referencedColumnNames="id"
-                                 referencedTableName="Member"/>
-
+        
         <rollback>
             <dropTable tableName="Assignee"/>
         </rollback>
