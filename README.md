@@ -1,7 +1,7 @@
 # CONCORDIA APPLICATION
 ## Abstract
 https://www.italiantartide.it/st-italo-francese-concordia/ 
-**Concoridia** is one of the two Italian scientific bases in Antarctica where various university researchers carry out experiments. Due to its location, the base **has chance get Internet connection only in a short period of time**, that is, when a satellite passes over the base and so the connection can be established with the rest of the world. However, various research centers around the world must be able to request, day after day, at their leisure, to the scientists hosted in the base, the result of some experiments. For this purpose Trello has been chosen as a tool in which the research centers will add their requests. 
+**Concordia** is one of the two Italian scientific bases in Antarctica where various university researchers carry out experiments. Due to its location, the base **has chance get Internet connection only in a short period of time**, that is, when a satellite passes over the base and so the connection can be established with the rest of the world. However, various research centers around the world must be able to request, day after day, at their leisure, to the scientists hosted in the base, the result of some experiments. For this purpose Trello has been chosen as a tool in which the research centers will add their requests. 
 
 Despite the problems of connection with the rest of the world, the Concordia base has, of course, an IT structure up to par. Precisely on this we want to install an application that helps researchers in the base and the research centers of the world in their daily work, taking advantage of the window of time granted (by the satellite), to be able to update researchers on what they have to do, and research centers on the status of experiments. 
 
@@ -28,6 +28,7 @@ Scientists have tablets, at their disposal, with which they are connected to the
 
 ## Solution
 ### Database
+![UML](https://raw.githubusercontent.com/danielPoloWork/Concordia/master/concordia-db-uml.png)
 #### TABLE: User
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
@@ -97,17 +98,46 @@ Scientists have tablets, at their disposal, with which they are connected to the
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
 
 ### API
+#### Concordia
+- **GET** 
+	/task
+	/task/{id}
+	/comment
+	/comment/{id}
+	/assignee
+	/assignee/{id}
+	/member
+	/member/{id}
+- **POST**
+	/task
+	/assignee
+	/comment
+	/member
+- **PUT**
+	 /task
+	 /assignee
+	 /comment
+	 /member
+- **DELETE**
+	/task
+	/task/{id}
+	/assignee
+	/assignee/{id}
+	/comment
+	/comment/{id}
+	/member
+	/member/{id}
+	
 #### Trello
-- **GET** /1/actions/{id}
-   We used this one for this reason
- [The Trello REST API (atlassian.com)](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-actions-id-get) 
-- https://api.trello.com/1/lists/{{toDoListId}}/cards?key={{key}}&token={{token}}
-All tasks from to do list
-- https://api.trello.com/1/boards/{{concordiaBoardId}}/lists?key={{key}}&token={{token}}
-All list of Concordia board
-- https://api.trello.com/1/cards/{{experiment5CardId}}/actions?filter=commentCard&key={{key}}&token={{token}}
-All comments of the card "Experiment 5"
-
+- [**GET** /1/card/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-card-id-get) 
+- [**GET** /1/card](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-card-get) 
+ - [**GET** /1/list/{idList}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get)
+  - [**GET** /1/members](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-members-get)
+- [**GET** /1/members/{idMember}](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-members-id-get)
+ - [**GET** /1/labels/{id}](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-labels-id-get)
+ - [**GET** /1/boards/{idBoard}/labels](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get)
+- [**GET** /1/cards/{idCard}/actions?filter=commentCard](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-get)
+ 
 ## Job schedule
 ## Technologies
 - **Java**│version 18│
@@ -121,5 +151,8 @@ All comments of the card "Experiment 5"
 - **Trello**
 - **Postman**
 ## Test
+- **JUnit**
+- **Mockito**
 ## Estimated development time
+3 weeks
 ###### © 2022 All rights reserved. Developed by Cescutti Marcello, Collinassi Antonio, Coppetti Simone, Polo Daniel 
