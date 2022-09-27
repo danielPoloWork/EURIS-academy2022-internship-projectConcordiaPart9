@@ -12,7 +12,7 @@
         <constraints primaryKey="true" primaryKeyName="pkUser"/>
       </column>
       <column name="username" type="VARCHAR(100)">
-        <constraints nullable="false"/>
+        <constraints nullable="false" uniqueConstraintName="true"/>
       </column>
       <column name="password" type="VARCHAR(100)">
         <constraints nullable="false"/>
