@@ -18,7 +18,7 @@
                 <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkAssigneeMember" nullable="false"/>
             </column>
         </createTable>
-        
+
         <rollback>
             <dropTable tableName="Assignee"/>
         </rollback>
