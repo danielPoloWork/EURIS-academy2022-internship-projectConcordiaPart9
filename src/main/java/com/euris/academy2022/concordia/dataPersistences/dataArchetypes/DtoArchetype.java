@@ -1,5 +1,4 @@
-package com.danielpolo.game.dataPersistences.dataArchetypes;
-
+package com.euris.academy2022.concordia.dataPersistences.dataArchetypes;
 public interface DtoArchetype{
 
 	default ModelArchetype toModel() {
