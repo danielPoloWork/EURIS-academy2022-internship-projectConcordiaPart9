@@ -3,4 +3,10 @@
   xmlns = "http://www.liquibase.org/xml/ns/dbchangelog"
   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation = "http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <include file = "/database/changeLog/create.table.user.xml"/>
+  <include file = "/database/changeLog/create.table.task.xml"/>
+  <include file = "/database/changeLog/create.table.member.xml"/>
+  <include file = "/database/changeLog/create.table.assignee.xml"/>
+  <include file = "/database/changeLog/create.table.comment.xml"/>
 </databaseChangeLog>
