@@ -4,12 +4,11 @@
   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation = "http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-  <!-- FOLLOWING: APPLICATION-SPECIFIC CHANGELOGS -->
   <changeSet id="create-table-user-0001" author="danielPolo">
     <comment>Create table User</comment>
 
     <createTable tableName="User">
-      <column name="id" type="INT" autoIncrement="true">
+      <column name="uuid" type="CHAR(36)">
         <constraints primaryKey="true" primaryKeyName="pkUser"/>
       </column>
       <column name="username" type="VARCHAR(100)">
