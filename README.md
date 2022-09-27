@@ -6,25 +6,25 @@ https://www.italiantartide.it/st-italo-francese-concordia/
 Despite the problems of connection with the rest of the world, the Concordia base has, of course, an IT structure up to par. Precisely on this we want to install an application that helps researchers in the base and the research centers of the world in their daily work, taking advantage of the window of time granted (by the satellite), to be able to update researchers on what they have to do, and research centers on the status of experiments. 
 
 ## Requirements
- 1. **MODELLING - Align the base with the requests.** 
+ - **MODELLING - Align the base with the requests.** 
  Whenever possible, the data relating to the dashboard must be transferred to Concordia's application. Below are the only data of interest that you want to take into account:
-• List → Title;
-• Card → Title, Description, Deadline (if any), Priority (label: HIGH, MEDIUM, LOW),  Last Comment, Assignee (if present there may be more than one);
+	 - List → Title;
+     - Card → Title, Description, Deadline (if any), Priority (label: HIGH, MEDIUM, LOW),  Last Comment, Assignee (if present there may be more than one);
 
 2. **OPERATIONS DEFINITION - Researchers work on assigned tasks.**
 Researchers must be able to work and then edit tasks (card) assigned at any time of the day, regardless of the position of the satellite. To edit we mean only:
-• Add a comment;
-• Move the task from one list to another to make known the progress;
+     - Add a comment;
+     - Move the task from one list to another to make known the progress;
 
 3. **DATA SYNC - Research center alignment.**
 When the satellite is connected, the progress of the tasks assigned to our scientists must be made known to the various research centers around the world.
 
 4. **OPERATIONAL DASHBOARD - Supplied devices.**
 Scientists have tablets, at their disposal, with which they are connected to the base local network. In addition to keeping track of the progress of the assigned tasks, they highlight the tasks not concluded in this order:
-• High priority tasks
-• Expiring tasks (less than 5 days left)
-• Medium priority tasks
-• Low priority tasks
+     - High priority tasks
+     - Expiring tasks (less than 5 days left)
+     - Medium priority tasks
+     - Low priority tasks
 
 ## Solution
 ### Database
