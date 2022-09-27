@@ -4,12 +4,11 @@
         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation = "http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <!-- FOLLOWING: APPLICATION-SPECIFIC CHANGELOGS -->
-    <changeSet id="create-table-assignee" author="simoneCopetti">
+    <changeSet id="create-table-assignee-0001" author="simoneCopetti">
         <comment>Create table Assignee</comment>
 
         <createTable tableName="Assignee">
-            <column name="uuid" type="VARCHAR(36)">
+            <column name="uuid" type="CHAR(36)">
                 <constraints primaryKey="true" primaryKeyName="pkAssignee"/>
             </column>
             <column name="idTask" type="VARCHAR(24)">
@@ -22,13 +21,13 @@
 
         <addForeignKeyConstraint baseColumnNames="idTask"
                                  baseTableName="Assignee"
-                                 constraintName="fk_Assignee_Task_id"
+                                 constraintName="fkTaskId"
                                  referencedColumnNames="id"
                                  referencedTableName="Task"/>
 
         <addForeignKeyConstraint baseColumnNames="idMember"
                                  baseTableName="Assignee"
-                                 constraintName="fk_Assignee_Member_id"
+                                 constraintName="fkMemberId"
                                  referencedColumnNames="id"
                                  referencedTableName="Member"/>
 

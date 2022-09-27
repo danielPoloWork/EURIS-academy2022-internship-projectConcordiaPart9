@@ -4,7 +4,6 @@
         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation = "http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <!-- FOLLOWING: APPLICATION-SPECIFIC CHANGELOGS -->
     <changeSet id="create-table-task-0001" author="4NTC">
         <comment>Create table Task</comment>
 
