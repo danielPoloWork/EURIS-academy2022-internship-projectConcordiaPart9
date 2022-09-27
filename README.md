@@ -148,10 +148,10 @@ Scientists have tablets, at their disposal, with which they are connected to the
 - [**DELETE** /1/cards/{id}/actions/{idAction}/comments](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-idaction-comments-delete) Remove a comment from a task.
  
 ## Job schedule
-- Simone:Data models
-- Antonio:Services
-- Marcello:Data transfer objects
-- Daniel:Controllers
+- Marcello Cescutti: Data transfer objects
+- Antonio Collinassi: Services
+- Simone Copetti: Data models
+- Daniel Polo: Controllers
 
 ## Technologies
 - **Java**│version 18│
