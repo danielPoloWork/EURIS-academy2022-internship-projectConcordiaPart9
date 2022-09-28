@@ -6,7 +6,6 @@ import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
 import lombok.*;
 
 import javax.persistence.Column;
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -17,16 +16,31 @@ import java.time.LocalDateTime;
 public class CommentDto implements DtoArchetype {
 
 
-    String id;
+    private String uuid;
 
-    String text;
+    private String idTrelloComment;
 
-    LocalDateTime lastUpdate;
+    private String text;
+
+    private LocalDateTime lastUpdate;
+
+    private Member member;
+    private Task task;
+
 
 
     @Override
-    public ModelArchetype toModel() {
+    public Comment toModel() {
 
-        return null;
+
+        return Comment.builder()
+                .uuid(this.uuid)
+                .text(this.text)
+                .member(this.member)
+                .task(this.task)
+                .lastUpdate(this.lastUpdate)
+                .idTrelloComment(this.idTrelloComment)
+                .build();
+
     }
 }

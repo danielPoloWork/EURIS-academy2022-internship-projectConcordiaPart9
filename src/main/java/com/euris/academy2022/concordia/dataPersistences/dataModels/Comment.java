@@ -19,15 +19,15 @@ import java.time.LocalDateTime;
 @Table(name = "Comment")
 public class Comment implements ModelArchetype {
 
+    private static final String COLUMN_IDTRELLOCOMMENT = "idTrelloComment";
+
     private static final String COLUMN_PK = "id";
     private static final String COLUMN_TEXT = "text";
     private static final String COLUMN_LASTUPDATE = "lastUpdate";
 
     @Id
     @Column(name = COLUMN_PK)
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    String id;
+    String uuid;
 
     @Column(name = COLUMN_TEXT)
     String text;
@@ -44,11 +44,16 @@ public class Comment implements ModelArchetype {
     @JsonBackReference(value = "fkCommentMember")
     private Member member;
 
+    @Column(name = COLUMN_IDTRELLOCOMMENT)
+    String idTrelloComment;
 
     @Override
     public CommentDto toDto() {
         return CommentDto.builder()
-                .id(this.id)
+                .uuid(this.uuid)
+                .member(this.member)
+                .task(this.task)
+                .idTrelloComment(this.idTrelloComment)
                 .lastUpdate(this.lastUpdate)
                 .text(this.text)
                 .build();
