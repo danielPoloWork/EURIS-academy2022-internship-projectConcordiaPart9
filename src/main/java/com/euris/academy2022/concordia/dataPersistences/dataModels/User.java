@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
