@@ -15,10 +15,46 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private TaskJpaRepository taskJpaRepository;
+    private final TaskJpaRepository taskJpaRepository;
 
     public TaskServiceImpl(TaskJpaRepository taskJpaRepository) {
         this.taskJpaRepository = taskJpaRepository;
+    }
+
+    @Override
+    public Optional<Task> insert(Task task) {
+        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+        if (optionalTask.isEmpty()) {
+            return Optional.of(taskJpaRepository.save(task));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Task> update(Task task) {
+        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+        if (optionalTask.isPresent()) {
+            return Optional.of(taskJpaRepository.save(task));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Boolean delete(Task task) {
+        taskJpaRepository.delete(task);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean deleteById(String id) {
+        taskJpaRepository.deleteById(id);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean deleteAll() {
+        taskJpaRepository.deleteAll();
+        return Boolean.TRUE;
     }
 
     @Override
@@ -49,41 +85,5 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getByDeadLine(LocalDateTime deadLine) {
         return taskJpaRepository.findByDeadLine(deadLine);
-    }
-
-    @Override
-    public Optional<TaskDto> insert(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isEmpty()) {
-            return Optional.of(taskJpaRepository.save(task).toDto());
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<TaskDto> update(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isPresent()) {
-            return Optional.of(taskJpaRepository.save(task).toDto());
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Boolean delete(Task task) {
-        taskJpaRepository.delete(task);
-        return Boolean.TRUE;
-    }
-
-    @Override
-    public Boolean deleteById(String id) {
-        taskJpaRepository.deleteById(id);
-        return Boolean.TRUE;
-    }
-
-    @Override
-    public Boolean deleteAll() {
-        taskJpaRepository.deleteAll();
-        return Boolean.TRUE;
     }
 }
