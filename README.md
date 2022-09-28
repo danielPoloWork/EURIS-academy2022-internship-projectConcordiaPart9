@@ -1,7 +1,7 @@
 # CONCORDIA APPLICATION
 ## Abstract
-https://www.italiantartide.it/st-italo-francese-concordia/ 
-**Concordia** is one of the two Italian scientific bases in Antarctica where various university researchers carry out experiments. Due to its location, the base **has chance get Internet connection only in a short period of time**, that is, when a satellite passes over the base and so the connection can be established with the rest of the world. However, various research centers around the world must be able to request, day after day, at their leisure, to the scientists hosted in the base, the result of some experiments. For this purpose Trello has been chosen as a tool in which the research centers will add their requests. 
+
+[**Concordia**](https://www.italiantartide.it/st-italo-francese-concordia/ ) is one of the two Italian scientific bases in Antarctica where various university researchers carry out experiments. Due to its location, the base **has chance get Internet connection only in a short period of time**, that is, when a satellite passes over the base and so the connection can be established with the rest of the world. However, various research centers around the world must be able to request, day after day, at their leisure, to the scientists hosted in the base, the result of some experiments. For this purpose Trello has been chosen as a tool in which the research centers will add their requests. 
 
 Despite the problems of connection with the rest of the world, the Concordia base has, of course, an IT structure up to par. Precisely on this we want to install an application that helps researchers in the base and the research centers of the world in their daily work, taking advantage of the window of time granted (by the satellite), to be able to update researchers on what they have to do, and research centers on the status of experiments. 
 
@@ -94,7 +94,7 @@ Scientists have tablets, at their disposal, with which they are connected to the
 #### TABLE: Assignee
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
-|id|CHAR(24)|✓|-|✓|-|-|-|-|-|
+|uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
 |idMember|CHAR(24)|-|✓|✓|-|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
 
@@ -102,48 +102,47 @@ Scientists have tablets, at their disposal, with which they are connected to the
 ![enter image description here](https://raw.githubusercontent.com/danielPoloWork/Concordia/master/png/concordia-schemas-uml.png)
 #### Concordia
 - **GET** 
-	/task
-	/task/{id}
-	/comment
-	/comment/{id}
-	/assignee
-	/assignee/{id}
-	/member
-	/member/{id}
+  - /task
+  - /task/{id}
+  - /comment
+  - /comment/{id}
+  - /assignee
+  - /assignee/{id}
+  - /member
+  - /member/{id}
 - **POST**
-	/task
-	/assignee
-	/comment
-	/member
+  - /task
+  - /assignee
+  - /comment
+  - /member
 - **PUT**
-	 /task
-	 /assignee
-	 /comment
-	 /member
+  - /task
+  - /assignee
+  - /comment
+  - /member
 - **DELETE**
-	/task
-	/task/{id}
-	/assignee
-	/assignee/{id}
-	/comment
-	/comment/{id}
-	/member
-	/member/{id}
+  - /task
+  - /task/{id}
+  - /assignee
+  - /assignee/{id}
+  - /comment
+  - /comment/{id}
+  - /member
+  - /member/{id}
 	
 #### Trello
 - [**GET** /1/cards/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-card-id-post) Get a task.
 - [**GET** /1/boards/{idBoard}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-cards-get) Get all task.
- - [**GET** /1/lists/{idList}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get) Get all tasks in a list.
-  - [**GET** /1/boards/{idBoard}/members](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-members-get) Get all members of the board.
+- [**GET** /1/lists/{idList}/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-cards-get) Get all tasks in a list.
+- [**GET** /1/boards/{idBoard}/members](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-members-get) Get all members of the board.
 - [**GET** /1/members/{idMember}](https://developer.atlassian.com/cloud/trello/rest/api-group-members/#api-members-id-get) Get a member.
- - [**GET** /1/labels/{id}](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-id-get) Get a priority.
- - [**GET** /1/boards/{idBoard}/labels](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get) Get all labels of the board.
+- [**GET** /1/labels/{id}](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-id-get) Get a priority.
+- [**GET** /1/boards/{idBoard}/labels](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get) Get all labels of the board.
 - [**GET** /1/cards/{idCard}/actions?filter=commentCard](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-get) Get all comments on a card.
 - [**POST** /1/cards](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post) Create a new task.
 - [**POST** /1/cards/{idCard}/actions/comments](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post) Add a new comment to a Task.
 - [**PUT** /1/card/{idCard}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put) Update a task.
 - [**DELETE** /1/cards/{id}/idMembers/{idMember}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-idmember-delete) Remove a member from a task.
-
 - [**DELETE** /1/cards/{id}/idLabels/{idLabel}](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete) Remove a priority from a task.
 - [**DELETE** /1/cards/{id}/actions/{idAction}/comments](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-idaction-comments-delete) Remove a comment from a task.
  
