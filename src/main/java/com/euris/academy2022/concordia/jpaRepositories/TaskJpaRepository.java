@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface TaskJpaRepository extends JpaRepository<Task, String> {
 
@@ -25,4 +26,9 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
             @Param("priority") String priority,
             @Param("status") String status,
             @Param("deadLine") LocalDateTime deadLine);
+
+    List<Task> findByPriority(String priority);
+    List<Task> findByStatus(String status);
+    List<Task> findByTitle(String title);
+    List<Task> findByDeadLine(LocalDateTime deadLine);
 }
