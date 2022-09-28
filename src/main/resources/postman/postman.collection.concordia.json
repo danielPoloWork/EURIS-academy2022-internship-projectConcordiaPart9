@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "62b343ff-ce69-4cb7-9d99-a635e98c4fee",
+		"name": "Concordia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22329048"
+	},
+	"item": [
+		{
+			"name": "Trello",
+			"item": [
+				{
+					"name": "Board",
+					"item": []
+				},
+				{
+					"name": "Card",
+					"item": [
+						{
+							"name": "All cards Of ToDo-list By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/1/lists/{{toDoListId}}/cards?key={{key}}&token={{token}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"1",
+										"lists",
+										"{{toDoListId}}",
+										"cards"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comment",
+					"item": [
+						{
+							"name": "All comments Of Experiment5-card By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/1/cards/{{experiment5CardId}}/actions?filter=commentCard&key={{key}}&token={{token}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"1",
+										"cards",
+										"{{experiment5CardId}}",
+										"actions"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "commentCard"
+										},
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Label",
+					"item": [
+						{
+							"name": "All labels Of Concordia-board By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/1/boards/{{concordiaBoardId}}/labels?key={{key}}&token={{token}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{concordiaBoardId}}",
+										"labels"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List",
+					"item": [
+						{
+							"name": "All lists Of Concordia-board By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/1/boards/{{concordiaBoardId}}/lists?key={{key}}&token={{token}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{concordiaBoardId}}",
+										"lists"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Member",
+					"item": [
+						{
+							"name": "All members Of Concordia-board By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/1/boards/{{concordiaBoardId}}/members?key={{key}}&token={{token}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"1",
+										"boards",
+										"{{concordiaBoardId}}",
+										"members"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{key}}"
+										},
+										{
+											"key": "token",
+											"value": "{{token}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Web App",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "key",
+			"value": "6a142012c6c4f3d2ee783ddbd2739f35",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "47cff14422a4d551b4320b0d4be8f9a3173065a075c5c56bc9aaca5bd91c3e4a",
+			"type": "string"
+		},
+		{
+			"key": "concordiaBoardId",
+			"value": "6331a6227f9f991a315ca097",
+			"type": "string"
+		},
+		{
+			"key": "toDoListId",
+			"value": "6331a6227f9f991a315ca09e",
+			"type": "string"
+		},
+		{
+			"key": "experiment5CardId",
+			"value": "6331f0115a75330324df67a4",
+			"type": "string"
+		}
+	]
+}

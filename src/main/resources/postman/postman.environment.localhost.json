@@ -1,0 +1,15 @@
+{
+	"id": "a863e71c-398b-4c7d-8bbe-b9cbb07c0d48",
+	"name": "localhost",
+	"values": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-09-27T20:39:33.549Z",
+	"_postman_exported_using": "Postman/9.31.12"
+}
