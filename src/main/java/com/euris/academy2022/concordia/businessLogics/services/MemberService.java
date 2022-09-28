@@ -11,21 +11,21 @@ import java.util.Optional;
 @Service
 public interface MemberService {
 
-    Optional<MemberDto> insert(Member member);
+    Optional<Member> insert(Member member);
 
-    Optional<MemberDto> update(Member member);
+    Optional<Member> update(Member member);
 
     Boolean deleteAll();
 
     Boolean deleteById(String id);
 
-    List<MemberDto> getAll();
+    List<Member> getAll();
 
-    Optional<MemberDto> getById(String id);
+    Optional<Member> getById(String id);
 
-    List<MemberDto> getByName(String name);
+    List<Member> getByName(String name);
 
-    List<MemberDto> getBySurname(String surname);
+    List<Member> getBySurname(String surname);
 
-    List<MemberDto> getByRole(MemberRole role);
+    List<Member> getByRole(MemberRole role);
 }
