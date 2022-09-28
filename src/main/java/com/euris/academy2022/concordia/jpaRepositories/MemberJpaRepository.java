@@ -1,6 +1,7 @@
 package com.euris.academy2022.concordia.jpaRepositories;
 
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface MemberJpaRepository extends JpaRepository<Member, String> {
@@ -29,5 +31,9 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
             @Param("role") String role
     );
 
+
+    List<Member> findByName(String name);
+    List<Member> findBySurname(String surname);
+    List<Member> findByRole(String role);
 
 }
