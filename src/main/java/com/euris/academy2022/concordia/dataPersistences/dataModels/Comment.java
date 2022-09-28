@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.dataPersistences.dataModels;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.CommentDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -45,7 +46,11 @@ public class Comment implements ModelArchetype {
 
 
     @Override
-    public DtoArchetype toDto() {
-        return null;
+    public CommentDto toDto() {
+        return CommentDto.builder()
+                .id(this.id)
+                .lastUpdate(this.lastUpdate)
+                .text(this.text)
+                .build();
     }
 }
