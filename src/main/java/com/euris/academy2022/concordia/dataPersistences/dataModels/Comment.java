@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +40,7 @@ public class Comment implements ModelArchetype {
     @JsonBackReference(value = "fkCommentTask")
     private Task task;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMember")
     @JsonBackReference(value = "fkCommentMember")
@@ -49,6 +51,7 @@ public class Comment implements ModelArchetype {
 
     @Override
     public CommentDto toDto() {
+
         return CommentDto.builder()
                 .uuid(this.uuid)
                 .member(this.member)
