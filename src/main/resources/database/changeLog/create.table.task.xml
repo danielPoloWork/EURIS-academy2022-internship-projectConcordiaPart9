@@ -24,7 +24,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="deadline" type="DATETIME">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
 
