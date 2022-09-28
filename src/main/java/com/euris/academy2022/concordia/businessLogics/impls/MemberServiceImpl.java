@@ -65,8 +65,7 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> getBySurname(String surname) {
         return memberJpaRepository.findBySurname(surname);
     }
-
-
+    
     @Override
     public List<Member> getByRole(MemberRole role) {
         return memberJpaRepository.findByRole(role.getLabel());
