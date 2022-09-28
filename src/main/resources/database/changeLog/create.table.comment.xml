@@ -8,8 +8,11 @@
         <comment>Create table Comment</comment>
 
         <createTable tableName="Comment">
-            <column name="id" type="CHAR(24)">
+            <column name="uuid" type="CHAR(36)">
                 <constraints primaryKey="true" primaryKeyName="pkComment"/>
+            </column>
+            <column name="idTrelloComment" type="CHAR(24)">
+                <constraints nullable="true"/>
             </column>
             <column name="idTask" type="CHAR(24)">
                 <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkCommentTask" nullable="false"/>
