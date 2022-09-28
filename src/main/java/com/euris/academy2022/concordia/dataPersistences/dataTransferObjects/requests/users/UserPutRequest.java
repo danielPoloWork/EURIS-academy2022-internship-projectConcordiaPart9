@@ -17,12 +17,10 @@ import lombok.Setter;
 @Builder
 public class UserPutRequest implements DtoArchetype {
 
-  // FIELDS ----------------------------------------------------------------------------------------
   private String uuid;
   private UserRole role;
   private String password;
 
-  // METHODS ---------------------------------------------------------------------------------------
   @Override
   public User toModel() {
     return User.builder()
