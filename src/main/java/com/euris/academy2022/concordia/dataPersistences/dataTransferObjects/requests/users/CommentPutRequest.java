@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentPutRequest implements DtoArchetype {
 
-    String id;
+    String uuid;
 
     String text;
 
@@ -23,7 +23,7 @@ public class CommentPutRequest implements DtoArchetype {
     @Override
     public Comment toModel() {
         return Comment.builder()
-                .id(this.id)
+                .uuid(this.uuid)
                 .text(this.text)
                 .lastUpdate(this.lastUpdate)
                 .build();
