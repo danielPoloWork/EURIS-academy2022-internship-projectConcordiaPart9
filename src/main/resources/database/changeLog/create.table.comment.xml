@@ -11,14 +11,14 @@
             <column name="uuid" type="CHAR(36)">
                 <constraints primaryKey="true" primaryKeyName="pkComment"/>
             </column>
-            <column name="idTrelloComment" type="CHAR(24)">
-                <constraints nullable="true"/>
-            </column>
             <column name="idTask" type="CHAR(24)">
                 <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkCommentTask" nullable="false"/>
             </column>
             <column name="idMember" type="CHAR(24)">
                 <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkCommentMember" nullable="false"/>
+            </column>
+            <column name="idTrelloComment" type="CHAR(24)">
+                <constraints nullable="true"/>
             </column>
             <column name="text" type="VARCHAR(1000)">
                 <constraints nullable="false"/>
