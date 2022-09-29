@@ -1,7 +1,8 @@
-package com.danielpolo.teslaBattery.dataPersistences.dataTransferObjects.responses;
+package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses;
 
-import com.danielpolo.teslaBattery.utils.enums.HttpRequestType;
-import com.danielpolo.teslaBattery.utils.enums.HttpResponseType;
+
+import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
+import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,6 @@ import lombok.Setter;
 @Builder
 public class ResponseDto<Model> {
 
-	// FIELDS ----------------------------------------------------------------------------------------
 	private HttpRequestType httpRequest;
 	private HttpResponseType httpResponse;
 	private String code;
