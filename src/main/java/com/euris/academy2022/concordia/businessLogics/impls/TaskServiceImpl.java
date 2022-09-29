@@ -59,19 +59,26 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
 
-        // da completare
 
         if (optionalTask.isEmpty()) {
-            response.setHttpResponse(HttpResponseType.NOT_UPDATED);
-            response.setCode(HttpResponseType.NOT_UPDATED.getCode());
-            response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         } else {
-            taskJpaRepository.save(task);
-            response.setHttpResponse(HttpResponseType.UPDATED);
-            response.setCode(HttpResponseType.UPDATED.getCode());
-            response.setDesc(HttpResponseType.UPDATED.getDesc());
-            response.setBody(task);
+
+            try {
+                taskJpaRepository.save(task);
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(task);
+            } catch (Exception e) {
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+                response.setBody(task);
+            }
         }
 
         return response;
@@ -91,7 +98,10 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<List<Task>> getAll() {
         ResponseDto<List<Task>> response = new ResponseDto<>();
         List<Task> tasks = taskJpaRepository.findAll();
-        // da completare
+        response.setHttpResponse(HttpResponseType.ACCEPTED);
+        response.setCode(HttpResponseType.ACCEPTED.getCode());
+        response.setDesc(HttpResponseType.ACCEPTED.getDesc());
+        response.setBody(tasks);
         return response;
     }
 
