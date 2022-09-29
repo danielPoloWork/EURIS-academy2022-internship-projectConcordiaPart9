@@ -19,6 +19,11 @@ public interface UserJpaRepository extends JpaRepository<User, String> {
       "INSERT INTO User (User.uuid, User.role, User.username, User.password) "
           + "VALUES (UUID(), :role, :username, :password)";
 
+  String UPDATE_USER =
+      "UPDATE User "
+          + "SET User.role = :role, User.username = :username, User.password = :password "
+          + "WHERE User.uuid = :uuid";
+
   @Modifying
   @Query(value = INSERT_INTO_USER, nativeQuery = true)
   @Transactional
@@ -27,7 +32,15 @@ public interface UserJpaRepository extends JpaRepository<User, String> {
       @Param("username") String username,
       @Param("password") String password);
 
-  Boolean deleteByUuid(String uuid);
+  @Modifying
+  @Query(value = UPDATE_USER, nativeQuery = true)
+  @Transactional
+  Optional<User> update(
+      @Param("uuid") String uuid,
+      @Param("role") String role,
+      @Param("username") String username,
+      @Param("password") String password);
+  String deleteByUuid(String uuid);
   Optional<User> findByUuid(String uuid);
   Optional<User> findByUsername(String username);
   List<User> findByRole(String role);
