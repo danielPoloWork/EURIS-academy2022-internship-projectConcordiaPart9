@@ -11,7 +11,7 @@ public interface UserService {
 
   ResponseDto<User> insert(User user);
   ResponseDto<User> update(User user);
-  ResponseDto<String> deleteByUuid(String uuid);
+  ResponseDto<User> deleteByUuid(String uuid);
   ResponseDto<User> getByUuid(String uuid);
   ResponseDto<List<User>> getAll();
   ResponseDto<List<User>> getByRole(UserRole role);

@@ -38,7 +38,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{uuid}")
-	public ResponseDto<String> deleteByUuid(@PathVariable String uuid) {
+	public ResponseDto<User> deleteByUuid(@PathVariable String uuid) {
 		return userService.deleteByUuid(uuid);
 	}
 

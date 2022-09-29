@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
       response.setHttpResponse(HttpResponseType.CREATED);
       response.setCode(HttpResponseType.CREATED.getCode());
       response.setDesc(HttpResponseType.CREATED.getDesc());
-      response.setBody(userCreated.get());
+      response.setBody(user);
     }
     return response;
   }
@@ -76,24 +76,23 @@ public class UserServiceImpl implements UserService {
         response.setHttpResponse(HttpResponseType.UPDATED);
         response.setCode(HttpResponseType.UPDATED.getCode());
         response.setDesc(HttpResponseType.UPDATED.getDesc());
-        response.setBody(userUpdated.get());
+        response.setBody(user);
       }
     }
     return response;
   }
 
   @Override
-  public ResponseDto<String> deleteByUuid(String uuid) {
-    ResponseDto<String> response = new ResponseDto<>();
+  public ResponseDto<User> deleteByUuid(String uuid) {
+    ResponseDto<User> response = new ResponseDto<>();
     Optional<User> userFound = userJpaRepository.findByUuid(uuid);
 
     if (userFound.isEmpty()) {
       response.setHttpRequest(HttpRequestType.GET);
       response.setHttpResponse(HttpResponseType.NOT_FOUND);
       response.setCode(HttpResponseType.NOT_FOUND.getCode());
-      response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
     } else {
-      String userDeleted = userJpaRepository.deleteByUuid(uuid);
+      Optional<User> userDeleted = userJpaRepository.deleteByUuid(uuid);
 
       response.setHttpRequest(HttpRequestType.DELETE);
 
@@ -105,7 +104,7 @@ public class UserServiceImpl implements UserService {
         response.setHttpResponse(HttpResponseType.DELETED);
         response.setCode(HttpResponseType.DELETED.getCode());
         response.setDesc(HttpResponseType.DELETED.getDesc());
-        response.setBody(userFound.get().getUuid());
+        response.setBody(userFound.get());
       }
     }
 
