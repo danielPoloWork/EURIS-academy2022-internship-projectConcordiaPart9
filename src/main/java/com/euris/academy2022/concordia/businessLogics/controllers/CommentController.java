@@ -1,9 +1,0 @@
-package com.euris.academy2022.concordia.businessLogics.controllers;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/comments")
-public class CommentController {
-}

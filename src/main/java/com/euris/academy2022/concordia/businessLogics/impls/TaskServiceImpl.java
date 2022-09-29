@@ -2,7 +2,10 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
+import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
+import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
@@ -21,68 +24,94 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> insert(Task task) {
+    public ResponseDto<Task> insert(Task task) {
+        ResponseDto<Task> response = new ResponseDto<>();
+
+        Optional<Task> taskCreated = taskJpaRepository.insert(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getPriority().getLabel(),
+                task.getStatus().getLabel(),
+                task.getDeadLine());
+
+        response.setHttpRequest(HttpRequestType.POST);
+
+        if (taskCreated.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_CREATED);
+            response.setCode(HttpResponseType.NOT_CREATED.getCode());
+            response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.CREATED);
+            response.setCode(HttpResponseType.CREATED.getCode());
+            response.setDesc(HttpResponseType.CREATED.getDesc());
+            response.setBody(task);
+
+        }
+
+        return response;
+    }
+
+
+    @Override
+    public ResponseDto<Task> update(Task task) {
+        ResponseDto<Task> response = new ResponseDto<>();
+
         Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+
+        // da completare
+
         if (optionalTask.isEmpty()) {
-            return Optional.of(taskJpaRepository.save(task));
+            response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+            response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+            response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+
+        } else {
+            taskJpaRepository.save(task);
+            response.setHttpResponse(HttpResponseType.UPDATED);
+            response.setCode(HttpResponseType.UPDATED.getCode());
+            response.setDesc(HttpResponseType.UPDATED.getDesc());
+            response.setBody(task);
         }
-        return Optional.empty();
+
+        return response;
     }
 
     @Override
-    public Optional<Task> update(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isPresent()) {
-            return Optional.of(taskJpaRepository.save(task));
-        }
-        return Optional.empty();
+    public ResponseDto<String> deleteById(String id) {
+        return null;
     }
 
     @Override
-    public Boolean delete(Task task) {
-        taskJpaRepository.delete(task);
-        return Boolean.TRUE;
+    public ResponseDto<Task> getById(String id) {
+        return null;
     }
 
     @Override
-    public Boolean deleteById(String id) {
-        taskJpaRepository.deleteById(id);
-        return Boolean.TRUE;
+    public ResponseDto<List<Task>> getAll() {
+        ResponseDto<List<Task>> response = new ResponseDto<>();
+        List<Task> tasks = taskJpaRepository.findAll();
+        // da completare
+        return response;
     }
 
     @Override
-    public Boolean deleteAll() {
-        taskJpaRepository.deleteAll();
-        return Boolean.TRUE;
+    public ResponseDto<List<Task>> getByPriority(TaskPriority priority) {
+        return null;
     }
 
     @Override
-    public Optional<Task> getById(String id) {
-        return taskJpaRepository.findById(id);
+    public ResponseDto<List<Task>> getByStatus(TaskStatus status) {
+        return null;
     }
 
     @Override
-    public List<Task> getAll() {
-        return taskJpaRepository.findAll();
+    public ResponseDto<List<Task>> getByTitle(String title) {
+        return null;
     }
 
     @Override
-    public List<Task> getByPriority(TaskPriority priority) {
-        return taskJpaRepository.findByPriority(priority.getLabel());
-    }
-
-    @Override
-    public List<Task> getByStatus(TaskStatus status) {
-        return taskJpaRepository.findByStatus(status.getLabel());
-    }
-
-    @Override
-    public List<Task> getByTitle(String title) {
-        return taskJpaRepository.findByTitle(title);
-    }
-
-    @Override
-    public List<Task> getByDeadLine(LocalDateTime deadLine) {
-        return taskJpaRepository.findByDeadLine(deadLine);
+    public ResponseDto<List<Task>> getByDeadLine(LocalDateTime deadLine) {
+        return null;
     }
 }
