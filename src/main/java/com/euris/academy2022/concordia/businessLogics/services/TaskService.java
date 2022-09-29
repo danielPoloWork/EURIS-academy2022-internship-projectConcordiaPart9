@@ -21,4 +21,5 @@ public interface TaskService {
     List<Task> getByStatus(TaskStatus status);
     List<Task> getByTitle(String title);
     List<Task> getByDeadLine(LocalDateTime deadLine);
+
 }
