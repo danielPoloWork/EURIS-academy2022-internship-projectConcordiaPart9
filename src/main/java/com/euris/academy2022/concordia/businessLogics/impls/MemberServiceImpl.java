@@ -18,26 +18,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Optional<Member> insert(Member member) {
-        Optional<Member> optionalMember = memberJpaRepository.findById(member.getId());
-        if (optionalMember.isEmpty()) {
-            return Optional.of(memberJpaRepository.save(member));
-        }
-        return Optional.empty();
+        return memberJpaRepository.insert(
+                member.getId(),
+                member.getName(),
+                member.getSurname(),
+                member.getRole().getLabel()
+        );
     }
 
     @Override
     public Optional<Member> update(Member member) {
-        Optional<Member> optionalMember = memberJpaRepository.findById(member.getId());
-        if (optionalMember.isPresent()) {
-            return Optional.of(memberJpaRepository.save(member));
-        }
-        return Optional.empty();
-    }
+        Optional<Member> memberFound = getById(member.getId());
 
-    @Override
-    public Boolean deleteAll() {
-        memberJpaRepository.deleteAll();
-        return Boolean.TRUE;
+        return memberFound.isEmpty() ? Optional.empty() : Optional.of(memberJpaRepository.save(member));
     }
 
     @Override
