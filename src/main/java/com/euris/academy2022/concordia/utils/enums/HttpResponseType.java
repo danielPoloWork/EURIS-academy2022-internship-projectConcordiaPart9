@@ -56,7 +56,6 @@ package com.euris.academy2022.concordia.utils.enums;
  * user agents should display any included entity to the user. These response codes are applicable
  * to any request method.
  *
- * Enum with not specified codes are unoffcial.
  **/
 
 public enum HttpResponseType {
@@ -78,23 +77,23 @@ public enum HttpResponseType {
       "EARLY_HINTS",
       "The server is returning some hints before final HTTP message."),
   RESPONSE_IS_STALE(
-      "1xx",
+      "103.1",
       "RESPONSE_IS_STALE",
       "The response provided by a cache is stale."),
   REVALIDATION_FAILED(
-      "1xx",
+      "103.2",
       "REVALIDATION_FAILED",
       "The cache was unable to validate the response, due to an inability to reach the origin server."),
   DISCONNECTED_OPERATION(
-      "1xx",
+      "103.4",
       "DISCONNECTED_OPERATION",
       "The cache is intentionally disconnected from the rest of the network."),
   HEURISTIC_EXPIRATION(
-      "1xx",
+      "103.5",
       "HEURISTIC_EXPIRATION",
       "The cache heuristically chose a freshness lifetime greater than 24 hours and the response's age is greater than 24 hours."),
   MISCELLANEOUS_WARNING(
-      "1xx",
+      "103.6",
       "MISCELLANEOUS_WARNING",
       "Something went wrong."),
 
@@ -104,7 +103,7 @@ public enum HttpResponseType {
       "OK",
       "Successful HTTP request."),
   AUTHORIZED(
-      "2xx",
+      "200.1",
       "AUTHORIZED",
       "Authentication is required and has succeeded or has been provided."),
   CREATED(
@@ -112,15 +111,15 @@ public enum HttpResponseType {
       "CREATED",
       "The request has been fulfilled, resulting in the creation of a new resource."),
   UPDATED(
-      "2xx",
+      "201.1",
       "UPDATED",
       "The request has been fulfilled, resulting in the modification of an old resource."),
   DELETED(
-      "2xx",
+      "201.2",
       "DELETED",
       "The request has been fulfilled, resulting in the deletion of a resource."),
   LOADED(
-      "2xx",
+      "201.3",
       "LOADED",
       "The request has been fulfilled, resulting in the synchronization of a resource."),
   ACCEPTED(
@@ -152,7 +151,7 @@ public enum HttpResponseType {
       "ALREADY_REPORTED",
       "The members of a DAV binding have already been enumerated in a preceding part of the MULTI_STATUS response, and are not being included again."),
   TRANSFORMATION_APPLIED(
-      "2xx",
+      "208.1",
       "TRANSFORMATION_APPLIED",
       "The proxy has applies any transformation to the representation."),
   IM_USED(
@@ -160,7 +159,7 @@ public enum HttpResponseType {
       "IM_USED",
       "The server has fulfilled a request for the resource, and the response is a representation of the result of one or more instance-manipulations applied to the current instance."),
   MISCELLANEOUS_PERSISTENT_WARNING(
-      "2xx",
+      "226.1",
       "MISCELLANEOUS_PERSISTENT_WARNING",
       "Something keep going wrong."),
 
@@ -224,23 +223,23 @@ public enum HttpResponseType {
       "FORBIDDEN",
       "The request contained valid data and was understood by the server, but the server is refusing action due permission restrictions."),
   NOT_CREATED(
-      "4xx",
+      "403.1",
       "NOT_CREATED",
       "The request has not been fulfilled, resulting in a new resource not being created."),
   NOT_UPDATED(
-      "4xx",
+      "403.2",
       "NOT_UPDATED",
       "The request has not been fulfilled, resulting in an old resource not being updated."),
   NOT_DELETED(
-      "4xx",
+      "403.3",
       "NOT_DELETED",
       "The request has not been fulfilled, resulting in a resource not being deleted."),
   NOT_LOADED(
-      "4xx",
+      "403.4",
       "NOT_LOADED",
       "The request has been fulfilled, resulting in a resource not being synchronized."),
   NOT_ACCEPTED(
-      "4xx",
+      "403.5",
       "NOT_ACCEPTED",
       "The request has not been accepted for processing."),
   NOT_FOUND(
@@ -385,11 +384,11 @@ public enum HttpResponseType {
       "IM_A_TEAPOT",
       "This is used as an Easter egg."),
   PAGE_EXPIRED(
-      "4xx",
+      "418.1",
       "PAGE_EXPIRED",
       "The requested page is missing or expired."),
   METHOD_FAILURE(
-      "4xx",
+      "418.2",
       "METHOD_FAILURE",
       "The method in the requested has failed"),
   MISSDIRECTED_REQUEST(

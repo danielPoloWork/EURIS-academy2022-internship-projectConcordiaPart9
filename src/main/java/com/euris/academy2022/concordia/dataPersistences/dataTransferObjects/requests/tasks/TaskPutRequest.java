@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.request.Task;
+package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.tasks;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
