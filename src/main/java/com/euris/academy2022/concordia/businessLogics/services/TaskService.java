@@ -17,8 +17,8 @@ public interface TaskService {
     List<Task> getByStatus(TaskStatus status);
     List<Task> getByTitle(String title);
     List<Task> getByDeadLine(LocalDateTime deadLine);
-    Optional<TaskDto> insert(Task task);
-    Optional<TaskDto> update(Task task);
+    Optional<Task> insert(Task task);
+    Optional<Task> update(Task task);
     Boolean delete(Task task);
     Boolean deleteById(String id);
     Boolean deleteAll();

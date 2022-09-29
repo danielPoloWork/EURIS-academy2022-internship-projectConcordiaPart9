@@ -2,7 +2,6 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
@@ -52,21 +51,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<TaskDto> insert(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isEmpty()) {
-            return Optional.of(taskJpaRepository.save(task).toDto());
-        }
-        return Optional.empty();
+    public Optional<Task> insert(Task task) {
+        return taskJpaRepository.insert(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getPriority().getLabel(),
+                task.getStatus().getLabel(),
+                task.getDeadLine());
     }
 
     @Override
-    public Optional<TaskDto> update(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isPresent()) {
-            return Optional.of(taskJpaRepository.save(task).toDto());
-        }
-        return Optional.empty();
+    public Optional<Task> update(Task task) {
+        Optional<Task> taskOptional = getById(task.getId());
+        return taskOptional.isEmpty() ? Optional.empty() : Optional.of(taskJpaRepository.save(task));
     }
 
     @Override

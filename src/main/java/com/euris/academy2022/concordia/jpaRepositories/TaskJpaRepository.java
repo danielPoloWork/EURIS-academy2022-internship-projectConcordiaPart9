@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskJpaRepository extends JpaRepository<Task, String> {
 
@@ -19,7 +20,7 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
     @Modifying
     @Query(value = INSERT_INTO_TASK, nativeQuery = true)
     @Transactional
-    Integer create(
+    Optional<Task> insert(
             @Param("id") String id,
             @Param("title") String title,
             @Param("description") String description,
