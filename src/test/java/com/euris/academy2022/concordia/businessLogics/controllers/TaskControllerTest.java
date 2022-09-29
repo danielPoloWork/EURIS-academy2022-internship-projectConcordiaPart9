@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.StreamingHttpOutputMessage;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(TaskController.class)
-//@Import(value = {SecurityConfTest.class, SecurityConf.class})
 @TestPropertySource(locations = "classpath:application.test.properties")
 class TaskControllerTest {
 
@@ -44,22 +41,6 @@ class TaskControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Test
-    void insert_test() {
-
-    }
-
-    @Test
-    void update_test() {
-    }
-
-    @Test
-    void deleteById() {
-    }
-
-    @Test
-    void deleteAll() {
-    }
 
     @Test
     void getAll_test() throws Exception {
@@ -144,19 +125,4 @@ class TaskControllerTest {
                 .andExpect(jsonPath("$").doesNotExist());
     }
 
-    @Test
-    void getByRole() {
-    }
-
-    @Test
-    void getByStatus() {
-    }
-
-    @Test
-    void getByTitle() {
-    }
-
-    @Test
-    void getByDeadLine() {
-    }
 }
