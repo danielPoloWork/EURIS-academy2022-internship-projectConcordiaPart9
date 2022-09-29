@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.request.comments;
+package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.comments;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
