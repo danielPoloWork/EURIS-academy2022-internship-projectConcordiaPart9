@@ -40,7 +40,7 @@ public interface UserJpaRepository extends JpaRepository<User, String> {
       @Param("role") String role,
       @Param("username") String username,
       @Param("password") String password);
-  String deleteByUuid(String uuid);
+  Optional<User> deleteByUuid(String uuid);
   Optional<User> findByUuid(String uuid);
   Optional<User> findByUsername(String username);
   List<User> findByRole(String role);
