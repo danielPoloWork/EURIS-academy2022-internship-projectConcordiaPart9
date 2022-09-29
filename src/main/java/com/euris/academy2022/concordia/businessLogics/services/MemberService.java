@@ -15,8 +15,6 @@ public interface MemberService {
 
     Optional<Member> update(Member member);
 
-    Boolean deleteAll();
-
     Boolean deleteById(String id);
 
     List<Member> getAll();
