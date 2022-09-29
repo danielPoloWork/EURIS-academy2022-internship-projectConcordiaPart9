@@ -1,4 +1,4 @@
-package com.danielpolo.teslaBattery.utils.enums;
+package com.euris.academy2022.concordia.utils.enums;
 
 /**
  * @author Daniel Polo
