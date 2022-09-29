@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberJpaRepository extends JpaRepository<Member, String> {
@@ -24,7 +25,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
     @Modifying
     @Query(value = INSERT_INTO_MEMBER, nativeQuery = true)
     @Transactional
-    Integer create(
+    Optional<Member> insert(
             @Param("id") String id,
             @Param("name") String name,
             @Param("surname") String surname,
