@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.users;
+package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.request.users;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.User;

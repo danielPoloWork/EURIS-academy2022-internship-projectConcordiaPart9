@@ -1,13 +1,20 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.users;
+package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.request.comments;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-public class CommentPostRequest implements DtoArchetype {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+public class CommentPutRequest implements DtoArchetype {
 
+    String uuid;
 
     String text;
 
@@ -16,8 +23,9 @@ public class CommentPostRequest implements DtoArchetype {
     @Override
     public Comment toModel() {
         return Comment.builder()
+                .uuid(this.uuid)
                 .text(this.text)
-                .lastUpdate(this.lastUpdate)
+                .lastUpdate(LocalDateTime.now())
                 .build();
     }
 }
