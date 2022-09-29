@@ -7,29 +7,47 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@ExtendWith(MockitoExtension.class)
-@TestPropertySource(locations = "classpath:application.test.properties")
+
+//@ExtendWith(MockitoExtension.class)
+//@TestPropertySource(locations = "classpath:application.test.properties")
+
+//@ExtendWith(SpringExtension.class)
+//@DataJpaTest
+//@TestPropertySource(properties = {
+//        "spring.jpa.hibernate.ddl-auto=validate"
+//})
+
+@RunWith(SpringRunner.class)
+@DataJpaTest
 class TaskServiceTest {
 
-    private TaskService taskService;
-
-    @Mock
+    @Autowired
     private TaskJpaRepository taskJpaRepository;
 
-    @BeforeEach
-    void init() {
-        taskService = new TaskServiceImpl(taskJpaRepository);
-    }
+//    private TaskService taskService;
+//
+//    @BeforeEach
+//    void init() {
+//        taskService = new TaskServiceImpl(taskJpaRepository);
+//    }
+
 
     @Test
     void getById_testIsPresent() {
@@ -37,25 +55,31 @@ class TaskServiceTest {
         String taskId = "TaskId";
 
         Task task = Task.builder().id(taskId).build();
+        taskJpaRepository.save(task);
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
-                .thenReturn(Optional.of(task));
+//        Mockito
+//                .when(taskJpaRepository.findById(Mockito.anyString()))
+//                .thenReturn(Optional.of(task));
+//
+//        Optional<Task> response = taskService.getById(taskId);
+//
+//        response.ifPresent(value -> Assertions.assertEquals(taskId, value.getId()));
 
-        Optional<Task> response = taskService.getById(taskId);
-
-        response.ifPresent(value -> Assertions.assertEquals(taskId, value.getId()));
+        Optional<Task> optionalTask = taskJpaRepository.findById(taskId);
+        if (optionalTask.isPresent()) {
+            Assertions.assertEquals(taskId, optionalTask.get().getId());
+        }
 
     }
 
     @Test
     void getById_testIsNotPresent() {
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
-                .thenReturn(Optional.empty());
-
-        Assertions.assertEquals(Optional.empty(), taskService.getById(Mockito.anyString()));
+//        Mockito
+//                .when(taskJpaRepository.findById(Mockito.anyString()))
+//                .thenReturn(Optional.empty());
+//
+//        Assertions.assertEquals(Optional.empty(), taskService.getById(Mockito.anyString()));
     }
 
     @Test
@@ -67,12 +91,12 @@ class TaskServiceTest {
         tasks.add(task1);
         tasks.add(task2);
 
-        Mockito.when(taskJpaRepository.findAll()).thenReturn(tasks);
-
-        List<Task> responseList = taskService.getAll();
-
-        Assertions.assertEquals("taskId1", responseList.get(0).getId());
-        Assertions.assertEquals("taskId2", responseList.get(1).getId());
+//        Mockito.when(taskJpaRepository.findAll()).thenReturn(tasks);
+//
+//        List<Task> responseList = taskService.getAll();
+//
+//        Assertions.assertEquals("taskId1", responseList.get(0).getId());
+//        Assertions.assertEquals("taskId2", responseList.get(1).getId());
     }
 
     @Test
