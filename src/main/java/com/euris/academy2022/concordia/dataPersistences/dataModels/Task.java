@@ -33,7 +33,6 @@ public class Task implements ModelArchetype {
     @Column(name = COLUMN_ID)
     private String id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_TITLE)
     private String title;
 
