@@ -12,10 +12,16 @@
                 <constraints primaryKey="true" primaryKeyName="pkComment"/>
             </column>
             <column name="idTask" type="CHAR(24)">
-                <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkCommentTask" nullable="false"/>
+                <constraints referencedTableName="Task"
+                             referencedColumnNames="id"
+                             foreignKeyName="fkCommentTask"
+                             nullable="false"/>
             </column>
             <column name="idMember" type="CHAR(24)">
-                <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkCommentMember" nullable="false"/>
+                <constraints referencedTableName="Member"
+                             referencedColumnNames="id"
+                             foreignKeyName="fkCommentMember"
+                             nullable="false"/>
             </column>
             <column name="idTrelloComment" type="CHAR(24)">
                 <constraints nullable="true"/>
