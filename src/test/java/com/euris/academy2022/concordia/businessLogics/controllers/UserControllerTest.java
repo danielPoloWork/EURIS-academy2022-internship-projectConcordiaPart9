@@ -17,7 +17,6 @@ import com.euris.academy2022.concordia.utils.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -258,7 +257,7 @@ class UserControllerTest {
     response.setBody(user1);
 
     Mockito
-        .when(userService.deleteByUuid(Mockito.anyString()))
+        .when(userService.removeByUuid(Mockito.anyString()))
         .thenReturn(response);
 
     client
@@ -289,7 +288,7 @@ class UserControllerTest {
     response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
 
     Mockito
-        .when(userService.deleteByUuid(Mockito.anyString()))
+        .when(userService.removeByUuid(Mockito.anyString()))
         .thenReturn(response);
 
     client
@@ -316,7 +315,7 @@ class UserControllerTest {
     response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
     Mockito
-        .when(userService.deleteByUuid(Mockito.anyString()))
+        .when(userService.removeByUuid(Mockito.anyString()))
         .thenReturn(response);
 
     client
