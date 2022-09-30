@@ -2,14 +2,11 @@ package com.euris.academy2022.concordia.dataPersistences.dataModels;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.UserDto;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
-import com.euris.academy2022.concordia.utils.enums.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -47,7 +44,7 @@ public class Task implements ModelArchetype {
     private TaskStatus status;
 
     @Column(name = COLUMN_DEADLINE)
-    private LocalDate deadLine;
+    private LocalDateTime deadLine;
 
     @Override
     public TaskDto toDto() {

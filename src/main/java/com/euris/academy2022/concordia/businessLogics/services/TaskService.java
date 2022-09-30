@@ -5,7 +5,6 @@ import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.resp
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,6 +18,6 @@ public interface TaskService {
     ResponseDto<List<Task>> getByPriority(TaskPriority priority);
     ResponseDto<List<Task>> getByStatus(TaskStatus status);
     ResponseDto<List<Task>> getByTitle(String title);
-    ResponseDto<List<Task>> getByDeadLine(LocalDate deadLine);
+    ResponseDto<List<Task>> getByDeadLine(LocalDateTime deadLine);
 
 }

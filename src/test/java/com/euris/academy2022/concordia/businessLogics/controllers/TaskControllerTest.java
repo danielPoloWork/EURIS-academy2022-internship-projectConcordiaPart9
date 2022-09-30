@@ -568,11 +568,11 @@ class TaskControllerTest {
         response.setBody(taskList);
 
         Mockito
-                .when(taskService.getByDeadLine(Mockito.any(LocalDate.class)))
+                .when(taskService.getByDeadLine(Mockito.any(LocalDateTime.class)))
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/deadLine=" + LocalDate.now()))
+                .perform(get(REQUEST_MAPPING + "/deadLine=" + LocalDateTime.now()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
@@ -597,11 +597,11 @@ class TaskControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(taskService.getByDeadLine(Mockito.any(LocalDate.class)))
+                .when(taskService.getByDeadLine(Mockito.any(LocalDateTime.class)))
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/deadLine=" + LocalDate.now()))
+                .perform(get(REQUEST_MAPPING + "/deadLine=" + LocalDateTime.now()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))

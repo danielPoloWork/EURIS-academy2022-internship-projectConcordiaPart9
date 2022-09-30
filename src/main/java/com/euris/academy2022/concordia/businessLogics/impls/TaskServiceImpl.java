@@ -2,7 +2,6 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.User;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
@@ -11,7 +10,6 @@ import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -226,7 +224,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<List<Task>> getByDeadLine(LocalDate deadLine) {
+    public ResponseDto<List<Task>> getByDeadLine(LocalDateTime deadLine) {
         ResponseDto<List<Task>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findByDeadLine(deadLine);
 

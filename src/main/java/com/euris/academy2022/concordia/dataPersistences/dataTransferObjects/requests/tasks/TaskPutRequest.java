@@ -1,13 +1,11 @@
 package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.tasks;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
-import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -22,7 +20,7 @@ public class TaskPutRequest implements DtoArchetype {
     private String description;
     private TaskPriority priority;
     private TaskStatus status;
-    private LocalDate deadLine;
+    private LocalDateTime deadLine;
 
 
     @Override

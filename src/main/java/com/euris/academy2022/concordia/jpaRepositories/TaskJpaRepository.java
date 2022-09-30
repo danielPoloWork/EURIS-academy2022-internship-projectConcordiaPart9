@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskJpaRepository extends JpaRepository<Task, String> {
@@ -34,7 +34,7 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
             @Param("description") String description,
             @Param("priority") String priority,
             @Param("status") String status,
-            @Param("deadLine") LocalDate deadLine);
+            @Param("deadLine") LocalDateTime deadLine);
 
     @Modifying
     @Query(value = UPDATE_TASK, nativeQuery = true)
@@ -45,7 +45,7 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
             @Param("description") String description,
             @Param("priority") String priority,
             @Param("status") String status,
-            @Param("deadLine") LocalDate deadLine);
+            @Param("deadLine") LocalDateTime deadLine);
 
     @Modifying
     @Query(value = DELETE_AUTHORIZATION, nativeQuery = true)
@@ -56,5 +56,5 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
     List<Task> findByPriority(String priority);
     List<Task> findByStatus(String status);
     List<Task> findByTitle(String title);
-    List<Task> findByDeadLine(LocalDate deadLine);
+    List<Task> findByDeadLine(LocalDateTime deadLine);
 }

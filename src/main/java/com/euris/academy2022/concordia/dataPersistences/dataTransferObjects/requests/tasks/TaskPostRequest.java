@@ -21,7 +21,7 @@ public class TaskPostRequest implements DtoArchetype {
     private String description;
     private TaskPriority priority;
     private TaskStatus status;
-    private LocalDate deadLine;
+    private LocalDateTime deadLine;
 
 
     @Override
