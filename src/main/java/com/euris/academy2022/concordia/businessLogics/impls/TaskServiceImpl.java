@@ -3,7 +3,10 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
+import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
+import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -22,68 +26,221 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> insert(Task task) {
+    public ResponseDto<TaskDto> insert(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+
+        Integer taskCreated = taskJpaRepository.insert(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getPriority().getLabel(),
+                task.getStatus().getLabel(),
+                task.getDeadLine());
+
+        response.setHttpRequest(HttpRequestType.POST);
+
+        if (taskCreated != 1) {
+            response.setHttpResponse(HttpResponseType.NOT_CREATED);
+            response.setCode(HttpResponseType.NOT_CREATED.getCode());
+            response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.CREATED);
+            response.setCode(HttpResponseType.CREATED.getCode());
+            response.setDesc(HttpResponseType.CREATED.getDesc());
+            response.setBody(task.toDto());
+
+        }
+
+        return response;
+    }
+
+
+    @Override
+    public ResponseDto<TaskDto> update(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
         Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
         if (optionalTask.isEmpty()) {
-            return Optional.of(taskJpaRepository.save(task));
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
+            Integer updatedTask = taskJpaRepository.update(
+                    task.getId(),
+                    task.getTitle(),
+                    task.getDescription(),
+                    task.getPriority().getLabel(),
+                    task.getStatus().getLabel(),
+                    task.getDeadLine());
+
+            if (updatedTask != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+
+            } else {
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(task.toDto());
+            }
         }
-        return Optional.empty();
+        return response;
     }
 
     @Override
-    public Optional<Task> update(Task task) {
-        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
-        if (optionalTask.isPresent()) {
-            return Optional.of(taskJpaRepository.save(task));
+    public ResponseDto<TaskDto> deleteById(String id) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+        Optional<Task> optionalTask = taskJpaRepository.findById(id);
+
+        response.setHttpRequest(HttpRequestType.DELETE);
+
+        if (optionalTask.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+        } else {
+            Integer deletedTask = taskJpaRepository.removeById(id);
+
+            if (deletedTask != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_DELETED);
+                response.setCode(HttpResponseType.NOT_DELETED.getCode());
+                response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.DELETED);
+                response.setCode(HttpResponseType.DELETED.getCode());
+                response.setDesc(HttpResponseType.DELETED.getDesc());
+                response.setBody(optionalTask.get().toDto());
+            }
         }
-        return Optional.empty();
+        return response;
     }
 
     @Override
-    public Boolean delete(Task task) {
-        taskJpaRepository.delete(task);
-        return Boolean.TRUE;
+    public ResponseDto<TaskDto> getById(String id) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+        Optional<Task> optionalTask = taskJpaRepository.findById(id);
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (optionalTask.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(optionalTask.get().toDto());
+        }
+
+        return response;
     }
 
     @Override
-    public Boolean deleteById(String id) {
-        taskJpaRepository.deleteById(id);
-        return Boolean.TRUE;
+    public ResponseDto<List<TaskDto>> getAll() {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+        List<Task> taskList = taskJpaRepository.findAll();
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (taskList.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
+        }
+
+        return response;
     }
 
     @Override
-    public Boolean deleteAll() {
-        taskJpaRepository.deleteAll();
-        return Boolean.TRUE;
+    public ResponseDto<List<TaskDto>> getByPriority(TaskPriority priority) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+        List<Task> taskList = taskJpaRepository.findByPriority(priority.getLabel());
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (taskList.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
+        }
+
+        return response;
     }
 
     @Override
-    public Optional<Task> getById(String id) {
-        return taskJpaRepository.findById(id);
+    public ResponseDto<List<TaskDto>> getByStatus(TaskStatus status) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+        List<Task> taskList = taskJpaRepository.findByStatus(status.getLabel());
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (taskList.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
+        }
+
+        return response;
     }
 
     @Override
-    public List<Task> getAll() {
-        return taskJpaRepository.findAll();
+    public ResponseDto<List<TaskDto>> getByTitle(String title) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+        List<Task> taskList = taskJpaRepository.findByTitle(title);
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (taskList.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
+        }
+
+        return response;
     }
 
     @Override
-    public List<Task> getByPriority(TaskPriority priority) {
-        return taskJpaRepository.findByPriority(priority.getLabel());
-    }
+    public ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+        List<Task> taskList = taskJpaRepository.findByDeadLine(deadLine);
 
-    @Override
-    public List<Task> getByStatus(TaskStatus status) {
-        return taskJpaRepository.findByStatus(status.getLabel());
-    }
+        response.setHttpRequest(HttpRequestType.GET);
 
-    @Override
-    public List<Task> getByTitle(String title) {
-        return taskJpaRepository.findByTitle(title);
-    }
+        if (taskList.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
+        }
 
-    @Override
-    public List<Task> getByDeadLine(LocalDateTime deadLine) {
-        return taskJpaRepository.findByDeadLine(deadLine);
+        return response;
     }
 }
