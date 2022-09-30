@@ -9,6 +9,7 @@ import com.euris.academy2022.concordia.utils.enums.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -33,7 +34,6 @@ public class Task implements ModelArchetype {
     @Column(name = COLUMN_ID)
     private String id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_TITLE)
     private String title;
 
@@ -47,7 +47,7 @@ public class Task implements ModelArchetype {
     private TaskStatus status;
 
     @Column(name = COLUMN_DEADLINE)
-    private LocalDateTime deadLine;
+    private LocalDate deadLine;
 
     @Override
     public TaskDto toDto() {

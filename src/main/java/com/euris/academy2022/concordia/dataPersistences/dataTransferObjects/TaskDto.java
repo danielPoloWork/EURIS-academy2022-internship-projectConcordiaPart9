@@ -7,6 +7,7 @@ import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class TaskDto implements DtoArchetype {
     private String description;
     private TaskPriority priority;
     private TaskStatus status;
-    private LocalDateTime deadLine;
+    private LocalDate deadLine;
 
     @Override
     public Task toModel() {

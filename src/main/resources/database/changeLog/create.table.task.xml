@@ -23,7 +23,7 @@
             <column name="status" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="deadline" type="DATETIME">
+            <column name="deadline" type="DATE">
                 <constraints nullable="true"/>
             </column>
         </createTable>
