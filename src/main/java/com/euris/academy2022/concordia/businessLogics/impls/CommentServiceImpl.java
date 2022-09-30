@@ -2,16 +2,23 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.CommentService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.User;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.CommentDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.CommentJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
+import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
+import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,51 +37,132 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Optional<Comment> getById(String id) {
+    public ResponseDto<Comment> getByUuid(String uuid) {
 
-        return commentJpaRepository.findById(id);
-    }
+        ResponseDto<Comment> response = new ResponseDto<>();
+        Optional<Comment> commentFound = commentJpaRepository.findById(uuid);
 
-    @Override
-    public List<Comment> getAll() {
+        response.setHttpRequest(HttpRequestType.GET);
 
-        return commentJpaRepository.findAll();
-    }
-
-
-    @Override
-    public Optional<Comment> insert(Comment comment) {
-        Optional<Comment> optionalComment = commentJpaRepository.findById(comment.getUuid());
-        if (optionalComment.isEmpty() &&
-                taskJpaRepository.existsById(comment.getTask().getId()) &&
-                memberJpaRepository.existsById(comment.getMember().getId())) {
-            return Optional.of(commentJpaRepository.save(comment));
+        if (commentFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(commentFound.get());
         }
-        return Optional.empty();
+        return response;
     }
 
-    @Override
-    public Optional<Comment> update(Comment comment) {
-        Optional<Comment> optionalComment = commentJpaRepository.findById(comment.getUuid());
 
-        if (optionalComment.isPresent()) {
-            comment.setMember(optionalComment.get().getMember());
-            comment.setTask(optionalComment.get().getTask());
-            return Optional.of(commentJpaRepository.save(comment));
+    @Override
+    public ResponseDto<List<Comment>> getAll() {
+        ResponseDto<List<Comment>> response = new ResponseDto<>();
+        List<Comment> commentListFound = commentJpaRepository.findAll();
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (commentListFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(commentListFound);
         }
-        return Optional.empty();
+
+        return response;
+    }
+
+    @Override
+    public ResponseDto<Comment> insert(Comment comment) {
+        ResponseDto<Comment> response = new ResponseDto<>();
+        Optional<Member> optionalMember = memberJpaRepository.findById(comment.getMember().getId());
+        Optional<Task> optionalTask = taskJpaRepository.findById(comment.getTask().getId());
+
+        if(optionalMember.isEmpty() || optionalTask.isEmpty()) {
+            response.setHttpRequest(HttpRequestType.GET);
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else{
+            response.setHttpRequest(HttpRequestType.POST);
+            Integer commentCreated = commentJpaRepository.insert(
+                    comment.getText(),
+                    LocalDateTime.now(),
+                    comment.getTask().getId(),
+                    comment.getMember().getId());
+
+            if (commentCreated==1) {
+
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+                response.setBody(comment);
+            } else {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            }
+        }
+
+
+        return response;
     }
 
 
     @Override
-    public Boolean deleteById(String id) {
-        commentJpaRepository.deleteById(id);
-        return Boolean.TRUE;
+    public ResponseDto<Comment> update(Comment comment) {
+
+        Optional<Comment> optionalComment = commentJpaRepository.findByUuid(comment.getUuid());
+
+        ResponseDto<Comment> response = new ResponseDto<>();
+
+        response.setHttpRequest(HttpRequestType.PUT);
+        Integer updated = commentJpaRepository.update(comment.getText(),comment.getUuid());
+
+        if (updated==1) {
+
+
+            response.setHttpResponse(HttpResponseType.CREATED);
+            response.setCode(HttpResponseType.CREATED.getCode());
+            response.setDesc(HttpResponseType.CREATED.getDesc());
+            response.setBody(comment);
+        } else {
+            response.setHttpResponse(HttpResponseType.NOT_CREATED);
+            response.setCode(HttpResponseType.NOT_CREATED.getCode());
+            response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+        }
+        return response;
     }
 
+
     @Override
-    public Boolean deleteAll() {
-        commentJpaRepository.deleteAll();
-        return Boolean.TRUE;
+    public ResponseDto<Comment> deleteByUuid(String uuid) {
+        ResponseDto<Comment> response = new ResponseDto<>();
+        response.setHttpRequest(HttpRequestType.DELETE);
+        Integer commentDeleted = commentJpaRepository.removeByUuid(uuid);
+
+        if (commentDeleted !=1) {
+            response.setHttpRequest(HttpRequestType.GET);
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+
+                response.setHttpResponse(HttpResponseType.DELETED);
+                response.setCode(HttpResponseType.DELETED.getCode());
+                response.setDesc(HttpResponseType.DELETED.getDesc());
+
+        }
+
+        return response;
     }
+
+
 }
