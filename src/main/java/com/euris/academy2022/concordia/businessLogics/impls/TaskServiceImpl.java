@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -55,18 +56,18 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public ResponseDto<Task> update(Task task) {
-        ResponseDto<Task> response = new ResponseDto<>();
+    public ResponseDto<TaskDto> update(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
         Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
 
+        response.setHttpRequest(HttpRequestType.PUT);
+
         if (optionalTask.isEmpty()) {
-            response.setHttpRequest(HttpRequestType.GET);
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         } else {
-
             Integer updatedTask = taskJpaRepository.update(
                     task.getId(),
                     task.getTitle(),
@@ -75,35 +76,33 @@ public class TaskServiceImpl implements TaskService {
                     task.getStatus().getLabel(),
                     task.getDeadLine());
 
-            response.setHttpRequest(HttpRequestType.PUT);
-
             if (updatedTask != 1) {
                 response.setHttpResponse(HttpResponseType.NOT_UPDATED);
                 response.setCode(HttpResponseType.NOT_UPDATED.getCode());
                 response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+
             } else {
                 response.setHttpResponse(HttpResponseType.UPDATED);
                 response.setCode(HttpResponseType.UPDATED.getCode());
                 response.setDesc(HttpResponseType.UPDATED.getDesc());
-                response.setBody(task);
+                response.setBody(task.toDto());
             }
         }
         return response;
     }
 
     @Override
-    public ResponseDto<Task> deleteById(String id) {
-        ResponseDto<Task> response = new ResponseDto<>();
+    public ResponseDto<TaskDto> deleteById(String id) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
         Optional<Task> optionalTask = taskJpaRepository.findById(id);
 
+        response.setHttpRequest(HttpRequestType.DELETE);
+
         if (optionalTask.isEmpty()) {
-            response.setHttpRequest(HttpRequestType.GET);
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
         } else {
             Integer deletedTask = taskJpaRepository.removeById(id);
-
-            response.setHttpRequest(HttpRequestType.DELETE);
 
             if (deletedTask != 1) {
                 response.setHttpResponse(HttpResponseType.NOT_DELETED);
@@ -113,15 +112,15 @@ public class TaskServiceImpl implements TaskService {
                 response.setHttpResponse(HttpResponseType.DELETED);
                 response.setCode(HttpResponseType.DELETED.getCode());
                 response.setDesc(HttpResponseType.DELETED.getDesc());
-                response.setBody(optionalTask.get());
+                response.setBody(optionalTask.get().toDto());
             }
         }
         return response;
     }
 
     @Override
-    public ResponseDto<Task> getById(String id) {
-        ResponseDto<Task> response = new ResponseDto<>();
+    public ResponseDto<TaskDto> getById(String id) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
         Optional<Task> optionalTask = taskJpaRepository.findById(id);
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -134,15 +133,15 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(optionalTask.get());
+            response.setBody(optionalTask.get().toDto());
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<Task>> getAll() {
-        ResponseDto<List<Task>> response = new ResponseDto<>();
+    public ResponseDto<List<TaskDto>> getAll() {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findAll();
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -155,15 +154,15 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(taskList);
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<Task>> getByPriority(TaskPriority priority) {
-        ResponseDto<List<Task>> response = new ResponseDto<>();
+    public ResponseDto<List<TaskDto>> getByPriority(TaskPriority priority) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findByPriority(priority.getLabel());
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -176,15 +175,15 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(taskList);
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<Task>> getByStatus(TaskStatus status) {
-        ResponseDto<List<Task>> response = new ResponseDto<>();
+    public ResponseDto<List<TaskDto>> getByStatus(TaskStatus status) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findByStatus(status.getLabel());
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -197,15 +196,15 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(taskList);
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<Task>> getByTitle(String title) {
-        ResponseDto<List<Task>> response = new ResponseDto<>();
+    public ResponseDto<List<TaskDto>> getByTitle(String title) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findByTitle(title);
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -218,15 +217,15 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(taskList);
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<Task>> getByDeadLine(LocalDateTime deadLine) {
-        ResponseDto<List<Task>> response = new ResponseDto<>();
+    public ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findByDeadLine(deadLine);
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -239,7 +238,7 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(taskList);
+            response.setBody(taskList.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;

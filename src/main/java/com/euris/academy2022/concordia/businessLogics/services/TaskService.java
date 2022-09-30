@@ -12,13 +12,13 @@ import java.util.List;
 public interface TaskService {
 
     ResponseDto<TaskDto> insert(Task task);
-    ResponseDto<Task> update(Task task);
-    ResponseDto<Task> deleteById(String id);
-    ResponseDto<Task> getById(String id);
-    ResponseDto<List<Task>> getAll();
-    ResponseDto<List<Task>> getByPriority(TaskPriority priority);
-    ResponseDto<List<Task>> getByStatus(TaskStatus status);
-    ResponseDto<List<Task>> getByTitle(String title);
-    ResponseDto<List<Task>> getByDeadLine(LocalDateTime deadLine);
+    ResponseDto<TaskDto> update(Task task);
+    ResponseDto<TaskDto> deleteById(String id);
+    ResponseDto<TaskDto> getById(String id);
+    ResponseDto<List<TaskDto>> getAll();
+    ResponseDto<List<TaskDto>> getByPriority(TaskPriority priority);
+    ResponseDto<List<TaskDto>> getByStatus(TaskStatus status);
+    ResponseDto<List<TaskDto>> getByTitle(String title);
+    ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine);
 
 }

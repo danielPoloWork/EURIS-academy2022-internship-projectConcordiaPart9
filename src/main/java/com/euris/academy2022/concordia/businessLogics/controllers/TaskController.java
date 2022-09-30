@@ -28,42 +28,44 @@ public class TaskController {
     }
 
     @PutMapping
-    public ResponseDto<Task> update(@RequestBody TaskPostRequest taskDto) {
+    public ResponseDto<TaskDto> update(@RequestBody TaskPostRequest taskDto) {
         return taskService.update(taskDto.toModel());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<Task> deleteById(@PathVariable String id) {
+    public ResponseDto<TaskDto> deleteById(@PathVariable String id) {
         return taskService.deleteById(id);
     }
 
     @GetMapping
-    public ResponseDto<List<Task>> getAll() {
+    public ResponseDto<List<TaskDto>> getAll() {
         return taskService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseDto<Task> getById(@PathVariable String id) {
+    public ResponseDto<TaskDto> getById(@PathVariable String id) {
         return taskService.getById(id);
     }
 
     @GetMapping("/title={title}")
-    public ResponseDto<List<Task>> getByTitle(@PathVariable String title) {
+    public ResponseDto<List<TaskDto>> getByTitle(@PathVariable String title) {
         return taskService.getByTitle(title);
     }
 
     @GetMapping("/priority={priority}")
-    public ResponseDto<List<Task>> getByPriority(@PathVariable TaskPriority priority) {
-        return taskService.getByPriority(priority);
+    public ResponseDto<List<TaskDto>> getByPriority(@PathVariable String priority) {
+        TaskPriority taskPriority = TaskPriority.valueOf(priority);
+        return taskService.getByPriority(taskPriority);
     }
 
     @GetMapping("/status={status}")
-    public ResponseDto<List<Task>> getByStatus(@PathVariable TaskStatus status) {
-        return taskService.getByStatus(status);
+    public ResponseDto<List<TaskDto>> getByStatus(@PathVariable String status) {
+        TaskStatus taskStatus = TaskStatus.valueOf(status);
+        return taskService.getByStatus(taskStatus);
     }
 
     @GetMapping("/deadLine={deadLine}")
-    public ResponseDto<List<Task>> getByDeadLine(@PathVariable String deadLine) {
+    public ResponseDto<List<TaskDto>> getByDeadLine(@PathVariable String deadLine) {
         //LocalDate deadLineParsed = LocalDate.parse(deadLine);
         //DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime deadLineParsed = LocalDateTime.parse(deadLine);
