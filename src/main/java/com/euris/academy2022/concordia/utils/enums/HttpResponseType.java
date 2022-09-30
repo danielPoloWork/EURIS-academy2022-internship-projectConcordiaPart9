@@ -1,7 +1,7 @@
 package com.euris.academy2022.concordia.utils.enums;
 
 /**
- * @author Daniel Polo
+ * @author Daniel Polo<p>
  * This is a list of Hypertext Transfer Protocol (HTTP) response status codes. Status codes are
  * issued by a server in response to a client's request made to the server. It includes codes from
  * IETF Request for Comments (RFCs), other specifications, and some additional codes used in some
@@ -9,53 +9,52 @@ package com.euris.academy2022.concordia.utils.enums;
  * standard classes of responses. The message phrases shown are typical, but any human-readable
  * alternative may be provided. Unless otherwise stated, the status code is part of the HTTP/1.1
  * standard (RFC 7231).
- *
+ * <p>
  * The Internet Assigned Numbers Authority (IANA) maintains the official registry of HTTP status
- * codes.
+ * codes.<p>
  * All HTTP response status codes are separated into five classes or categories. The first digit of
  * the status code defines the class of response, while the last two digits do not have any
  * classifying or categorization role. There are five classes defined by the standard:
- *
+ * <p>
  * 1xx informational – the request was received, continuing process
  * 2xx successful – the request was successfully received, understood, and accepted
  * 3xx redirection – further action needs to be taken in order to complete the request
  * 4xx client error – the request contains bad syntax or cannot be fulfilled
  * 5xx server error – the server failed to fulfil an apparently valid request
- *
- * 1xx INFORMATIONAL:
+ * <p>
+ * 1xx INFORMATIONAL<p>
  * An informational response indicates that the request was received and understood. It is issued
  * on a provisional basis while request processing continues. It alerts the client to wait for a
  * final response. The message consists only of the status line and optional header fields, and is
  * terminated by an empty line. As the HTTP/1.0 standard did not define any 1xx status codes,
  * servers must not send a 1xx response to an HTTP/1.0 compliant client except under experimental
- * conditions
- *
- * 2xx SUCCESSFUL
+ * conditions.
+ * <p>
+ * 2xx SUCCESSFUL<p>
  * This class of status codes indicates the action requested by the client was received, understood,
  * and accepted.
- *
- * 3xx REDIRECTION
+ * <p>
+ * 3xx REDIRECTION<p>
  * This class of status code indicates the client must take additional action to complete the
  * request. Many of these status codes are used in URL redirection.
  * A user agent may carry out the additional action with no user interaction only if the method used
  * in the second request is GET or HEAD. A user agent may automatically redirect a request. A user
  * agent should detect and intervene to prevent cyclical redirects.
- *
- * 4xx CLIENT ERROR
+ * <p>
+ * 4xx CLIENT ERROR<p>
  * This class of status code is intended for situations in which the error seems to have been caused
  * by the client. Except when responding to a HEAD request, the server should include an entity
  * containing an explanation of the error situation, and whether it is a temporary or permanent
  * condition. These status codes are applicable to any request method. User agents should display
  * any included entity to the user.
- *
- * 5xx SERVER ERROR
+ * <p>
+ * 5xx SERVER ERROR<p>
  * Response status codes beginning with the digit "5" indicate cases in which the server is aware
  * that it has encountered an error or is otherwise incapable of performing the request. Except when
  * responding to a HEAD request, the server should include an entity containing an explanation of
  * the error situation, and indicate whether it is a temporary or permanent condition. Likewise,
  * user agents should display any included entity to the user. These response codes are applicable
  * to any request method.
- *
  **/
 
 public enum HttpResponseType {
@@ -564,7 +563,7 @@ public enum HttpResponseType {
   RAILGUN_ERROR(
       "5xx",
       "RAILGUN_ERROR",
-      "The connection with the Railgun server has been interrupted."),
+      "The connection with the Rail-gun server has been interrupted."),
   SITE_IS_OVERLOADED(
       "5xx",
       "SITE_IS_OVERLOADED",
