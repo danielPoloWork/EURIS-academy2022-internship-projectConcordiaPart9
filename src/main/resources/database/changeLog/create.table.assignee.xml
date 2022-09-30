@@ -8,14 +8,17 @@
         <comment>Create table Assignee</comment>
 
         <createTable tableName="Assignee">
-            <column name="uuid" type="CHAR(36)">
-                <constraints primaryKey="true" primaryKeyName="pkAssignee"/>
-            </column>
             <column name="idTask" type="VARCHAR(24)">
-                <constraints referencedTableName="Task" referencedColumnNames="id" foreignKeyName="fkAssigneeTask" nullable="false"/>
+                <constraints referencedTableName="Task"
+                             referencedColumnNames="id"
+                             foreignKeyName="fkAssigneeTask"
+                             nullable="false"/>
             </column>
-            <column name="idMember" type="VARCHAR(24)">
-                <constraints referencedTableName="Member" referencedColumnNames="id" foreignKeyName="fkAssigneeMember" nullable="false"/>
+            <column name="uuidMember" type="VARCHAR(24)">
+                <constraints referencedTableName="Member"
+                             referencedColumnNames="uuid"
+                             foreignKeyName="fkAssigneeMember"
+                             nullable="false"/>
             </column>
         </createTable>
 
