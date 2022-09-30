@@ -12,19 +12,19 @@ import java.util.Optional;
 @Service
 public interface MemberService {
 
-    ResponseDto<Member> insert(Member member);
+    ResponseDto<MemberDto> insert(Member member);
 
-    ResponseDto<Member> update(Member member);
+    ResponseDto<MemberDto> update(Member member);
 
-    ResponseDto<Member> deleteById(String id);
+    ResponseDto<MemberDto> deleteById(String id);
 
-    ResponseDto<List<Member>> getAll();
+    ResponseDto<List<MemberDto>> getAll();
 
-    ResponseDto<Member> getById(String id);
+    ResponseDto<MemberDto> getById(String id);
 
-    ResponseDto<List<Member>> getByName(String name);
+    ResponseDto<List<MemberDto>> getByName(String name);
 
-    ResponseDto<List<Member>> getBySurname(String surname);
+    ResponseDto<List<MemberDto>> getBySurname(String surname);
 
-    ResponseDto<List<Member>> getByRole(MemberRole role);
+    ResponseDto<List<MemberDto>> getByRole(MemberRole role);
 }
