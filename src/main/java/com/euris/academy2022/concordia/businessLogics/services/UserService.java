@@ -5,13 +5,12 @@ import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.resp
 import com.euris.academy2022.concordia.utils.enums.UserRole;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
   ResponseDto<User> insert(User user);
   ResponseDto<User> update(User user);
-  ResponseDto<User> deleteByUuid(String uuid);
+  ResponseDto<User> removeByUuid(String uuid);
   ResponseDto<User> getByUuid(String uuid);
   ResponseDto<List<User>> getAll();
   ResponseDto<List<User>> getByRole(UserRole role);
