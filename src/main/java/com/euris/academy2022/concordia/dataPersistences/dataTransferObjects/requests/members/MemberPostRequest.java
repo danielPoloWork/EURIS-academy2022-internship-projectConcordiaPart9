@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class MemberPostRequest implements DtoArchetype {
 
+    private String id;
     private String name;
     private String surname;
     private MemberRole role;
@@ -20,6 +21,7 @@ public class MemberPostRequest implements DtoArchetype {
     @Override
     public Member toModel() {
         return Member.builder()
+                .id(this.id)
                 .name(this.name)
                 .surname(this.surname)
                 .role(this.role)
