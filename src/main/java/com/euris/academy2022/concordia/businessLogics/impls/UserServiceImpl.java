@@ -8,11 +8,9 @@ import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.UserRole;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,14 +26,14 @@ public class UserServiceImpl implements UserService {
   public ResponseDto<User> insert(User user) {
     ResponseDto<User> response = new ResponseDto<>();
 
-    Optional<User> userCreated = userJpaRepository.insert(
+    Integer userCreated = userJpaRepository.insert(
         user.getRole().getLabel(),
         user.getUsername(),
         user.getPassword());
 
     response.setHttpRequest(HttpRequestType.POST);
 
-    if (userCreated.isEmpty()) {
+    if (userCreated != 1) {
       response.setHttpResponse(HttpResponseType.NOT_CREATED);
       response.setCode(HttpResponseType.NOT_CREATED.getCode());
       response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService {
       response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
     } else {
 
-      Optional<User> userUpdated = userJpaRepository.update(
+      Integer userUpdated = userJpaRepository.update(
           user.getUuid(),
           user.getRole().getLabel(),
           user.getUsername(),
@@ -68,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
       response.setHttpRequest(HttpRequestType.PUT);
 
-      if (userUpdated.isEmpty()) {
+      if (userUpdated != 1) {
         response.setHttpResponse(HttpResponseType.NOT_UPDATED);
         response.setCode(HttpResponseType.NOT_UPDATED.getCode());
         response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
@@ -83,7 +81,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ResponseDto<User> deleteByUuid(String uuid) {
+  public ResponseDto<User> removeByUuid(String uuid) {
     ResponseDto<User> response = new ResponseDto<>();
     Optional<User> userFound = userJpaRepository.findByUuid(uuid);
 
@@ -92,11 +90,11 @@ public class UserServiceImpl implements UserService {
       response.setHttpResponse(HttpResponseType.NOT_FOUND);
       response.setCode(HttpResponseType.NOT_FOUND.getCode());
     } else {
-      Optional<User> userDeleted = userJpaRepository.deleteByUuid(uuid);
+      Integer userDeleted = userJpaRepository.removeByUuid(uuid);
 
       response.setHttpRequest(HttpRequestType.DELETE);
 
-      if (userDeleted.isEmpty()) {
+      if (userDeleted != 1) {
         response.setHttpResponse(HttpResponseType.NOT_DELETED);
         response.setCode(HttpResponseType.NOT_DELETED.getCode());
         response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
