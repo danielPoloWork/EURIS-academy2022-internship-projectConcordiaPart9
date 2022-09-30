@@ -10,7 +10,7 @@ import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/member")
