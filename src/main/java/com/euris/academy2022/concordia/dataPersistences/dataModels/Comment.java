@@ -40,7 +40,6 @@ public class Comment implements ModelArchetype {
     @JsonBackReference(value = "fkCommentTask")
     private Task task;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMember")
     @JsonBackReference(value = "fkCommentMember")

@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
@@ -24,8 +25,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<Task> insert(Task task) {
-        ResponseDto<Task> response = new ResponseDto<>();
+    public ResponseDto<TaskDto> insert(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
 
         Integer taskCreated = taskJpaRepository.insert(
                 task.getId(),
@@ -45,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
             response.setHttpResponse(HttpResponseType.CREATED);
             response.setCode(HttpResponseType.CREATED.getCode());
             response.setDesc(HttpResponseType.CREATED.getDesc());
-            response.setBody(task);
+            response.setBody(task.toDto());
 
         }
 
