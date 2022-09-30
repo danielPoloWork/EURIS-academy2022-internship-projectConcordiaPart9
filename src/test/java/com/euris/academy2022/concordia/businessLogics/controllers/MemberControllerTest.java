@@ -2,12 +2,11 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.User;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
-import com.euris.academy2022.concordia.utils.enums.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,13 +41,13 @@ public class MemberControllerTest {
     private MemberService memberService;
 
     private ObjectMapper objectMapper;
-    private Member member1;
-    private List<Member> memberList;
+    private MemberDto member1;
+    private List<MemberDto> memberList;
 
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        member1 = Member.builder()
+        member1 = MemberDto.builder()
                 .id("1")
                 .name("name1")
                 .surname("surname1")
@@ -65,7 +64,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN id, name, surname, role WHEN insert THEN response should be CREATED")
     void insertTest_ShouldBeCreated() throws Exception {
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.POST);
         response.setHttpResponse(HttpResponseType.CREATED);
@@ -98,7 +97,7 @@ public class MemberControllerTest {
     @DisplayName("IF args are missing WHEN insert THEN response should be NOT_CREATED")
     void insertTest_ShouldBeNotCreated() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.POST);
         response.setHttpResponse(HttpResponseType.NOT_CREATED);
@@ -127,7 +126,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN uuid, role, username, password WHEN update THEN response should be UPDATED")
     void updateTest_ShouldBeUpdated() throws Exception {
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
         response.setHttpResponse(HttpResponseType.UPDATED);
@@ -160,7 +159,7 @@ public class MemberControllerTest {
     @DisplayName("IF something goes wrong WHEN update THEN response should be NOT_UPDATED")
     void updateTest_ShouldBeNotUpdated() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
         response.setHttpResponse(HttpResponseType.NOT_UPDATED);
@@ -189,7 +188,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN wrong uuid OR uuid==null  WHEN update THEN response should be NOT_FOUND")
     void updateTest_ShouldBeNotFound() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -218,7 +217,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a right id WHEN deleteById AND id is present THEN response should be DELETED")
     void deleteByIdTest_ShouldBeDeleted() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.DELETE);
         response.setHttpResponse(HttpResponseType.DELETED);
@@ -249,7 +248,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a id WHEN deleteById BUT couldn't delete THEN response should be NOT_DELETED")
     void deleteByIdTest_ShouldBeNotDeleted() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.DELETE);
         response.setHttpResponse(HttpResponseType.NOT_DELETED);
@@ -276,7 +275,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a id WHEN deleteById BUT couldn't find it THEN response should be NOT_FOUND")
     void deleteByUuidTest_ShouldBeNotFound() throws Exception {
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.DELETE);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -303,7 +302,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN getAll() WHEN record are present THEN response should be FOUND")
     void getAllTest_ShouldBeFound() throws Exception {
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.FOUND);
@@ -333,7 +332,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN getAll() WHEN table is empty THEN response should be FOUND")
     void getAllTest_ShouldBeNotFound() throws Exception {
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -360,7 +359,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a right id WHEN getById() THEN response should be FOUND")
     void getByIdTest_ShouldBeFound() throws Exception{
 
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.FOUND);
@@ -389,7 +388,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN a wrong id WHEN getById() THEN response should be NOT_FOUND")
     void getByIdTest_ShouldBeNotFound() throws Exception{
-        ResponseDto<Member> response = new ResponseDto<>();
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -415,7 +414,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a right name WHEN getByName() THEN response should be FOUND")
     void getByNameTest_ShouldBeFound() throws Exception{
 
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.FOUND);
@@ -444,7 +443,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN a wrong name WHEN getByName() THEN response should be NOT_FOUND")
     void getByNameTest_ShouldBeNotFound() throws Exception{
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -470,7 +469,7 @@ public class MemberControllerTest {
     @DisplayName("GIVEN a right surname WHEN getBySurname() THEN response should be FOUND")
     void getBySurnameTest_ShouldBeFound() throws Exception{
 
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.FOUND);
@@ -499,7 +498,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN a wrong surname WHEN getBySurname() THEN response should be NOT_FOUND")
     void getBySurnameTest_ShouldBeNotFound() throws Exception{
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
@@ -525,7 +524,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN a right role WHEN getByRole() THEN response should be FOUND")
     void getByRoleTest_ShouldBeFound() throws Exception{
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.FOUND);
@@ -554,7 +553,7 @@ public class MemberControllerTest {
     @Test
     @DisplayName("GIVEN a wrong role WHEN getByRole() THEN response should be NOT_FOUND")
     void getByRoleTest_ShouldBeNotFound() throws Exception{
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
         response.setHttpResponse(HttpResponseType.NOT_FOUND);
