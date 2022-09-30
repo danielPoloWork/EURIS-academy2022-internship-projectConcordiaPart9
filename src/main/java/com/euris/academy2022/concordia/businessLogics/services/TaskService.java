@@ -1,24 +1,24 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface TaskService {
 
-    Optional<Task> insert(Task task);
-    Optional<Task> update(Task task);
-    Boolean delete(Task task);
-    Boolean deleteById(String id);
-    Boolean deleteAll();
-    Optional<Task> getById(String id);
-    List<Task> getAll();
-    List<Task> getByPriority(TaskPriority priority);
-    List<Task> getByStatus(TaskStatus status);
-    List<Task> getByTitle(String title);
-    List<Task> getByDeadLine(LocalDateTime deadLine);
+    ResponseDto<TaskDto> insert(Task task);
+    ResponseDto<TaskDto> update(Task task);
+    ResponseDto<TaskDto> deleteById(String id);
+    ResponseDto<TaskDto> getById(String id);
+    ResponseDto<List<TaskDto>> getAll();
+    ResponseDto<List<TaskDto>> getByPriority(TaskPriority priority);
+    ResponseDto<List<TaskDto>> getByStatus(TaskStatus status);
+    ResponseDto<List<TaskDto>> getByTitle(String title);
+    ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine);
+
 }

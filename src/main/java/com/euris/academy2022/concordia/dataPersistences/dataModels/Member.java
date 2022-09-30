@@ -7,6 +7,7 @@ import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +40,12 @@ public class Member implements ModelArchetype {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
+    @ManyToMany
+    @JoinTable(
+            name = "Assignee",
+            joinColumns = @JoinColumn(name = "idMember"),
+            inverseJoinColumns = @JoinColumn(name = "idTask"))
+    List<Task> tasks;
 
     @Override
     public MemberDto toDto() {
