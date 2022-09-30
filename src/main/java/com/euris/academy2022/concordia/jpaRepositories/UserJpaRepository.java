@@ -24,10 +24,14 @@ public interface UserJpaRepository extends JpaRepository<User, String> {
           + "SET User.role = :role, User.username = :username, User.password = :password "
           + "WHERE User.uuid = :uuid";
 
+  String DELETE_USER =
+      "DELETE FROM User "
+          + "WHERE User.uuid = :uuid";
+
   @Modifying
   @Query(value = INSERT_INTO_USER, nativeQuery = true)
   @Transactional
-  Optional<User> insert(
+  Integer insert(
       @Param("role") String role,
       @Param("username") String username,
       @Param("password") String password);
@@ -35,13 +39,20 @@ public interface UserJpaRepository extends JpaRepository<User, String> {
   @Modifying
   @Query(value = UPDATE_USER, nativeQuery = true)
   @Transactional
-  Optional<User> update(
+  Integer update(
       @Param("uuid") String uuid,
       @Param("role") String role,
       @Param("username") String username,
       @Param("password") String password);
-  Optional<User> deleteByUuid(String uuid);
+
+  @Modifying
+  @Query(value = DELETE_USER, nativeQuery = true)
+  @Transactional
+  Integer removeByUuid(
+      @Param("uuid") String uuid);
+
+  List<User> findByRole(String role);
   Optional<User> findByUuid(String uuid);
   Optional<User> findByUsername(String username);
-  List<User> findByRole(String role);
+
 }
