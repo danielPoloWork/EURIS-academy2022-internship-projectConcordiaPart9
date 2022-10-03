@@ -10,6 +10,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,8 +31,10 @@ public class Task implements ModelArchetype {
     private static final String COLUMN_STATUS = "status";
     private static final String COLUMN_DEADLINE = "deadline";
 
-    private static final String MAPPED_BY_TASKS = "tasks";
-    private static final String ASSIGNEE_COLUMN_ID_TASK = "idTask";
+    private static final String MAPPED_BY_MEMBER_TASKS = "tasks";
+
+    private static final String MAPPED_BY_COMMENT_TASK = "task";
+    private static final String COLUMN_ID_TASK = "idTask";
 
     @Id
     @Column(name = COLUMN_ID)
@@ -54,16 +57,17 @@ public class Task implements ModelArchetype {
     @Column(name = COLUMN_DEADLINE)
     private LocalDateTime deadLine;
 
-    @ManyToMany(mappedBy = MAPPED_BY_TASKS)
-    List<Member> members;
+    @ManyToMany(mappedBy = MAPPED_BY_MEMBER_TASKS)
+    private List<Member> members;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = MAPPED_BY_TASKS)
-    @JsonManagedReference(value = ASSIGNEE_COLUMN_ID_TASK)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = MAPPED_BY_COMMENT_TASK)
+    @JsonManagedReference(value = "fkCommentTask")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
 
     @Override
     public TaskDto toDto() {
+
         return TaskDto.builder()
                 .id(id)
                 .title(title)
@@ -71,6 +75,8 @@ public class Task implements ModelArchetype {
                 .priority(priority)
                 .status(status)
                 .deadLine(deadLine)
+                .members(members)
+                .comments(comments)
                 .build();
     }
 }

@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface CommentService {
 
-    ResponseDto<Comment> getByUuid(String id);
+    ResponseDto<Comment> getByUuid(String uuid);
     ResponseDto<List<Comment>> getAll();
     ResponseDto<Comment> insert(Comment comment);
     ResponseDto<Comment> update(Comment comment);
-    ResponseDto<Comment> deleteByUuid(String id);
+    ResponseDto<Comment> deleteByUuid(String uuid);
 }

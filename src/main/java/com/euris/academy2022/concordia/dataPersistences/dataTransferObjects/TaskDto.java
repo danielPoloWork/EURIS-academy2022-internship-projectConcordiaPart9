@@ -1,12 +1,15 @@
 package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +24,9 @@ public class TaskDto implements DtoArchetype {
     private TaskPriority priority;
     private TaskStatus status;
     private LocalDateTime deadLine;
+    private List<Member> members;
+    private List<Comment> comments;
+
     @Override
     public Task toModel() {
         return Task.builder()
@@ -30,6 +36,8 @@ public class TaskDto implements DtoArchetype {
                 .priority(priority)
                 .status(status)
                 .deadLine(deadLine)
+                .members(members)
+                .comments(comments)
                 .build();
     }
 }

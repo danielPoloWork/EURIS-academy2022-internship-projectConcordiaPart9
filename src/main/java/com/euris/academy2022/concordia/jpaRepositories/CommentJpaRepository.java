@@ -1,6 +1,8 @@
 package com.euris.academy2022.concordia.jpaRepositories;
 
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,8 +19,8 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
 
 
     String INSERT_INTO_COMMENT =
-            "INSERT INTO Comment (Comment.uuid, Comment.text, Comment.lastUpdate, Comment.idTask, Comment.idMember) "
-                    + "VALUES (UUID(), :text, :lastUpdate, :idTask, :idMember)";
+            "INSERT INTO Comment (Comment.uuid, Comment.text, Comment.lastUpdate, Comment.idTask, Comment.uuidMember) "
+                    + "VALUES (UUID(), :text, :lastUpdate, :idTask, :uuidMember)";
 
     String UPDATE_COMMENT =
             "UPDATE Comment "
@@ -34,9 +36,9 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
     @Transactional
     Integer insert(
             @Param("text") String text,
-            @Param("lastUpdate")LocalDateTime lastUpdate,
+            @Param("lastUpdate") LocalDateTime lastUpdate,
             @Param("idTask") String idTask,
-            @Param("idMember") String idMember);
+            @Param("uuidMember") String uuidMember);
 
     @Modifying
     @Query(value = DELETE_COMMENT, nativeQuery = true)
@@ -53,8 +55,8 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
             @Param("uuid") String uuid
     );
 
-    List<Comment> findByIdTask(String idTask);
-    List<Comment> findByIdMember(String idMember);
+    List<Comment> findByTask(String idTask);
+    List<Comment> findByMember(String uuidMember);
     String deleteByUuid(String uuid);
 
     Optional<Comment> findByUuid(String uuid);

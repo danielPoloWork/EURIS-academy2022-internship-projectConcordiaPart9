@@ -42,7 +42,7 @@ public class Member implements ModelArchetype {
     private static final String COLUMN_SURNAME = "surname";
 
     private static final String JOIN_INTO = "Assignee";
-    private static final String COLUMN_UUID_MEMBER = "idMember";
+    private static final String COLUMN_UUID_MEMBER = "uuidMember";
     private static final String COLUMN_ID_TASK = "idTask";
 
     @Id
@@ -85,6 +85,7 @@ public class Member implements ModelArchetype {
                 .role(this.role)
                 .name(this.name)
                 .surname(this.surname)
+                .tasks(tasks)
                 .build();
     }
 }
