@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TaskPostRequest implements DtoArchetype {
 
+    private String id;
     private String title;
     private String description;
     private TaskPriority priority;
@@ -24,6 +25,7 @@ public class TaskPostRequest implements DtoArchetype {
     @Override
     public Task toModel() {
         return Task.builder()
+                .id(id)
                 .title(title)
                 .description(description)
                 .priority(priority)

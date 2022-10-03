@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,8 @@ public class MemberDto implements DtoArchetype {
     private String name;
     private String surname;
 
+    private List<Task> tasks;
+
     @Override
     public Member toModel() {
         return Member.builder()
@@ -35,6 +40,7 @@ public class MemberDto implements DtoArchetype {
                 .role(this.role)
                 .name(this.name)
                 .surname(this.surname)
+                .tasks(tasks)
                 .build();
     }
 }

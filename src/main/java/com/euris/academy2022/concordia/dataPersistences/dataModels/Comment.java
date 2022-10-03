@@ -1,15 +1,12 @@
 package com.euris.academy2022.concordia.dataPersistences.dataModels;
 
-import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.CommentDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,12 +19,12 @@ public class Comment implements ModelArchetype {
 
     private static final String COLUMN_IDTRELLOCOMMENT = "idTrelloComment";
 
-    private static final String COLUMN_PK = "id";
+    private static final String COLUMN_UUID = "uuid";
     private static final String COLUMN_TEXT = "text";
     private static final String COLUMN_LASTUPDATE = "lastUpdate";
 
     @Id
-    @Column(name = COLUMN_PK)
+    @Column(name = COLUMN_UUID)
     String uuid;
 
     @Column(name = COLUMN_TEXT)
@@ -40,9 +37,8 @@ public class Comment implements ModelArchetype {
     @JsonBackReference(value = "fkCommentTask")
     private Task task;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idMember")
+    @JoinColumn(name = "uuidMember")
     @JsonBackReference(value = "fkCommentMember")
     private Member member;
 
