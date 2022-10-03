@@ -3,21 +3,43 @@ package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.req
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class CommentPostRequest implements DtoArchetype {
 
 
-    String text;
+    private String text;
 
-    LocalDateTime lastUpdate;
+    private LocalDateTime lastUpdate;
+
+    private String idTask;
+
+    String idMember;
+
 
     @Override
     public Comment toModel() {
+
+        Member member = Member.builder()
+                .uuid(idMember).build();
+        Task task = Task.builder()
+                .id(idTask).build();
+
+
         return Comment.builder()
                 .text(this.text)
-                .lastUpdate(this.lastUpdate)
+                .member(member)
+                .task(task)
+                .lastUpdate(LocalDateTime.now())
                 .build();
     }
 }
