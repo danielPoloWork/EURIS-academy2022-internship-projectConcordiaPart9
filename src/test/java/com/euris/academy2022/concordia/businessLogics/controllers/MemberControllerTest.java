@@ -3,7 +3,8 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
@@ -28,7 +29,6 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MemberController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -41,28 +41,40 @@ public class MemberControllerTest {
     private MemberService memberService;
 
     private ObjectMapper objectMapper;
-    private MemberDto member1;
+    private MemberDto member;
+    private MemberPostRequest memberPost;
     private List<MemberDto> memberList;
 
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-        member1 = MemberDto.builder()
-                .id("1")
+
+        member = MemberDto.builder()
+                .uuid("1")
+                .idTrelloMember("1")
+                .username("username1")
+                .password("password1")
+                .role(MemberRole.A1)
                 .name("name1")
                 .surname("surname1")
+                .build();
+        memberPost = MemberPostRequest.builder()
+                .idTrelloMember("1")
+                .username("username1")
+                .password("password1")
                 .role(MemberRole.A1)
+                .name("name1")
+                .surname("surname1")
                 .build();
 
         memberList = new ArrayList<>();
-        memberList.add(member1);
-
+        memberList.add(member);
     }
 
     private final String REQUEST_MAPPING = "/api/member";
 
     @Test
-    @DisplayName("GIVEN id, name, surname, role WHEN insert THEN response should be CREATED")
+    @DisplayName("GIVEN MemberPostRequest WHEN insert() THEN response return POST, CREATED")
     void insertTest_ShouldBeCreated() throws Exception {
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
@@ -70,16 +82,14 @@ public class MemberControllerTest {
         response.setHttpResponse(HttpResponseType.CREATED);
         response.setCode(HttpResponseType.CREATED.getCode());
         response.setDesc(HttpResponseType.CREATED.getDesc());
-        response.setBody(member1);
+        response.setBody(member);
 
-        Mockito
-                .when(memberService.insert(Mockito.any(Member.class)))
+        Mockito.when(memberService.insert(Mockito.any(Member.class)))
                 .thenReturn(response);
 
-        client
-                .perform(post(REQUEST_MAPPING)
+        client.perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(member1)))
+                        .content(objectMapper.writeValueAsString(memberPost)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -87,14 +97,14 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.CREATED.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.CREATED.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.CREATED.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member1.getId()))
-                .andExpect(jsonPath("$.body.name").value(member1.getName()))
-                .andExpect(jsonPath("$.body.surname").value(member1.getSurname()))
-                .andExpect(jsonPath("$.body.role").value(member1.getRole().getLabel()));
+                .andExpect(jsonPath("$.body.idTrelloMember").value(member.getIdTrelloMember()))
+                .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()))
+                .andExpect(jsonPath("$.body.name").value(member.getName()))
+                .andExpect(jsonPath("$.body.surname").value(member.getSurname()));
     }
 
     @Test
-    @DisplayName("IF args are missing WHEN insert THEN response should be NOT_CREATED")
+    @DisplayName("IF args are missing WHEN insert() THEN response return POST, NOT_CREATED")
     void insertTest_ShouldBeNotCreated() throws Exception {
 
         ResponseDto<MemberDto> response = new ResponseDto<>();
@@ -104,14 +114,12 @@ public class MemberControllerTest {
         response.setCode(HttpResponseType.NOT_CREATED.getCode());
         response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
 
-        Mockito
-                .when(memberService.insert(Mockito.any(Member.class)))
+        Mockito.when(memberService.insert(Mockito.any(Member.class)))
                 .thenReturn(response);
 
-        client
-                .perform(post(REQUEST_MAPPING)
+        client.perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(member1)))
+                        .content(objectMapper.writeValueAsString(member)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -122,7 +130,6 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.body").isEmpty());
     }
 
-
     @Test
     @DisplayName("GIVEN uuid, role, username, password WHEN update THEN response should be UPDATED")
     void updateTest_ShouldBeUpdated() throws Exception {
@@ -132,7 +139,7 @@ public class MemberControllerTest {
         response.setHttpResponse(HttpResponseType.UPDATED);
         response.setCode(HttpResponseType.UPDATED.getCode());
         response.setDesc(HttpResponseType.UPDATED.getDesc());
-        response.setBody(member1);
+        response.setBody(member);
 
         Mockito
                 .when(memberService.update(Mockito.any(Member.class)))
@@ -141,7 +148,7 @@ public class MemberControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(member1)))
+                        .content(objectMapper.writeValueAsString(member)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -149,10 +156,10 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.UPDATED.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.UPDATED.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.UPDATED.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member1.getId()))
-                .andExpect(jsonPath("$.body.name").value(member1.getName()))
-                .andExpect(jsonPath("$.body.surname").value(member1.getSurname()))
-                .andExpect(jsonPath("$.body.role").value(member1.getRole().getLabel()));
+                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.name").value(member.getName()))
+                .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
+                .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
     }
 
     @Test
@@ -173,7 +180,7 @@ public class MemberControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(member1)))
+                        .content(objectMapper.writeValueAsString(member)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -202,7 +209,7 @@ public class MemberControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(member1)))
+                        .content(objectMapper.writeValueAsString(member)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -223,14 +230,14 @@ public class MemberControllerTest {
         response.setHttpResponse(HttpResponseType.DELETED);
         response.setCode(HttpResponseType.DELETED.getCode());
         response.setDesc(HttpResponseType.DELETED.getDesc());
-        response.setBody(member1);
+        response.setBody(member);
 
         Mockito
-                .when(memberService.deleteById(Mockito.anyString()))
+                .when(memberService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member1.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -238,10 +245,10 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.DELETED.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.DELETED.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.DELETED.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member1.getId()))
-                .andExpect(jsonPath("$.body.name").value(member1.getName()))
-                .andExpect(jsonPath("$.body.surname").value(member1.getSurname()))
-                .andExpect(jsonPath("$.body.role").value(member1.getRole().getLabel()));
+                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.name").value(member.getName()))
+                .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
+                .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
     }
 
     @Test
@@ -256,11 +263,11 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
 
         Mockito
-                .when(memberService.deleteById(Mockito.anyString()))
+                .when(memberService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member1.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -283,11 +290,11 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(memberService.deleteById(Mockito.anyString()))
+                .when(memberService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member1.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -365,24 +372,24 @@ public class MemberControllerTest {
         response.setHttpResponse(HttpResponseType.FOUND);
         response.setCode(HttpResponseType.FOUND.getCode());
         response.setDesc(HttpResponseType.FOUND.getDesc());
-        response.setBody(member1);
+        response.setBody(member);
 
         Mockito
-                .when(memberService.getById(Mockito.anyString()))
+                .when(memberService.getByIdTrelloMember(Mockito.anyString()))
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/" + member1.getId()))
+                .perform(get(REQUEST_MAPPING + "/" + member.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member1.getId()))
-                .andExpect(jsonPath("$.body.name").value(member1.getName()))
-                .andExpect(jsonPath("$.body.surname").value(member1.getSurname()))
-                .andExpect(jsonPath("$.body.role").value(member1.getRole().getLabel()));
+                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.name").value(member.getName()))
+                .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
+                .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
     }
 
     @Test
@@ -396,7 +403,7 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(memberService.getById(Mockito.anyString()))
+                .when(memberService.getByIdTrelloMember(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -427,7 +434,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/name=" + member1.getName()))
+                .perform(get(REQUEST_MAPPING + "/name=" + member.getName()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
@@ -455,7 +462,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/name=" + member1.getName()))
+                .perform(get(REQUEST_MAPPING + "/name=" + member.getName()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
@@ -482,7 +489,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/surname=" + member1.getSurname()))
+                .perform(get(REQUEST_MAPPING + "/surname=" + member.getSurname()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
@@ -510,7 +517,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/surname=" + member1.getName()))
+                .perform(get(REQUEST_MAPPING + "/surname=" + member.getName()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
