@@ -21,5 +21,5 @@ public enum TaskStatus {
 
     private final String label;
     private final String trelloListId;
-    private final String trelloName;
+    private final String trelloListName;
 }
