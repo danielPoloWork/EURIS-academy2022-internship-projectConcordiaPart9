@@ -28,7 +28,13 @@ Scientists have tablets, at their disposal, with which they are connected to the
 
 ## Solution
 ### Database
-![UML](https://raw.githubusercontent.com/danielPoloWork/Concordia/master/png/concordia-db-uml.png)
+[**Open UML project**](https://dbdiagram.io/d/6337fbc07b3d2034fffedc6d)
+
+Get UML as:
+- [**PDF dark theme**](src/resources/documents/concordia.database-uml.dark.pdf)
+- [**PDF light theme**](src/resources/documents/concordia.database-uml.light.pdf)
+- [**Image dark theme**](src/resources/images/concordia.database-uml.dark.png)
+- [**Image light theme**](src/resources/images/concordia.database-uml.light.png)
 #### TABLE: User
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|

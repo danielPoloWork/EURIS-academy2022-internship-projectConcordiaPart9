@@ -2,11 +2,10 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPutRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +32,9 @@ public class MemberController {
         return memberService.update(memberDto.toModel());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseDto<MemberDto> deleteById(@PathVariable String id) {
-        return memberService.deleteById(id);
+    @DeleteMapping("/{uuid}")
+    public ResponseDto<MemberDto> removeByUuid(@PathVariable String uuid) {
+        return memberService.removeByUuid(uuid);
     }
 
     @GetMapping
@@ -43,9 +42,24 @@ public class MemberController {
         return memberService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseDto<MemberDto> getById(@PathVariable String id) {
-        return memberService.getById(id);
+    @GetMapping("/{uuid}")
+    public ResponseDto<MemberDto> getByUuid(@PathVariable String uuid) {
+        return memberService.getByUuid(uuid);
+    }
+
+    @GetMapping("/idTrelloMember={idTrelloMember}")
+    public ResponseDto<MemberDto> getByIdTrelloMember(@PathVariable String idTrelloMember) {
+        return memberService.getByIdTrelloMember(idTrelloMember);
+    }
+
+    @GetMapping("/username={username}")
+    public ResponseDto<MemberDto> getByUsername(@PathVariable String username) {
+        return memberService.getByUsername(username);
+    }
+
+    @GetMapping("/role={role}")
+    public ResponseDto<List<MemberDto>> getByRole(@PathVariable MemberRole role) {
+        return memberService.getByRole(role);
     }
 
     @GetMapping("/name={name}")
@@ -56,10 +70,5 @@ public class MemberController {
     @GetMapping("/surname={surname}")
     public ResponseDto<List<MemberDto>> getBySurname(@PathVariable String surname) {
         return memberService.getBySurname(surname);
-    }
-
-    @GetMapping("/role={role}")
-    public ResponseDto<List<MemberDto>> getByRole(@PathVariable MemberRole role) {
-        return memberService.getByRole(role);
     }
 }

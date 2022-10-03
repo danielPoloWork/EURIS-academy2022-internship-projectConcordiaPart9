@@ -1,9 +1,9 @@
-package com.euris.academy2022.concordia.businessLogics.impls;
+package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;

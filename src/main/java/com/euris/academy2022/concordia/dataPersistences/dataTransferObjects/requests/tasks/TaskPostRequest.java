@@ -21,7 +21,6 @@ public class TaskPostRequest implements DtoArchetype {
     private TaskStatus status;
     private LocalDateTime deadLine;
 
-
     @Override
     public Task toModel() {
         return Task.builder()

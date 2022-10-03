@@ -1,7 +1,7 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
 
-import com.euris.academy2022.concordia.businessLogics.impls.CommentServiceImpl;
+import com.euris.academy2022.concordia.businessLogics.services.impls.CommentServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
 import com.euris.academy2022.concordia.jpaRepositories.CommentJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;

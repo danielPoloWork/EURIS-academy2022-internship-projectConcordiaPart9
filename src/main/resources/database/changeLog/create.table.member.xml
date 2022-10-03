@@ -4,15 +4,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="create-table-member-0001" author="marcelloCescutti, danielPolo">
+    <changeSet id="create-table-member-0001" author="danielPolo, marcelloCescutti">
         <comment>Create table Member</comment>
 
         <createTable tableName="Member">
             <column name="uuid" type="CHAR(36)">
                 <constraints primaryKey="true" primaryKeyName="pkMember"/>
             </column>
-            <column name="id" type="CHAR(24)">
-                <constraints nullable="true"/>
+            <column name="idTrelloMember" type="CHAR(24)">
+                <constraints nullable="true" uniqueConstraintName="true"/>
             </column>
             <column name="username" type="VARCHAR(100)">
                 <constraints nullable="false" uniqueConstraintName="true"/>
@@ -27,9 +27,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="surname" type="VARCHAR(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="role" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

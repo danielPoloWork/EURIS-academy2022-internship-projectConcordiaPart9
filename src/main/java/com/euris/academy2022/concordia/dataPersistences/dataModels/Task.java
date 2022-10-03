@@ -22,12 +22,16 @@ import java.util.List;
 public class Task implements ModelArchetype {
 
     private static final String KEY_PK = "pkTask";
+
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_PRIORITY = "priority";
     private static final String COLUMN_STATUS = "status";
     private static final String COLUMN_DEADLINE = "deadline";
+
+    private static final String MAPPED_BY_TASKS = "tasks";
+    private static final String ASSIGNEE_COLUMN_ID_TASK = "idTask";
 
     @Id
     @Column(name = COLUMN_ID)
@@ -50,11 +54,11 @@ public class Task implements ModelArchetype {
     @Column(name = COLUMN_DEADLINE)
     private LocalDateTime deadLine;
 
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = MAPPED_BY_TASKS)
     List<Member> members;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
-    @JsonManagedReference(value = "idTask")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = MAPPED_BY_TASKS)
+    @JsonManagedReference(value = ASSIGNEE_COLUMN_ID_TASK)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
 
