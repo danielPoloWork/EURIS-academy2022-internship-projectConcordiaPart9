@@ -17,14 +17,14 @@
                              foreignKeyName="fkCommentTask"
                              nullable="false"/>
             </column>
-            <column name="idMember" type="CHAR(24)">
+            <column name="uuidMember" type="CHAR(36)">
                 <constraints referencedTableName="Member"
-                             referencedColumnNames="id"
+                             referencedColumnNames="uuid"
                              foreignKeyName="fkCommentMember"
                              nullable="false"/>
             </column>
             <column name="idTrelloComment" type="CHAR(24)">
-                <constraints nullable="true"/>
+                <constraints nullable="true" uniqueConstraintName="true"/>
             </column>
             <column name="text" type="VARCHAR(1000)">
                 <constraints nullable="false"/>
