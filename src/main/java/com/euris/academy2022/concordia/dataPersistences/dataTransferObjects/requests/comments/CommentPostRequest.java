@@ -24,12 +24,12 @@ public class CommentPostRequest implements DtoArchetype {
 
     private String uuidMember;
 
-
     @Override
     public Comment toModel() {
 
         Member member = Member.builder()
                 .uuid(uuidMember).build();
+
         Task task = Task.builder()
                 .id(idTask).build();
 

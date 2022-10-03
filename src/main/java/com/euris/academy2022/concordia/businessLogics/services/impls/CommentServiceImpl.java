@@ -77,17 +77,17 @@ public class CommentServiceImpl implements CommentService {
         ResponseDto<Comment> response = new ResponseDto<>();
         Optional<Member> optionalMember = memberJpaRepository.findById(comment.getMember().getUuid());
         Optional<Task> optionalTask = taskJpaRepository.findById(comment.getTask().getId());
+        response.setHttpRequest(HttpRequestType.POST);
+
 
         if(optionalMember.isEmpty() || optionalTask.isEmpty()) {
-            response.setHttpRequest(HttpRequestType.GET);
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else{
-            response.setHttpRequest(HttpRequestType.POST);
             Integer commentCreated = commentJpaRepository.insert(
                     comment.getText(),
-                    LocalDateTime.now(),
+                    comment.getLastUpdate(),
                     comment.getTask().getId(),
                     comment.getMember().getUuid());
 
@@ -117,7 +117,7 @@ public class CommentServiceImpl implements CommentService {
         ResponseDto<Comment> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
-        Integer updated = commentJpaRepository.update(comment.getText(),comment.getUuid());
+        Integer updated = commentJpaRepository.update(comment.getText(),comment.getLastUpdate(),comment.getUuid());
 
         if (updated==1) {
 
@@ -142,7 +142,6 @@ public class CommentServiceImpl implements CommentService {
         Integer commentDeleted = commentJpaRepository.removeByUuid(uuid);
 
         if (commentDeleted !=1) {
-            response.setHttpRequest(HttpRequestType.GET);
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());

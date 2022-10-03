@@ -24,7 +24,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
 
     String UPDATE_COMMENT =
             "UPDATE Comment "
-                    + "SET Comment.text = :text "
+                    + "SET Comment.text = :text, Comment.lastUpdate = :lastUpdate "
                     + "WHERE Comment.uuid = :uuid";
 
     String DELETE_COMMENT =
@@ -52,11 +52,14 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
     @Transactional
     Integer update(
             @Param("text") String text,
+            @Param("lastUpdate") LocalDateTime lastUpdate,
             @Param("uuid") String uuid
     );
 
     List<Comment> findByTask(String idTask);
+
     List<Comment> findByMember(String uuidMember);
+
     String deleteByUuid(String uuid);
 
     Optional<Comment> findByUuid(String uuid);
