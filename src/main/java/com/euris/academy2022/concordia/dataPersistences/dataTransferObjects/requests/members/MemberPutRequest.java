@@ -12,20 +12,22 @@ import lombok.*;
 @Builder
 public class MemberPutRequest implements DtoArchetype {
 
-    private String id;
+    private String uuid;
+    private String idTrelloMember;
+    private String password;
+    private MemberRole role;
     private String name;
     private String surname;
-    private MemberRole role;
-
 
     @Override
     public Member toModel() {
         return Member.builder()
-                .id(this.id)
+                .uuid(this.uuid)
+                .idTrelloMember(this.idTrelloMember)
+                .password(this.password)
+                .role(this.role)
                 .name(this.name)
                 .surname(this.surname)
-                .role(this.role)
                 .build();
     }
 }
-
