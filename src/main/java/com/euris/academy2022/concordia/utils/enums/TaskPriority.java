@@ -39,6 +39,6 @@ public enum TaskPriority {
 
     private final String label;
     private final String trelloLabelId;
-    private final String trelloName;
-    private final String trelloColor;
+    private final String trelloLabelName;
+    private final String trelloLabelColor;
 }
