@@ -1,10 +1,9 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.tasks.TaskPostRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.web.bind.annotation.*;

@@ -5,7 +5,7 @@ import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
 
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.comments.CommentPostRequest;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.comments.CommentPutRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

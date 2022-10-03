@@ -1,7 +1,6 @@
 package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
 
 import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
-import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
@@ -22,7 +21,6 @@ public class TaskDto implements DtoArchetype {
     private TaskPriority priority;
     private TaskStatus status;
     private LocalDateTime deadLine;
-
     @Override
     public Task toModel() {
         return Task.builder()

@@ -2,7 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.services;
 
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.responses.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 
@@ -20,5 +20,4 @@ public interface TaskService {
     ResponseDto<List<TaskDto>> getByStatus(TaskStatus status);
     ResponseDto<List<TaskDto>> getByTitle(String title);
     ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine);
-
 }
