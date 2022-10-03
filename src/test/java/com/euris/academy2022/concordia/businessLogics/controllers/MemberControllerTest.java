@@ -156,7 +156,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.UPDATED.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.UPDATED.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.UPDATED.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.uuid").value(member.getUuid()))
                 .andExpect(jsonPath("$.body.name").value(member.getName()))
                 .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
                 .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
@@ -237,7 +237,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -245,7 +245,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.DELETED.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.DELETED.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.DELETED.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.uuid").value(member.getUuid()))
                 .andExpect(jsonPath("$.body.name").value(member.getName()))
                 .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
                 .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
@@ -267,7 +267,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -294,7 +294,7 @@ public class MemberControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + member.getId()))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -330,7 +330,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body[0].id").value(memberList.get(0).getId()))
+                .andExpect(jsonPath("$.body[0].uuid").value(memberList.get(0).getUuid()))
                 .andExpect(jsonPath("$.body[0].name").value(memberList.get(0).getName()))
                 .andExpect(jsonPath("$.body[0].surname").value(memberList.get(0).getSurname()))
                 .andExpect(jsonPath("$.body[0].role").value(memberList.get(0).getRole().getLabel()));
@@ -364,7 +364,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("GIVEN a right id WHEN getById() THEN response should be FOUND")
-    void getByIdTest_ShouldBeFound() throws Exception{
+    void getByUuidTest_ShouldBeFound() throws Exception{
 
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
@@ -375,18 +375,18 @@ public class MemberControllerTest {
         response.setBody(member);
 
         Mockito
-                .when(memberService.getByIdTrelloMember(Mockito.anyString()))
+                .when(memberService.getByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
-                .perform(get(REQUEST_MAPPING + "/" + member.getId()))
+                .perform(get(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.httpRequest").value(HttpRequestType.GET.getLabel()))
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body.id").value(member.getId()))
+                .andExpect(jsonPath("$.body.uuid").value(member.getUuid()))
                 .andExpect(jsonPath("$.body.name").value(member.getName()))
                 .andExpect(jsonPath("$.body.surname").value(member.getSurname()))
                 .andExpect(jsonPath("$.body.role").value(member.getRole().getLabel()));
@@ -394,7 +394,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("GIVEN a wrong id WHEN getById() THEN response should be NOT_FOUND")
-    void getByIdTest_ShouldBeNotFound() throws Exception{
+    void getByUuidTest_ShouldBeNotFound() throws Exception{
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -403,7 +403,7 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(memberService.getByIdTrelloMember(Mockito.anyString()))
+                .when(memberService.getByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -441,7 +441,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body[0].id").value(memberList.get(0).getId()))
+                .andExpect(jsonPath("$.body[0].uuid").value(memberList.get(0).getUuid()))
                 .andExpect(jsonPath("$.body[0].name").value(memberList.get(0).getName()))
                 .andExpect(jsonPath("$.body[0].surname").value(memberList.get(0).getSurname()))
                 .andExpect(jsonPath("$.body[0].role").value(memberList.get(0).getRole().getLabel()));
@@ -496,7 +496,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body[0].id").value(memberList.get(0).getId()))
+                .andExpect(jsonPath("$.body[0].uuid").value(memberList.get(0).getUuid()))
                 .andExpect(jsonPath("$.body[0].name").value(memberList.get(0).getName()))
                 .andExpect(jsonPath("$.body[0].surname").value(memberList.get(0).getSurname()))
                 .andExpect(jsonPath("$.body[0].role").value(memberList.get(0).getRole().getLabel()));
@@ -551,7 +551,7 @@ public class MemberControllerTest {
                 .andExpect(jsonPath("$.httpResponse").value(HttpResponseType.FOUND.getLabel()))
                 .andExpect(jsonPath("$.code").value(HttpResponseType.FOUND.getCode()))
                 .andExpect(jsonPath("$.desc").value(HttpResponseType.FOUND.getDesc()))
-                .andExpect(jsonPath("$.body[0].id").value(memberList.get(0).getId()))
+                .andExpect(jsonPath("$.body[0].uuid").value(memberList.get(0).getUuid()))
                 .andExpect(jsonPath("$.body[0].name").value(memberList.get(0).getName()))
                 .andExpect(jsonPath("$.body[0].surname").value(memberList.get(0).getSurname()))
                 .andExpect(jsonPath("$.body[0].role").value(memberList.get(0).getRole().getLabel()));

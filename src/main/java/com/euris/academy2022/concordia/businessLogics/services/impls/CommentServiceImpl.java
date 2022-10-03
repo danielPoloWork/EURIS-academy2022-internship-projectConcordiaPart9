@@ -4,7 +4,6 @@ import com.euris.academy2022.concordia.businessLogics.services.CommentService;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.User;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.CommentJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
@@ -76,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseDto<Comment> insert(Comment comment) {
         ResponseDto<Comment> response = new ResponseDto<>();
-        Optional<Member> optionalMember = memberJpaRepository.findById(comment.getMember().getId());
+        Optional<Member> optionalMember = memberJpaRepository.findById(comment.getMember().getUuid());
         Optional<Task> optionalTask = taskJpaRepository.findById(comment.getTask().getId());
 
         if(optionalMember.isEmpty() || optionalTask.isEmpty()) {
@@ -90,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
                     comment.getText(),
                     LocalDateTime.now(),
                     comment.getTask().getId(),
-                    comment.getMember().getId());
+                    comment.getMember().getUuid());
 
             if (commentCreated==1) {
 

@@ -54,7 +54,7 @@ public class CommentControllerTest {
     void setup() {
         objectMapper = new ObjectMapper();
         member1 = Member.builder()
-                .id("a").build();
+                .uuid("a").build();
 
         task1 = Task.builder()
                 .id("a").build();
