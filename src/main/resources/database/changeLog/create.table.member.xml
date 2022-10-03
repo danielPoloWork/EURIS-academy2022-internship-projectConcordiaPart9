@@ -12,7 +12,7 @@
                 <constraints primaryKey="true" primaryKeyName="pkMember"/>
             </column>
             <column name="idTrelloMember" type="CHAR(24)">
-                <constraints nullable="true"/>
+                <constraints nullable="true" uniqueConstraintName="true"/>
             </column>
             <column name="username" type="VARCHAR(100)">
                 <constraints nullable="false" uniqueConstraintName="true"/>
@@ -27,9 +27,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="surname" type="VARCHAR(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="role" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
