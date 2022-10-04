@@ -26,8 +26,8 @@ public class CommentDto implements DtoArchetype {
 
     private LocalDateTime lastUpdate;
 
-    private Member member;
-    private Task task;
+    private MemberDto memberDto;
+    private TaskDto taskDto;
 
 
 
@@ -38,8 +38,8 @@ public class CommentDto implements DtoArchetype {
         return Comment.builder()
                 .uuid(this.uuid)
                 .text(this.text)
-                .member(this.member)
-                .task(this.task)
+                .member(this.memberDto.toModel())
+                .task(this.taskDto.toModel())
                 .lastUpdate(this.lastUpdate)
                 .idTrelloComment(this.idTrelloComment)
                 .build();

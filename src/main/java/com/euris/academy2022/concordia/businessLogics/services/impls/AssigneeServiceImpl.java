@@ -1,10 +1,12 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.assignees.AssigneePostRequest;
+import com.euris.academy2022.concordia.jpaRepositories.AssigneeJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
@@ -17,59 +19,72 @@ import java.util.Optional;
 @Service
 public class AssigneeServiceImpl implements AssigneeService {
 
-    private final TaskJpaRepository taskJpaRepository;
+    private final AssigneeJpaRepository assigneeJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final TaskJpaRepository taskJpaRepository;
 
-    public AssigneeServiceImpl(TaskJpaRepository taskJpaRepository, MemberJpaRepository memberJpaRepository) {
-        this.taskJpaRepository = taskJpaRepository;
+    public AssigneeServiceImpl(AssigneeJpaRepository assigneeJpaRepository, MemberJpaRepository memberJpaRepository, TaskJpaRepository taskJpaRepository) {
+        this.assigneeJpaRepository = assigneeJpaRepository;
         this.memberJpaRepository = memberJpaRepository;
+        this.taskJpaRepository = taskJpaRepository;
     }
 
-    @Override
-    public ResponseDto<Integer> assignMemberToTask(AssigneePostRequest assigneePostRequest) {
 
-        ResponseDto<Integer> response = new ResponseDto<>();
+    @Override
+    public ResponseDto<AssigneeDto> insert(Assignee assignee) {
+        ResponseDto<AssigneeDto> response = new ResponseDto<>();
+
+        Optional<Member> memberFound = memberJpaRepository.findByUuid(assignee.getMember().getUuid());
+        Optional<Task> taskFound = taskJpaRepository.findById(assignee.getTask().getId());
+
         response.setHttpRequest(HttpRequestType.POST);
 
-        String uuidMember = assigneePostRequest.getUuidMember();
-        String idTask = assigneePostRequest.getIdTask();
-
-        Optional<Member> memberFound = memberJpaRepository.findByUuid(uuidMember);
-
-        Optional<Task> taskFound = taskJpaRepository.findById(idTask);
-
-        if (memberFound.isPresent() && taskFound.isPresent()) {
-                Member member = memberFound.get();
-                Task task = taskFound.get();
-
-                List<Task> memberTasks = member.getTasks();
-
-                boolean isAlreadyPresent = false;
-
-                for (Task oldTask : memberTasks) {
-                    if (oldTask.getId().equals(task.getId())) {
-                        isAlreadyPresent = true;
-                    }
-                }
-
-                if (isAlreadyPresent) {
-                    response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                    response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                    response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-                    response.setBody(0);
-                } else {
-                    memberTasks.add(task);
-                    response.setHttpResponse(HttpResponseType.CREATED);
-                    response.setCode(HttpResponseType.CREATED.getCode());
-                    response.setDesc(HttpResponseType.CREATED.getDesc());
-                    response.setBody(1);
-                }
-        } else {
+        if (memberFound.isEmpty() || taskFound.isEmpty()) {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-            response.setBody(0);
+        } else {
+            Integer assigneeCreated = assigneeJpaRepository.insert(
+                    memberFound.get().getUuid(),
+                    taskFound.get().getId());
+
+            if (assigneeCreated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+
+                AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
+                        .memberDto(memberFound.get().toDto())
+                        .taskDto(taskFound.get().toDto())
+                        .build();
+
+                response.setBody(assigneeDtoResponse);
+            }
         }
         return response;
+    }
+
+    @Override
+    public ResponseDto<AssigneeDto> removeByUuidMemberAndIdTask(String uuidMember, String idTask) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<AssigneeDto>> getAll() {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<AssigneeDto>> getByUuidMember(String uuidMember) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<AssigneeDto>> getByIdTask(String idTask) {
+        return null;
     }
 }

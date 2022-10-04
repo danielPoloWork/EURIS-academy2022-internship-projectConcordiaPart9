@@ -24,8 +24,6 @@ public class TaskDto implements DtoArchetype {
     private TaskPriority priority;
     private TaskStatus status;
     private LocalDateTime deadLine;
-    private List<Member> members;
-    private List<Comment> comments;
 
     @Override
     public Task toModel() {
@@ -36,8 +34,6 @@ public class TaskDto implements DtoArchetype {
                 .priority(priority)
                 .status(status)
                 .deadLine(deadLine)
-                .members(members)
-                .comments(comments)
                 .build();
     }
 }

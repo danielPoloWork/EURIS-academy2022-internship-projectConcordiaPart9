@@ -10,7 +10,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -31,10 +30,9 @@ public class Task implements ModelArchetype {
     private static final String COLUMN_STATUS = "status";
     private static final String COLUMN_DEADLINE = "deadline";
 
-    private static final String MAPPED_BY_MEMBER_TASKS = "tasks";
-
-    private static final String MAPPED_BY_COMMENT_TASK = "task";
-    private static final String COLUMN_ID_TASK = "idTask";
+    private static final String MAPPED_BY = "task";
+    private static final String FK_ASSIGNEE_TASK = "fkAssigneeTask";
+    private static final String FK_COMMENT_TASK = "fkCommentTask";
 
     @Id
     @Column(name = COLUMN_ID)
@@ -57,17 +55,18 @@ public class Task implements ModelArchetype {
     @Column(name = COLUMN_DEADLINE)
     private LocalDateTime deadLine;
 
-    @ManyToMany(mappedBy = MAPPED_BY_MEMBER_TASKS)
-    private List<Member> members;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = MAPPED_BY)
+    @JsonManagedReference(value = FK_ASSIGNEE_TASK)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Assignee> assignees;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = MAPPED_BY_COMMENT_TASK)
-    @JsonManagedReference(value = "fkCommentTask")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = MAPPED_BY)
+    @JsonManagedReference(value = FK_COMMENT_TASK)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
 
     @Override
     public TaskDto toDto() {
-
         return TaskDto.builder()
                 .id(id)
                 .title(title)
@@ -75,8 +74,6 @@ public class Task implements ModelArchetype {
                 .priority(priority)
                 .status(status)
                 .deadLine(deadLine)
-                .members(members)
-                .comments(comments)
                 .build();
     }
 }

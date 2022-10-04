@@ -4,20 +4,23 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="create-table-assignee-0001" author="simoneCopetti">
+    <changeSet id="create-table-assignee-0001" author="danielPolo, simoneCopetti">
         <comment>Create table Assignee</comment>
 
         <createTable tableName="Assignee">
-            <column name="idTask" type="VARCHAR(24)">
-                <constraints referencedTableName="Task"
-                             referencedColumnNames="id"
-                             foreignKeyName="fkAssigneeTask"
-                             nullable="false"/>
+            <column name="uuid" type="CHAR(36)">
+                <constraints primaryKey="true" primaryKeyName="pkAssignee"/>
             </column>
-            <column name="uuidMember" type="VARCHAR(24)">
+            <column name="uuidMember" type="CHAR(36)">
                 <constraints referencedTableName="Member"
                              referencedColumnNames="uuid"
                              foreignKeyName="fkAssigneeMember"
+                             nullable="false"/>
+            </column>
+            <column name="idTask" type="CHAR(24)">
+                <constraints referencedTableName="Task"
+                             referencedColumnNames="id"
+                             foreignKeyName="fkAssigneeTask"
                              nullable="false"/>
             </column>
         </createTable>
