@@ -28,6 +28,14 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
             "DELETE FROM Member "
                     + "WHERE Member.uuid = :uuid";
 
+    String SELECT_ALL_MEMBERS_BY_TASK_ID =
+            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.name, Member.surname "
+                    + "FROM Task "
+                    + "INNER JOIN Assignee ON Task.id = Assignee.idTask "
+                    + "INNER JOIN Member ON Member.uuid = Assignee.uuidMember "
+                    + "WHERE Task.id = :id";
+
+
     @Modifying
     @Query(value = INSERT_INTO_MEMBER, nativeQuery = true)
     @Transactional
@@ -56,11 +64,21 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
     @Transactional
     Integer removeByUuid(
             @Param("uuid") String uuid);
+
+    @Query(value = SELECT_ALL_MEMBERS_BY_TASK_ID, nativeQuery = true)
+    List<Member> findAllMembersByTaskId(@Param("id") String id);
+
     List<Member> findAll();
+
     Optional<Member> findByUuid(String uuid);
+
     Optional<Member> findByIdTrelloMember(String idTrelloMember);
+
     Optional<Member> findByUsername(String username);
+
     List<Member> findByRole(String role);
+
     List<Member> findByName(String name);
+
     List<Member> findBySurname(String surname);
 }
