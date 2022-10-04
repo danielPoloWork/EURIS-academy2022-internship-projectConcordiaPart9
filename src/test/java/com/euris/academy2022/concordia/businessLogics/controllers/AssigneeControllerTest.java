@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CommentController.class)
+@WebMvcTest(AssigneeController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 public class AssigneeControllerTest {
 
@@ -48,7 +48,6 @@ public class AssigneeControllerTest {
     private ObjectMapper objectMapper;
     private AssigneeDto assignee;
     private AssigneePostRequest assigneePost;
-    private List<AssigneeDto> assigneeList;
 
     @BeforeEach
     void setUp() {
@@ -81,9 +80,6 @@ public class AssigneeControllerTest {
                 .uuidMember(member.getUuid())
                 .idTask(task.getId())
                 .build();
-
-        assigneeList = new ArrayList<>();
-        assigneeList.add(assignee);
     }
 
     private final String REQUEST_MAPPING = "/api/assignee";
@@ -158,9 +154,9 @@ public class AssigneeControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(assignee)))
+                .perform(delete(REQUEST_MAPPING
+                        + "/uuidMember=" + assignee.getMemberDto().getUuid()
+                        + "&idTask=" + assignee.getTaskDto().getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -187,9 +183,9 @@ public class AssigneeControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(assignee)))
+                .perform(delete(REQUEST_MAPPING
+                        + "/uuidMember=AnyString"
+                        + "&idTask=AnyString"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
