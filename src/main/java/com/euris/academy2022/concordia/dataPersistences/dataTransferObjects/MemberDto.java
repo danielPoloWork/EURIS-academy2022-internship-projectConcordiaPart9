@@ -25,7 +25,6 @@ public class MemberDto implements DtoArchetype {
     private String uuid;
     private String idTrelloMember;
     private String username;
-    private String password;
     private MemberRole role;
     private String name;
     private String surname;
@@ -36,7 +35,6 @@ public class MemberDto implements DtoArchetype {
                 .uuid(this.uuid)
                 .idTrelloMember(this.idTrelloMember)
                 .username(this.username)
-                .password(this.password)
                 .role(this.role)
                 .name(this.name)
                 .surname(this.surname)
