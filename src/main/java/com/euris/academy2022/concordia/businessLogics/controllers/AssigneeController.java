@@ -23,8 +23,8 @@ public class AssigneeController {
         return assigneeService.insert(assigneeDto.toModel());
     }
 
-    @DeleteMapping
-    public ResponseDto<AssigneeDto> remove(@RequestBody AssigneePostRequest assigneeDto) {
-        return assigneeService.removeByUuidMemberAndIdTask(assigneeDto.getUuidMember(), assigneeDto.getIdTask());
+    @DeleteMapping("/uuidMember={uuidMember}&idTask={idTask}")
+    public ResponseDto<AssigneeDto> remove(@PathVariable String uuidMember, @PathVariable String idTask) {
+        return assigneeService.removeByUuidMemberAndIdTask(uuidMember, idTask);
     }
 }
