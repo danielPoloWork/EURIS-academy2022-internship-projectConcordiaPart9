@@ -79,7 +79,6 @@ public class Member implements ModelArchetype {
                 .uuid(this.uuid)
                 .idTrelloMember(this.idTrelloMember)
                 .username(this.username)
-                .password(this.password)
                 .role(this.role)
                 .name(this.name)
                 .surname(this.surname)
