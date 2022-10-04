@@ -5,6 +5,7 @@ import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
+import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.AssigneeJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AssigneeServiceImpl implements AssigneeService {
@@ -70,21 +72,75 @@ public class AssigneeServiceImpl implements AssigneeService {
 
     @Override
     public ResponseDto<AssigneeDto> removeByUuidMemberAndIdTask(String uuidMember, String idTask) {
-        return null;
+        ResponseDto<AssigneeDto> response = new ResponseDto<>();
+
+        Optional<Assignee> assigneeFound = assigneeJpaRepository.findByUuidMemberAndIdTask(uuidMember, idTask);
+
+        response.setHttpRequest(HttpRequestType.DELETE);
+
+        if (assigneeFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            Integer assigneeDeleted = assigneeJpaRepository.removeByUuidMemberAndIdTask(uuidMember, idTask);
+
+            if (assigneeDeleted != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_DELETED);
+                response.setCode(HttpResponseType.NOT_DELETED.getCode());
+                response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.DELETED);
+                response.setCode(HttpResponseType.DELETED.getCode());
+                response.setDesc(HttpResponseType.DELETED.getDesc());
+                response.setBody(assigneeFound.get().toDto());
+            }
+        }
+        return response;
     }
 
     @Override
     public ResponseDto<List<AssigneeDto>> getAll() {
-        return null;
+        ResponseDto<List<AssigneeDto>> response = new ResponseDto<>();
+
+        List<Assignee> assigneeListFound = assigneeJpaRepository.findAll();
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (assigneeListFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(assigneeListFound.stream()
+                    .map(Assignee::toDto)
+                    .collect(Collectors.toList()));
+        }
+
+        return response;
     }
 
     @Override
-    public ResponseDto<List<AssigneeDto>> getByUuidMember(String uuidMember) {
-        return null;
-    }
+    public ResponseDto<AssigneeDto> getByUuidMemberAndIdTask(String uuidMember, String idTask) {
+        ResponseDto<AssigneeDto> response = new ResponseDto<>();
 
-    @Override
-    public ResponseDto<List<AssigneeDto>> getByIdTask(String idTask) {
-        return null;
+        Optional<Assignee> assigneeFound = assigneeJpaRepository.findByUuidMemberAndIdTask(uuidMember, idTask);
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (assigneeFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(assigneeFound.get().toDto());
+        }
+        return response;
     }
 }
