@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
 
@@ -17,6 +18,12 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
     String DELETE_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER =
             "DELETE FROM Assignee "
                     +"WHERE Assignee.uuidMember = :uuidMember AND Assignee.idTask = :idTask ";
+
+    String SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER =
+            "SELECT Assignee.uuidMember, Assignee.idTask "
+                    + "FROM Assignee "
+                    + "WHERE Assignee.uuidMember LIKE :uuidMember "
+                    + "AND Assignee.idTask LIKE :idTask";
 
     @Modifying
     @Query(value = INSERT_INTO_ASSIGNEE, nativeQuery = true)
@@ -32,6 +39,8 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
             @Param("uuidMember") String uuidMember, @Param("idTask") String idTask);
 
     List<Assignee> findAll();
-//    List<Assignee> findByUuidMember(String uuidMember);
-//    List<Assignee> findByIdTask(String idTask);
+    @Query(value = SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER, nativeQuery = true)
+    Optional<Assignee> findByUuidMemberAndIdTask(
+            @Param("uuidMember") String uuidMember,
+            @Param("idTask") String idTask);
 }

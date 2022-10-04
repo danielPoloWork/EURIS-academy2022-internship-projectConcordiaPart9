@@ -11,6 +11,5 @@ public interface AssigneeService {
     ResponseDto<AssigneeDto> insert(Assignee assignee);
     ResponseDto<AssigneeDto> removeByUuidMemberAndIdTask(String uuidMember, String idTask);
     ResponseDto<List<AssigneeDto>> getAll();
-    ResponseDto<List<AssigneeDto>> getByUuidMember(String uuidMember);
-    ResponseDto<List<AssigneeDto>> getByIdTask(String idTask);
+    ResponseDto<AssigneeDto> getByUuidMemberAndIdTask(String uuidMember, String idTask);
 }
