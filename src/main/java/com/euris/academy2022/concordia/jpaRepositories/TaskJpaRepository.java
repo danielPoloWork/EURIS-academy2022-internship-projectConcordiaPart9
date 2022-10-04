@@ -18,12 +18,19 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
 
     String UPDATE_TASK =
             "UPDATE Task "
-                    + "SET Task.title = :title, Task.description = :description, Task.priority = :priority, Task.status = :status, Task.deadLine = :deadLine"
+                    + "SET Task.title = :title, Task.description = :description, Task.priority = :priority, Task.status = :status, Task.deadLine = :deadLine "
                     + "WHERE Task.id = :id";
 
     String DELETE_AUTHORIZATION =
             "DELETE FROM Task "
                     + "WHERE Task.id = :id";
+
+    String SELECT_ALL_TASK_BY_MEMBER_UUID =
+            "SELECT Task.id, Task.title, Task.description, Task.priority, Task.status, Task.deadLine "
+                    + "FROM Member "
+                    + "INNER JOIN Assignee ON Member.uuid = Assignee.uuidMember "
+                    + "INNER JOIN Task ON Task.id = Assignee.idTask "
+                    + "WHERE Member.uuid = :uuid";
 
     @Modifying
     @Query(value = INSERT_INTO_TASK, nativeQuery = true)
@@ -52,6 +59,9 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
     @Transactional
     Integer removeById(
             @Param("id") String id);
+
+    @Query(value = SELECT_ALL_TASK_BY_MEMBER_UUID, nativeQuery = true)
+    List<Task> findAllTasksByMemberUuid(@Param("uuid") String uuid);
 
     List<Task> findByPriority(String priority);
     List<Task> findByStatus(String status);
