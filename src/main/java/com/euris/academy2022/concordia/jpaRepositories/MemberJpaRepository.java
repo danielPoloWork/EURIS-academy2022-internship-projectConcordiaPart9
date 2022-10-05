@@ -36,6 +36,11 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
                     + "INNER JOIN Member ON Member.uuid = Assignee.uuidMember "
                     + "WHERE Task.id = :id";
 
+    String SELECT_ALL_MEMBERS_BY_ROLE =
+            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.name, Member.surname "
+                    + "FROM Member "
+                    + "WHERE Member.role = :role";
+
     @Modifying
     @Query(value = INSERT_INTO_MEMBER, nativeQuery = true)
     @Transactional
@@ -68,6 +73,9 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
     @Query(value = SELECT_ALL_MEMBERS_BY_TASK_ID, nativeQuery = true)
     List<Member> findAllMembersByTaskId(@Param("id") String id);
 
+    @Query(value = SELECT_ALL_MEMBERS_BY_ROLE, nativeQuery = true)
+    List<Member> findByRole(@Param("role") String role);
+
     List<Member> findAll();
 
     Optional<Member> findByUuid(String uuid);
@@ -76,7 +84,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
 
     Optional<Member> findByUsername(String username);
 
-    List<Member> findByRole(MemberRole role);
+    //List<Member> findByRole(String role);
 
     List<Member> findByName(String name);
 
