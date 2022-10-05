@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.jpaRepositories;
 
 import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
 
+import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,7 +35,6 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
                     + "INNER JOIN Assignee ON Task.id = Assignee.idTask "
                     + "INNER JOIN Member ON Member.uuid = Assignee.uuidMember "
                     + "WHERE Task.id = :id";
-
 
     @Modifying
     @Query(value = INSERT_INTO_MEMBER, nativeQuery = true)
@@ -76,7 +76,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
 
     Optional<Member> findByUsername(String username);
 
-    List<Member> findByRole(String role);
+    List<Member> findByRole(MemberRole role);
 
     List<Member> findByName(String name);
 
