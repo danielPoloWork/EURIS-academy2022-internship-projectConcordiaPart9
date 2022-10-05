@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.utils.time;
+package com.euris.academy2022.concordia.utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

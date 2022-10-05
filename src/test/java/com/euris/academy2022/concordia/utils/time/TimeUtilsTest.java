@@ -1,5 +1,6 @@
 package com.euris.academy2022.concordia.utils.time;
 
+import com.euris.academy2022.concordia.utils.TimeUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
