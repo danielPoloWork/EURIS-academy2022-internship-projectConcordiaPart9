@@ -63,8 +63,6 @@ public class TaskController {
 
     @GetMapping("/deadLine={deadLine}")
     public ResponseDto<List<TaskDto>> getByDeadLine(@PathVariable String deadLine) {
-        //LocalDate deadLineParsed = LocalDate.parse(deadLine);
-        //DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime deadLineParsed = LocalDateTime.parse(deadLine);
         return taskService.getByDeadLine(deadLineParsed);
     }

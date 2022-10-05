@@ -32,6 +32,16 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
                     + "INNER JOIN Task ON Task.id = Assignee.idTask "
                     + "WHERE Member.uuid = :uuid";
 
+    String SELECT_TASK_BY_PRIORITY =
+            "SELECT Task.id, Task.title, Task.description, Task.priority, Task.status, Task.deadLine "
+                    + "FROM Task "
+                    + "WHERE Task.priority = :priority";
+
+    String SELECT_TASK_BY_STATUS =
+            "SELECT Task.id, Task.title, Task.description, Task.priority, Task.status, Task.deadLine "
+                    + "FROM Task "
+                    + "WHERE Task.status = :status";
+
     @Modifying
     @Query(value = INSERT_INTO_TASK, nativeQuery = true)
     @Transactional
@@ -63,8 +73,12 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
     @Query(value = SELECT_ALL_TASK_BY_MEMBER_UUID, nativeQuery = true)
     List<Task> findAllTasksByMemberUuid(@Param("uuid") String uuid);
 
-    List<Task> findByPriority(String priority);
-    List<Task> findByStatus(String status);
+    @Query(value = SELECT_TASK_BY_PRIORITY, nativeQuery = true)
+    List<Task> findByPriority(@Param("priority") String priority);
+
+    @Query(value = SELECT_TASK_BY_STATUS, nativeQuery = true)
+    List<Task> findByStatus(@Param("status") String status);
+
     List<Task> findByTitle(String title);
     List<Task> findByDeadLine(LocalDateTime deadLine);
 }
