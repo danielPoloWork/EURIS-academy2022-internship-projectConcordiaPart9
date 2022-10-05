@@ -10,16 +10,26 @@ Create a new task
 
 QUERY PARAMETERS
 
-**Request body REQUIRED**
+**id REQUIRED**
+
+**title REQUIRED**
+
+**description REQUIRED**
+
+**priority REQUIRED**
+
+**status REQUIRED**
+
+**deadline REQUIRED**
 
 
-JSON Response not created Example
+JSON Response not created Example (id already existing)
 
 ``` 
 {
-  "timestamp": "2022-10-05T08:00:52.997+00:00",
-  "status": 400,
-  "error": "Bad Request",
+  "timestamp": "2022-10-05T15:23:16.251+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
   "path": "/api/task"
 }
 ```
