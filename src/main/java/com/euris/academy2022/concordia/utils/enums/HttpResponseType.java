@@ -108,19 +108,23 @@ public enum HttpResponseType {
     CREATED(
             "201",
             "CREATED",
-            "The request has been fulfilled, resulting in the creation of a new resource."),
+            "The request has been fulfilled, resulting that a new resource has been created."),
     UPDATED(
             "201.1",
             "UPDATED",
-            "The request has been fulfilled, resulting in the modification of an old resource."),
+            "The request has been fulfilled, resulting that a new resource has been modified."),
     DELETED(
             "201.2",
             "DELETED",
-            "The request has been fulfilled, resulting in the deletion of a resource."),
-    LOADED(
+            "The request has been fulfilled, resulting that a new resource has been deleted."),
+    FETCHED(
             "201.3",
-            "LOADED",
-            "The request has been fulfilled, resulting in the synchronization of a resource."),
+            "FETCHED",
+            "The request has been fulfilled, resulting that a resource has been fetched."),
+    PULLED(
+            "201.4",
+            "PULLED",
+            "The request has been fulfilled, resulting that a resource has been pulled."),
     ACCEPTED(
             "202",
             "ACCEPTED",
@@ -202,7 +206,7 @@ public enum HttpResponseType {
 
     /* 4xx client error */
     FAILED(
-            "4xx",
+            "400.1",
             "FAILED",
             "Failed HTTP request."),
     BAD_REQUEST(
@@ -233,12 +237,16 @@ public enum HttpResponseType {
             "403.3",
             "NOT_DELETED",
             "The request has not been fulfilled, resulting in a resource not being deleted."),
-    NOT_LOADED(
+    NOT_FETCH(
             "403.4",
-            "NOT_LOADED",
-            "The request has been fulfilled, resulting in a resource not being synchronized."),
-    NOT_ACCEPTED(
+            "NOT_FETCH",
+            "The request has been fulfilled, resulting in a resource not being fetched."),
+    NOT_PULLED(
             "403.5",
+            "NOT_PULLED",
+            "The request has been fulfilled, resulting in a resource not being pulled."),
+    NOT_ACCEPTED(
+            "403.6",
             "NOT_ACCEPTED",
             "The request has not been accepted for processing."),
     NOT_FOUND(
@@ -473,15 +481,15 @@ public enum HttpResponseType {
 
     /* 5xx server error */
     NOT_CONTINUE(
-            "5xx",
+            "500.1",
             "NOT_CONTINUE",
             "The server has not received the request headers and the client should not proceed to send the request body."),
     NOT_SWITCHING_PROTOCOLS(
-            "5xx",
+            "500.2",
             "NOT_SWITCHING_PROTOCOLS",
             "The client has asked the server to switch protocols and the server has disagreed to do so."),
     NOT_PROCESSING(
-            "5xx",
+            "500.3",
             "NOT_PROCESSING",
             "The server has received but is not processing the request."),
     INTERNAL_SERVER_ERROR(
@@ -521,7 +529,7 @@ public enum HttpResponseType {
             "LOOP_DETECTED",
             "The server detected an infinite loop while processing the request."),
     BANDWIDTH_LIMIT_EXCEEDED(
-            "5xx",
+            "508.1",
             "BANDWIDTH_LIMIT_EXCEEDED",
             "The server has exceeded the bandwidth specified by the server administrator."),
     NOT_EXTENDED(
@@ -533,39 +541,39 @@ public enum HttpResponseType {
             "NETWORK_AUTHENTICATION_REQUIRED",
             "The client needs to authenticate to gain network access."),
     WEB_SERVER_RETURNED_AN_UNKNOWN_ERROR(
-            "5xx",
+            "511.1",
             "WEB_SERVER_RETURNED_AN_UNKNOWN_ERROR",
             "The web server returned an empty, unknown, or unexpected response."),
     WEB_SERVER_IS_DOWN(
-            "5xx",
+            "511.2",
             "WEB_SERVER_IS_DOWN",
             "The web server refused connections."),
     CONNECTION_TIMED_OUT(
-            "5xx",
+            "511.3",
             "CONNECTION_TIMED_OUT",
             "The client timed out contacting the web server."),
     WEB_SERVER_IS_UNREACHABLE(
-            "5xx",
+            "511.4",
             "WEB_SERVER_IS_UNREACHABLE",
             "The request could not reach the web server."),
     A_TIME_OUT_OCCURRED(
-            "5xx",
+            "511.5",
             "A_TIME_OUT_OCCURRED",
             "The request could complete a TCP connection to the web server, but did not receive a timely HTTP response."),
     SSL_HANDSAHKE_FAILED(
-            "5xx",
+            "511.6",
             "SSL_HANDSAHKE_FAILED",
             "The request could not negotiate a SSL/TLS handshake with the web server."),
     INVALID_SSL_CERTIFICATE(
-            "5xx",
+            "511.7",
             "INVALID_SSL_CERTIFICATE",
             "The request could not validate the SSL certificate on the origin web server."),
     RAILGUN_ERROR(
-            "5xx",
+            "511.8",
             "RAILGUN_ERROR",
             "The connection with the Rail-gun server has been interrupted."),
     SITE_IS_OVERLOADED(
-            "5xx",
+            "511.9",
             "SITE_IS_OVERLOADED",
             "The website is overloaded and cannot process the API request."),
     SITE_IS_FROZEN(
@@ -573,11 +581,11 @@ public enum HttpResponseType {
             "SITE_IS_FROZEN",
             "The website has been frozen due to inactivity."),
     NETWORK_READ_TIME_OUT_ERROR(
-            "5xx",
+            "530.1",
             "NETWORK_READ_TIME_OUT_ERROR",
             "The proxy has noticed a network read timeout behind the proxy to a client."),
     NETWORK_CONNECT_TIME_OUT_ERROR(
-            "5xx",
+            "530.2",
             "NETWORK_CONNECT_TIME_OUT_ERROR",
             "The proxy has noticed a network connect timeout behind the proxy to a client.");
 
