@@ -60,19 +60,8 @@ public class MemberController {
     }
 
     @GetMapping("/role={role}")
-    public ResponseDto<List<MemberDto>> getByRole(@PathVariable String role) {
-        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
-        response.setHttpRequest(HttpRequestType.GET);
-
-        try {
-            MemberRole roleEnum = MemberRole.valueOf(role);
-            return memberService.getByRole(roleEnum);
-        } catch (IllegalArgumentException e) {
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-            return response;
-        }
+    public ResponseDto<List<MemberDto>> getByRole(@PathVariable MemberRole role) {
+        return memberService.getByRole(role);
     }
 
     @GetMapping("/name={name}")
