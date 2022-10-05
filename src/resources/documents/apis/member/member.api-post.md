@@ -23,13 +23,13 @@ Create a new member
 **surname REQUIRED**
 
 
-JSON Response not created Example
+JSON Response not created Example (missing one required field)
 
 ``` 
 {
-  "timestamp": "2022-10-05T09:45:40.830+00:00",
-  "status": 500,
-  "error": "Internal Server Error",
+  "timestamp": "2022-10-05T13:17:18.043+00:00",
+  "status": 400,
+  "error": "Bad Request",
   "path": "/api/member"
 }
 ```
@@ -38,14 +38,14 @@ JSON Response not created Example
 JSON Response created Example
 
 ``` 
-{
+
   "httpRequest": "POST",
   "httpResponse": "CREATED",
   "code": "201",
   "desc": "The request has been fulfilled, resulting in the creation of a new resource.",
   "body": {
     "uuid": null,
-    "idTrelloMember": "string",
+    "idTrelloMember": "man",
     "username": "string",
     "role": "A1",
     "name": "string",
