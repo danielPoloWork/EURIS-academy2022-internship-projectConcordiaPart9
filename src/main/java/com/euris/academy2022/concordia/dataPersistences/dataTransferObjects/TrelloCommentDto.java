@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class TrelloCommentDto {
 
     private String id;
+    private String idCard;
     private String idMemberCreator;
     private String text;
     private String type;
