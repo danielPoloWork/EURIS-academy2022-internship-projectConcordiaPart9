@@ -52,15 +52,13 @@ public class TaskController {
     }
 
     @GetMapping("/priority={priority}")
-    public ResponseDto<List<TaskDto>> getByPriority(@PathVariable String priority) {
-        TaskPriority taskPriority = TaskPriority.valueOf(priority);
-        return taskService.getByPriority(taskPriority);
+    public ResponseDto<List<TaskDto>> getByPriority(@PathVariable TaskPriority priority) {
+        return taskService.getByPriority(priority);
     }
 
     @GetMapping("/status={status}")
-    public ResponseDto<List<TaskDto>> getByStatus(@PathVariable String status) {
-        TaskStatus taskStatus = TaskStatus.valueOf(status);
-        return taskService.getByStatus(taskStatus);
+    public ResponseDto<List<TaskDto>> getByStatus(@PathVariable TaskStatus status) {
+        return taskService.getByStatus(status);
     }
 
     @GetMapping("/deadLine={deadLine}")
