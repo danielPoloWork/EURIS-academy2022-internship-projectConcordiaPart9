@@ -251,7 +251,7 @@ public class MemberServiceImpl implements MemberService {
         ResponseDto<List<MemberDto>> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.GET);
 
-        List<Member> memberListFound = memberJpaRepository.findByRole(role);
+        List<Member> memberListFound = memberJpaRepository.findByRole(role.getLabel());
 
         if (memberListFound.isEmpty()) {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
