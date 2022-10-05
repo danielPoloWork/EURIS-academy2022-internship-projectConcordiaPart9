@@ -1,15 +1,15 @@
 package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrelloCommentDto {
 
