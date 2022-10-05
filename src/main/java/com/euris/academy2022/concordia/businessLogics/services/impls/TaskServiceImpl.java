@@ -101,6 +101,7 @@ public class TaskServiceImpl implements TaskService {
         if (optionalTask.isEmpty()) {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
             Integer deletedTask = taskJpaRepository.removeById(id);
 
