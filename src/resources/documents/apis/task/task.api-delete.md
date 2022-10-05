@@ -38,7 +38,7 @@ JSON Response succeded Example
   "body": {
     "id": "string",
     "title": "string",
-    "description": "string",
+    "description": "string",<
     "priority": "HIGH",
     "status": "TO_DO",
     "deadLine": "2022-10-05T07:22:37"
