@@ -22,7 +22,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
 
     String UPDATE_MEMBER =
             "UPDATE Member "
-                    + "SET Member.idTrelloMember = :idTrelloMember, Member.username = :username, Member.password = :password, Member.role = :role, Member.name = :name, Member.surname = :surname "
+                    + "SET Member.idTrelloMember = :idTrelloMember, Member.password = :password, Member.role = :role, Member.name = :name, Member.surname = :surname "
                     + "WHERE Member.uuid = :uuid";
 
     String DELETE_MEMBER =
@@ -58,7 +58,6 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
     Integer update(
             @Param("uuid") String uuid,
             @Param("idTrelloMember") String idTrelloMember,
-            @Param("username") String username,
             @Param("password") String password,
             @Param("role") String role,
             @Param("name") String name,
