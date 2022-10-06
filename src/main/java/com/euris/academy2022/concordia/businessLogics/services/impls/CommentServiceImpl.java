@@ -116,34 +116,26 @@ public class CommentServiceImpl implements CommentService {
         response.setHttpRequest(HttpRequestType.PUT);
 
         Optional<Comment> commentFound = commentJpaRepository.findByUuid(comment.getUuid());
-        Optional<Member> memberFound = memberJpaRepository.findByUuid(comment.getMember().getUuid());
-        Optional<Task> taskFound = taskJpaRepository.findById(comment.getTask().getId());
 
         if (commentFound.isEmpty()) {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
-            if (memberFound.isEmpty() || taskFound.isEmpty()) {
-                response.setHttpResponse(HttpResponseType.NOT_FOUND);
-                response.setCode(HttpResponseType.NOT_FOUND.getCode());
-                response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-            } else {
-                Integer updated = commentJpaRepository.update(
-                        comment.getText(),
-                        LocalDateTime.now(),
-                        comment.getUuid());
+            Integer updated = commentJpaRepository.update(
+                    comment.getText(),
+                    LocalDateTime.now(),
+                    comment.getUuid());
 
-                if (updated != 1) {
-                    response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                    response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                    response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-                } else {
-                    response.setHttpResponse(HttpResponseType.CREATED);
-                    response.setCode(HttpResponseType.CREATED.getCode());
-                    response.setDesc(HttpResponseType.CREATED.getDesc());
-                    response.setBody(comment);
-                }
+            if (updated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+                response.setBody(comment);
             }
         }
         return response;
