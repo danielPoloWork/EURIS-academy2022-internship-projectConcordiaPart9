@@ -14,17 +14,13 @@ import java.time.LocalDateTime;
 public class CommentPutRequest implements DtoArchetype {
 
     private String uuid;
-
     private String text;
-
-    private LocalDateTime lastUpdate;
 
     @Override
     public Comment toModel() {
         return Comment.builder()
                 .uuid(uuid)
                 .text(text)
-                .lastUpdate(LocalDateTime.now())
                 .build();
     }
 }
