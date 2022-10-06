@@ -87,7 +87,7 @@ public class CommentServiceImpl implements CommentService {
         } else{
             Integer commentCreated = commentJpaRepository.insert(
                     comment.getText(),
-                    comment.getLastUpdate(),
+                    LocalDateTime.now(),
                     comment.getTask().getId(),
                     comment.getMember().getUuid());
 
@@ -129,7 +129,10 @@ public class CommentServiceImpl implements CommentService {
                 response.setCode(HttpResponseType.NOT_FOUND.getCode());
                 response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
             } else {
-                Integer updated = commentJpaRepository.update(comment.getText(),comment.getLastUpdate(),comment.getUuid());
+                Integer updated = commentJpaRepository.update(
+                        comment.getText(),
+                        LocalDateTime.now(),
+                        comment.getUuid());
 
                 if (updated != 1) {
                     response.setHttpResponse(HttpResponseType.NOT_CREATED);
