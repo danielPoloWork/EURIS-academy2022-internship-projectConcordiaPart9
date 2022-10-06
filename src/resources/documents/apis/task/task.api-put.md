@@ -11,7 +11,6 @@ Update a task
 PATH PARAMETERS
 
 **id REQUIRED**
-CHAR(24)
 
 QUERY PARAMETERS
 
