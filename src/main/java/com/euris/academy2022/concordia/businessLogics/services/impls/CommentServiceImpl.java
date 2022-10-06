@@ -146,10 +146,8 @@ public class CommentServiceImpl implements CommentService {
                 }
             }
         }
-        
         return response;
     }
-
 
     @Override
     public ResponseDto<Comment> deleteByUuid(String uuid) {
