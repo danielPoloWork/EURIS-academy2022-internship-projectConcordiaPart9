@@ -31,12 +31,12 @@ JSON Response found Example
   "desc": "The request has been fulfilled, resulting in the recovery of a resource.",
   "body": [
     {
-      "id": "string",
-      "title": "string",
-      "description": "string",
-      "priority": "HIGH",
-      "status": "TO_DO",
-      "deadLine": "2022-10-05T08:19:38"
+      "uuid": "5fe1877c-4491-11ed-acf7-0050568f0077",
+      "idTrelloMember": "string",
+      "username": "string",
+      "role": "A1",
+      "name": "string",
+      "surname": "string"
     }
   ]
 }
