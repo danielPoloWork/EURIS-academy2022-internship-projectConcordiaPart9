@@ -14,7 +14,15 @@ PATH PARAMETERS
 
 QUERY PARAMETERS
 
-**Request body REQUIRED**
+**title REQUIRED**
+
+**description REQUIRED**
+
+**priority REQUIRED**
+
+**status REQUIRED**
+
+**deadline REQUIRED**
 
 
 JSON Response not found Example

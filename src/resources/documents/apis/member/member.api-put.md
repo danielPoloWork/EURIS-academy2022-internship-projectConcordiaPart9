@@ -10,12 +10,20 @@ Update a member
 
 PATH PARAMETERS
 
-**id REQUIRED**
-CHAR(36)
+**uuid REQUIRED**
 
 QUERY PARAMETERS
 
-**Request body REQUIRED**
+**idTrelloMember REQUIRED**
+
+**password REQUIRED**
+
+**role REQUIRED**
+
+**name REQUIRED**
+
+**surname REQUIRED**
+
 
 
 JSON Response not found Example
