@@ -57,3 +57,14 @@ JSON Response created Example
 }
 ```
 
+JSON Response tryng to insert same member into a task Example 
+
+```
+{
+"httpRequest": "POST",
+"httpResponse": "FOUND",
+"code": "302",
+"desc": "The request has been fulfilled, resulting in the recovery of a resource.",
+"body": null
+}
+```
