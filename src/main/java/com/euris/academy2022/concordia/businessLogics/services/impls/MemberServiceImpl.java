@@ -67,7 +67,6 @@ public class MemberServiceImpl implements MemberService {
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
                     member.getIdTrelloMember(),
-                    member.getUsername(),
                     member.getPassword(),
                     member.getRole().getLabel(),
                     member.getName(),
