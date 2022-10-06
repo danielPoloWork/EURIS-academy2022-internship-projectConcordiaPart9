@@ -46,25 +46,35 @@ public class AssigneeServiceImpl implements AssigneeService {
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
-            Integer assigneeCreated = assigneeJpaRepository.insert(
-                    memberFound.get().getUuid(),
-                    taskFound.get().getId());
+            Optional<Assignee> assigneeFound = assigneeJpaRepository.findByUuidMemberAndIdTask(
+                    assignee.getMember().getUuid(),
+                    assignee.getTask().getId());
 
-            if (assigneeCreated != 1) {
-                response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            if (assigneeFound.isPresent()) {
+                response.setHttpResponse(HttpResponseType.FOUND);
+                response.setCode(HttpResponseType.FOUND.getCode());
+                response.setDesc(HttpResponseType.FOUND.getDesc());
             } else {
-                response.setHttpResponse(HttpResponseType.CREATED);
-                response.setCode(HttpResponseType.CREATED.getCode());
-                response.setDesc(HttpResponseType.CREATED.getDesc());
+                Integer assigneeCreated = assigneeJpaRepository.insert(
+                        memberFound.get().getUuid(),
+                        taskFound.get().getId());
 
-                AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
-                        .memberDto(memberFound.get().toDto())
-                        .taskDto(taskFound.get().toDto())
-                        .build();
+                if (assigneeCreated != 1) {
+                    response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                    response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                    response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+                } else {
+                    response.setHttpResponse(HttpResponseType.CREATED);
+                    response.setCode(HttpResponseType.CREATED.getCode());
+                    response.setDesc(HttpResponseType.CREATED.getDesc());
 
-                response.setBody(assigneeDtoResponse);
+                    AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
+                            .memberDto(memberFound.get().toDto())
+                            .taskDto(taskFound.get().toDto())
+                            .build();
+
+                    response.setBody(assigneeDtoResponse);
+                }
             }
         }
         return response;
