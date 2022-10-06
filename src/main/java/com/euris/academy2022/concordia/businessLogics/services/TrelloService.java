@@ -15,9 +15,7 @@ import java.util.Map;
 public interface TrelloService {
 
     public ResponseDto<List<TrelloCardDto>> getAllCards();
-
     public ResponseDto<List<TrelloCommentDto>> getAllCommentsOnCard(String cardId);
-
     public ResponseDto<List<TrelloCommentDto>> getAllCommentsOnToDoList();
 
 

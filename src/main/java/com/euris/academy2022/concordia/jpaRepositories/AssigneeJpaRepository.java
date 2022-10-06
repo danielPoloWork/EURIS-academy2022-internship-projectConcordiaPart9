@@ -20,7 +20,7 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
                     +"WHERE Assignee.uuidMember = :uuidMember AND Assignee.idTask = :idTask ";
 
     String SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER =
-            "SELECT Assignee.uuidMember, Assignee.idTask "
+            "SELECT Assignee.uuid, Assignee.uuidMember, Assignee.idTask "
                     + "FROM Assignee "
                     + "WHERE Assignee.uuidMember LIKE :uuidMember "
                     + "AND Assignee.idTask LIKE :idTask";
@@ -41,6 +41,5 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
     List<Assignee> findAll();
     @Query(value = SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER, nativeQuery = true)
     Optional<Assignee> findByUuidMemberAndIdTask(
-            @Param("uuidMember") String uuidMember,
-            @Param("idTask") String idTask);
+            @Param("uuidMember") String uuidMember, @Param("idTask") String idTask);
 }

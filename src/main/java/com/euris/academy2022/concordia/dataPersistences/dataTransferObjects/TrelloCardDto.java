@@ -16,7 +16,7 @@ public class TrelloCardDto {
     private String idList;
     private String name;
     private String desc;
-    private String idLabels;
+    private String idLabel;
     private String due;
     private String dateLastActivity;
 }

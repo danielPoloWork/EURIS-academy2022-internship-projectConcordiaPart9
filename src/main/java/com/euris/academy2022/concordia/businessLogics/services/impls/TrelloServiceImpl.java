@@ -4,155 +4,169 @@ import com.euris.academy2022.concordia.businessLogics.services.TrelloService;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TrelloCardDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TrelloCommentDto;
+import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TrelloServiceImpl implements TrelloService {
 
+    private final RestTemplate restTemplate;
 
-    private RestTemplate restTemplate;
-
-    TrelloServiceImpl() {
-        restTemplate = new RestTemplate();
+    public TrelloServiceImpl() {
+        this.restTemplate = new RestTemplate();
     }
-
-    @Autowired
-    private Environment env;
 
     public ResponseDto<List<TrelloCardDto>> getAllCards() {
 
-        ResponseDto<List<TrelloCardDto>> responseDto = new ResponseDto<>();
-        responseDto.setHttpRequest(HttpRequestType.GET);
-        responseDto.setHttpResponse(HttpResponseType.FOUND);
-        responseDto.setCode(HttpResponseType.FOUND.getCode());
-        responseDto.setDesc(HttpResponseType.FOUND.getDesc());
+        ResponseDto<List<TrelloCardDto>> response = new ResponseDto<>();
 
-        String trellokey = env.getProperty("trello.key");
-        String trellotoken = env.getProperty("trello.token");
-        String URL = "https://api.trello.com/1/lists/{id}/cards?key={trellokey}&token={trellotoken}";
+        response.setHttpRequest(HttpRequestType.GET);
 
         Map<String, String> urlParams = new HashMap<>();
 
         urlParams.put("id", TaskStatus.TO_DO.getTrelloListId());
-        urlParams.put("trellokey", trellokey);
-        urlParams.put("trellotoken", trellotoken);
+        urlParams.put("trelloKey", TrelloConstant.KEY);
+        urlParams.put("trelloToken", TrelloConstant.TOKEN);
 
-        String response = restTemplate.getForObject(URL, String.class, urlParams);
+        Optional<String> trelloResponse = Optional.ofNullable(
+                restTemplate.getForObject(
+                        TrelloConstant.URL_API +
+                                "lists/{id}/cards?key={trelloKey}&token={trelloToken}",
+                        String.class, urlParams));
+
+        if (trelloResponse.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
+            JSONArray jsonArray = new JSONArray(trelloResponse);
+
+            List<TrelloCardDto> trelloCardDtoList = new ArrayList<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject object = new JSONObject(jsonArray.get(i).toString());
 
 
-        JSONArray jsonArray = new JSONArray(response);
-
-        List<TrelloCardDto> trelloCardDtos = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-
-            JSONObject object = new JSONObject(jsonArray.get(i).toString());
+                JSONArray labelsArray = new JSONArray(object.get("labels").toString());
+                JSONObject label = new JSONObject(labelsArray.get(0).toString());
 
 
-            JSONArray labelsArray = new JSONArray(object.get("labels").toString());
-            JSONObject label = new JSONObject(labelsArray.get(0).toString());
+                TrelloCardDto task = TrelloCardDto.builder()
+                        .id(object.getString("id"))
+                        .desc(object.getString("desc"))
+                        .idLabel(label.getString("id"))
+                        .name(object.getString("name"))
+                        .idBoard(object.getString("idBoard"))
+                        .idList(TaskStatus.TO_DO.getTrelloListId())
+                        .due(object.get("due").toString())
+                        .dateLastActivity(object.getString("dateLastActivity"))
+                        .build();
+                trelloCardDtoList.add(task);
+            }
 
-
-            TrelloCardDto task = TrelloCardDto.builder()
-                    .id(object.getString("id"))
-                    .desc(object.getString("desc"))
-                    .idLabels(label.getString("id"))
-                    .name(object.getString("name"))
-                    .idBoard(object.getString("idBoard"))
-                    .idList(TaskStatus.TO_DO.getTrelloListId())
-                    .due(object.get("due").toString())
-                    .dateLastActivity(object.getString("dateLastActivity"))
-                    .build();
-            trelloCardDtos.add(task);
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(trelloCardDtoList);
         }
 
-        responseDto.setBody(trelloCardDtos);
-        return responseDto;
+        return response;
     }
-
-
-
 
     public ResponseDto<List<TrelloCommentDto>> getAllCommentsOnCard(String cardId) {
 
-        ResponseDto<List<TrelloCommentDto>> responseDto = new ResponseDto<>();
-        responseDto.setHttpRequest(HttpRequestType.GET);
-        responseDto.setHttpResponse(HttpResponseType.FOUND);
-        responseDto.setCode(HttpResponseType.FOUND.getCode());
-        responseDto.setDesc(HttpResponseType.FOUND.getDesc());
-
-
-        String trellokey = env.getProperty("trello.key");
-        String trellotoken = env.getProperty("trello.token");
-        String URL = "https://api.trello.com/1/cards/{cardId}/actions?filter=commentCard&key={trellokey}&token={trellotoken}";
+        ResponseDto<List<TrelloCommentDto>> response = new ResponseDto<>();
+        response.setHttpRequest(HttpRequestType.GET);
 
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("cardId", cardId);
-        urlParams.put("trellokey", trellokey);
-        urlParams.put("trellotoken", trellotoken);
+        urlParams.put("trelloKey", TrelloConstant.KEY);
+        urlParams.put("trelloToken", TrelloConstant.TOKEN);
 
-        String response = restTemplate.getForObject(URL, String.class, urlParams);
-        JSONArray jsonArray = new JSONArray(response);
+        Optional<String> trelloResponse = Optional.ofNullable(
+                restTemplate.getForObject(
+                        TrelloConstant.URL_API
+                                + "cards/{cardId}/actions?filter=commentCard&key={trelloKey}&token={trelloToken}",
+                        String.class, urlParams));
 
-        List<TrelloCommentDto> trelloCommentDtos = new ArrayList<>();
+        if (trelloResponse.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
+        } else {
+            JSONArray jsonArray = new JSONArray(trelloResponse);
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+            List<TrelloCommentDto> trelloCommentDtoList = new ArrayList<>();
 
-            JSONObject object = new JSONObject(jsonArray.get(i).toString());
-            JSONObject data = new JSONObject(object.get("data").toString());
-            JSONObject card = new JSONObject(data.get("card").toString());
-            JSONObject member = new JSONObject(object.get("memberCreator").toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
 
-            TrelloCommentDto trelloCommentDto = TrelloCommentDto.builder()
-                    .id(object.getString("id"))
-                    .idCard(card.getString("id"))
-                    .type(object.getString("type"))
-                    .date(object.getString("date"))
-                    .idMemberCreator(member.getString("id"))
-                    .text(data.getString("text")).build();
-            trelloCommentDtos.add(trelloCommentDto);
+                JSONObject object = new JSONObject(jsonArray.get(i).toString());
+                JSONObject data = new JSONObject(object.get("data").toString());
+                JSONObject card = new JSONObject(data.get("card").toString());
+                JSONObject member = new JSONObject(object.get("memberCreator").toString());
 
+                TrelloCommentDto trelloCommentDto = TrelloCommentDto.builder()
+                        .id(object.getString("id"))
+                        .idCard(card.getString("id"))
+                        .type(object.getString("type"))
+                        .date(object.getString("date"))
+                        .idMemberCreator(member.getString("id"))
+                        .text(data.getString("text")).build();
+                trelloCommentDtoList.add(trelloCommentDto);
+
+            }
+
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(trelloCommentDtoList);
         }
-        responseDto.setBody(trelloCommentDtos);
 
-        return responseDto;
+        return response;
     }
 
 
-    public ResponseDto<List<TrelloCommentDto>> getAllCommentsOnToDoList(){
+    public ResponseDto<List<TrelloCommentDto>> getAllCommentsOnToDoList() {
 
-        ResponseDto<List<TrelloCommentDto>> responseDto = new ResponseDto<>();
-        responseDto.setHttpRequest(HttpRequestType.GET);
-        responseDto.setHttpResponse(HttpResponseType.FOUND);
-        responseDto.setCode(HttpResponseType.FOUND.getCode());
-        responseDto.setDesc(HttpResponseType.FOUND.getDesc());
+        ResponseDto<List<TrelloCommentDto>> response = new ResponseDto<>();
+        response.setHttpRequest(HttpRequestType.GET);
 
-        List<TrelloCommentDto> trelloCommentDtos = new ArrayList<>();
-        ResponseDto<List<TrelloCardDto>> trelloCardDtos = getAllCards();
-        for(TrelloCardDto trelloCardDto : trelloCardDtos.getBody()){
+        List<TrelloCommentDto> trelloCommentDtoList = new ArrayList<>();
 
-            trelloCommentDtos.addAll(getAllCommentsOnCard(trelloCardDto.getId()).getBody());
+        ResponseDto<List<TrelloCardDto>> trelloResponse = getAllCards();
+
+        if (trelloResponse.getBody().isEmpty()) {
+
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
+
+            for (TrelloCardDto trelloCardDto : trelloResponse.getBody()) {
+                trelloCommentDtoList.addAll(getAllCommentsOnCard(trelloCardDto.getId()).getBody());
+            }
+
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(trelloCommentDtoList);
+
         }
 
-        responseDto.setBody(trelloCommentDtos);
-
-        return responseDto;
+        return response;
     }
-
 
 
 }
