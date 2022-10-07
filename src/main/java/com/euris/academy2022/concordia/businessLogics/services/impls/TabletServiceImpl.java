@@ -65,23 +65,24 @@ public class TabletServiceImpl implements TabletService {
 
         ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.GET);
-        List<Task> memberTasks = taskService.findAllTasksByMemberUuid(uuidMember);
 
-        if (!memberTasks.isEmpty()) {
-            List<Task> expiringTasks = memberTasks
-                    .stream()
-                    .filter(task -> task.getPriority().equals(TaskPriority.EXPIRING))
-                    .toList();
+        List<Task> expiringTasks = taskService.findAllTasksByMemberUuid(uuidMember)
+                .stream()
+                .filter(task -> task.getPriority().equals(TaskPriority.EXPIRING))
+                .toList();
+
+        if (expiringTasks.isEmpty()) {
+
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
 
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
             response.setBody(expiringTasks.stream().map(Task::toDto).collect(Collectors.toList()));
-
-        } else {
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         }
 
         return response;

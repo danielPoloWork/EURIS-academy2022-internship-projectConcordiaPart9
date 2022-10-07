@@ -259,6 +259,7 @@ public class TaskServiceImpl implements TaskService {
     public void updateExpiringTasks() {
         List<Task> expiringTasks = taskJpaRepository.findAll()
                 .stream()
+                .filter(task -> task.getDeadLine() != null)
                 .filter(task -> TimeUtils.isExpiring(task.getDeadLine()))
                 .toList();
 
