@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.utils.time;
+package com.euris.academy2022.concordia.utils;
 
 import com.euris.academy2022.concordia.utils.TimeUtils;
 import org.junit.jupiter.api.Assertions;
