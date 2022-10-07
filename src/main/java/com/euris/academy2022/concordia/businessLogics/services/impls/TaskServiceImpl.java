@@ -5,6 +5,7 @@ import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
+import com.euris.academy2022.concordia.utils.TimeUtils;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
@@ -242,5 +243,25 @@ public class TaskServiceImpl implements TaskService {
         }
 
         return response;
+    }
+
+    @Override
+    public List<Task> findAllTasksByMemberUuid(String uuidMember) {
+        return taskJpaRepository.findAllTasksByMemberUuid(uuidMember);
+    }
+
+    private void updateTaskPriorityToExpiring(Task task) {
+        task.setPriority(TaskPriority.EXPIRING);
+        taskJpaRepository.save(task);
+    }
+
+    @Override
+    public void updateExpiringTasks() {
+        List<Task> expiringTasks = taskJpaRepository.findAll()
+                .stream()
+                .filter(task -> TimeUtils.isExpiring(task.getDeadLine()))
+                .toList();
+
+        expiringTasks.forEach(this::updateTaskPriorityToExpiring);
     }
 }

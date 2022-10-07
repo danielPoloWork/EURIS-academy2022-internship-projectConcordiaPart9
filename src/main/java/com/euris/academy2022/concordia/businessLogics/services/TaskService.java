@@ -20,4 +20,6 @@ public interface TaskService {
     ResponseDto<List<TaskDto>> getByStatus(TaskStatus status);
     ResponseDto<List<TaskDto>> getByTitle(String title);
     ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine);
+    List<Task> findAllTasksByMemberUuid(String uuidMember);
+    void updateExpiringTasks();
 }
