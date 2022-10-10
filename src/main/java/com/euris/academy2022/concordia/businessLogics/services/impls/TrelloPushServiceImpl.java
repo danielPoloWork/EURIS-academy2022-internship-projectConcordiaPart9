@@ -1,5 +1,7 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
+import com.euris.academy2022.concordia.businessLogics.services.TrelloPushService;
+import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
 import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TrelloCardDto;
 import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import org.json.JSONArray;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TrelloPushServiceImpl {
+public class TrelloPushServiceImpl implements TrelloPushService {
 
     private final RestTemplate restTemplate;
 
@@ -31,7 +33,6 @@ public class TrelloPushServiceImpl {
 
         String URL = "https://api.trello.com/1/cards/{idCard}/actions/{idAction}/comments?text={text}&key={trellokey}&token={trellotoken}";
 
-        RestTemplate restTemplate = new RestTemplate();
 
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("idCard", idCard);
@@ -59,7 +60,6 @@ public class TrelloPushServiceImpl {
 
         String URL = "https://api.trello.com/1/cards/{idCard}/actions/comments?text={text}&key={trellokey}&token={trellotoken}";
 
-        RestTemplate restTemplate = new RestTemplate();
 
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("idCard", idCard);
@@ -85,7 +85,6 @@ public class TrelloPushServiceImpl {
 
         String URL = "https://api.trello.com/1/cards/{idCard}/actions/{idAction}/comments?&key={trellokey}&token={trellotoken}";
 
-        RestTemplate restTemplate = new RestTemplate();
 
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("idCard", idCard);
@@ -105,7 +104,7 @@ public class TrelloPushServiceImpl {
     }
 
 
-    private void updateListFromCards(List<TrelloCardDto> cardsList) {
+    private void updateListFromCards(List<Task> taskList) {
 
         String trellokey = TrelloConstant.KEY;
         String trellotoken = TrelloConstant.TOKEN;
@@ -116,13 +115,12 @@ public class TrelloPushServiceImpl {
         urlParams.put("trellokey", trellokey);
         urlParams.put("trellotoken", trellotoken);
 
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-        for (TrelloCardDto trelloCardDto : cardsList) {
-            urlParams.put("cardID", trelloCardDto.getId());
-            urlParams.put("idList", trelloCardDto.getIdList());
+        for (Task task : taskList) {
+            urlParams.put("cardID", task.getId());
+            urlParams.put("idList", task.getStatus().getTrelloListId());
             UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(URLLISTUPDATE);
             restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.PUT, requestEntity, Void.class);
         }
@@ -130,7 +128,7 @@ public class TrelloPushServiceImpl {
     }
 
 
-    private void updateLabelsFromCards(List<TrelloCardDto> cardsList) {
+    private void updateLabelsFromCards(List<Task> taskList) {
         String trellokey = TrelloConstant.KEY;
         String trellotoken = TrelloConstant.TOKEN;
         String URL = "https://api.trello.com/1/cards/{idCard}?key={trellokey}&token={trellotoken}";
@@ -141,11 +139,10 @@ public class TrelloPushServiceImpl {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
 
-        for (TrelloCardDto trelloCardDto : cardsList) {
+        for (Task task : taskList) {
 
-            urlParams.put("idCard", trelloCardDto.getId());
+            urlParams.put("idCard", task.getId());
             String response = restTemplate.getForObject(URL, String.class, urlParams);
 
 
@@ -161,7 +158,7 @@ public class TrelloPushServiceImpl {
             restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.DELETE, requestEntity, Void.class);
 
             String URLPOSTLABEL = "https://api.trello.com/1/cards/{idCard}/idLabels?value={idLabel}&key={trellokey}&token={trellotoken}";
-            urlParams.put("idLabel", trelloCardDto.getIdLabel());
+            urlParams.put("idLabel", task.getPriority().getTrelloLabelId());
 
             builder = UriComponentsBuilder.fromUriString(URLPOSTLABEL);
             restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.POST, requestEntity, Void.class);
@@ -173,14 +170,14 @@ public class TrelloPushServiceImpl {
 
 
 
-    public void pushTrelloCards(List<TrelloCardDto> cardsList){
-        updateListFromCards(cardsList);
-        updateLabelsFromCards(cardsList);
+    public void pushTrelloCards(List<Task> taskList){
+        updateListFromCards(taskList);
+        updateLabelsFromCards(taskList);
     }
 
 
 
-    private void updateListFromCard(TrelloCardDto card) {
+    private void updateListFromCard(Task task) {
 
         String trellokey = TrelloConstant.KEY;
         String trellotoken = TrelloConstant.TOKEN;
@@ -194,8 +191,8 @@ public class TrelloPushServiceImpl {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-        urlParams.put("cardID", card.getId());
-        urlParams.put("idList", card.getIdList());
+        urlParams.put("cardID", task.getId());
+        urlParams.put("idList", task.getStatus().getTrelloListId());
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(URLLISTUPDATE);
         restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.PUT, requestEntity, Void.class);
 
@@ -204,7 +201,7 @@ public class TrelloPushServiceImpl {
 
 
 
-    private void updateLabelFromCard(TrelloCardDto card) {
+    private void updateLabelFromCard(Task task) {
         String trellokey = TrelloConstant.KEY;
         String trellotoken = TrelloConstant.TOKEN;
         String URL = "https://api.trello.com/1/cards/{idCard}?key={trellokey}&token={trellotoken}";
@@ -217,7 +214,7 @@ public class TrelloPushServiceImpl {
         HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
 
-        urlParams.put("idCard", card.getId());
+        urlParams.put("idCard", task.getId());
         String response = restTemplate.getForObject(URL, String.class, urlParams);
 
         JSONObject object = new JSONObject(response);
@@ -232,7 +229,7 @@ public class TrelloPushServiceImpl {
         restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.DELETE, requestEntity, Void.class);
 
         String URLPOSTLABEL = "https://api.trello.com/1/cards/{idCard}/idLabels?value={idLabel}&key={trellokey}&token={trellotoken}";
-        urlParams.put("idLabel", card.getIdLabel());
+        urlParams.put("idLabel", task.getPriority().getTrelloLabelId());
 
         builder = UriComponentsBuilder.fromUriString(URLPOSTLABEL);
         restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.POST, requestEntity, Void.class);
@@ -243,9 +240,9 @@ public class TrelloPushServiceImpl {
 
 
 
-    public void updateSingleCard(TrelloCardDto card){
-        updateListFromCard(card);
-        updateLabelFromCard(card);
+    public void updateSingleCard(Task task){
+        updateListFromCard(task);
+        updateLabelFromCard(task);
     }
 
 
