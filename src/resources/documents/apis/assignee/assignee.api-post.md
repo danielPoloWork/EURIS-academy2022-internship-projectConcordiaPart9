@@ -2,7 +2,7 @@
 
 ## Create a new Assignee
 
-POST /1/assignee
+POST /api/assignee
 
 Create a new assignee
 

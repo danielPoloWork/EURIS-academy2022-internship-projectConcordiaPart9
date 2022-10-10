@@ -12,7 +12,6 @@ PATH PARAMETERS
 
 **uuid REQUIRED**
 
-The uuid of the Comment
 
 JSON Response not found Example
 

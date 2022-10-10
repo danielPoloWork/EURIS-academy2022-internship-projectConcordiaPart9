@@ -2,7 +2,7 @@
 
 ## Create a new Comment
 
-POST /1/comment
+POST /api/comment
 
 Create a new comment
 

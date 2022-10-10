@@ -1,8 +1,8 @@
 # Member
 
-## Delete a Member by id
+## Delete a Member by uuid
 
-DELETE /api/member/{id}
+DELETE /api/member/{uuid}
 
 Delete a Member
 
@@ -12,7 +12,6 @@ PATH PARAMETERS
 
 **id REQUIRED**
 
-The ID of the Member
 
 JSON Response not found Example
 

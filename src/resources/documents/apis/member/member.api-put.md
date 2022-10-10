@@ -2,7 +2,7 @@
 
 ## Update a member
 
-PUT /1/members/{uuid}
+PUT /api/member/{uuid}
 
 Update a member
 
@@ -23,7 +23,6 @@ QUERY PARAMETERS
 **name REQUIRED**
 
 **surname REQUIRED**
-
 
 
 JSON Response not found Example

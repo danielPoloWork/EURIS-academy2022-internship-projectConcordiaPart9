@@ -2,7 +2,7 @@
 
 ## Get a Member by Surname
 
-GET /api/members/surname={surname}
+GET /api/member/surname={surname}
 
 Get a Member by Surname
 
@@ -11,8 +11,6 @@ Get a Member by Surname
 PATH PARAMETERS
 
 **Surname REQUIRED**
-
-The Surname of the Member
 
 
 JSON Response not found Example

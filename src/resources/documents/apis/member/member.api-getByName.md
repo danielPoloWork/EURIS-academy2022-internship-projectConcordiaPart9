@@ -2,7 +2,7 @@
 
 ## Get a Member by Name
 
-GET /api/members/name={name}
+GET /api/member/name={name}
 
 Get a Member by name
 
@@ -11,8 +11,6 @@ Get a Member by name
 PATH PARAMETERS
 
 **Name REQUIRED**
-
-The Name of the Member
 
 
 JSON Response not found Example

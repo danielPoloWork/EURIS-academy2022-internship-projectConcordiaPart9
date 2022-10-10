@@ -2,7 +2,7 @@
 
 ## Create a new Member
 
-POST /1/member
+POST /api/member
 
 Create a new member
 

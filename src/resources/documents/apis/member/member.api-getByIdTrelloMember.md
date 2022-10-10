@@ -2,7 +2,7 @@
 
 ## Get a Member by id Trello Member
 
-GET /api/members/idTrelloMember={idTrelloMember}
+GET /api/member/idTrelloMember={idTrelloMember}
 
 Get a Member by id Trello Member
 
@@ -11,8 +11,6 @@ Get a Member by id Trello Member
 PATH PARAMETERS
 
 **id Trello Member REQUIRED**
-
-The id Trello Member of the Member
 
 
 JSON Response not found Example

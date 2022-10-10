@@ -2,7 +2,7 @@
 
 ## Update a comment
 
-PUT /1/comments/{id}
+PUT /api/comment/{uuid}
 
 Update a comment
 

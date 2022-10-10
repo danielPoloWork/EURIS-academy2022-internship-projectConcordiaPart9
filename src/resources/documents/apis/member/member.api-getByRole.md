@@ -2,7 +2,7 @@
 
 ## Get a Member by Role
 
-GET /api/members/role={role}
+GET /api/member/role={role}
 
 Get a Member by Role
 
@@ -11,8 +11,6 @@ Get a Member by Role
 PATH PARAMETERS
 
 **Role REQUIRED**
-
-The Role of the Member
 
 
 JSON Response not found Example

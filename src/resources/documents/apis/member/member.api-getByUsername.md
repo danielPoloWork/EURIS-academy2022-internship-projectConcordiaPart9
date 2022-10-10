@@ -1,5 +1,8 @@
+# Member
 
-GET /api/members/username={username}
+## Get a Member by Username
+
+GET /api/member/username={username}
 
 Get a Member by Username
 
@@ -8,8 +11,6 @@ Get a Member by Username
 PATH PARAMETERS
 
 **Username REQUIRED**
-
-The Username of the Member
 
 
 JSON Response not found Example

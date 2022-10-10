@@ -2,7 +2,7 @@
 
 ## Get a Comment
 
-GET /api/tasks/{uuid}
+GET /api/comment/{uuid}
 
 Get a Comment by uuid
 
@@ -12,7 +12,6 @@ PATH PARAMETERS
 
 **uuid REQUIRED**
 
-The uuid of the comment
 
 JSON Response not found Example
 
