@@ -7,14 +7,14 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 
-    public static List<String> splitFullName(String fullName) {
+    public static List<String> splitString(String string) {
 
         List<String> stringList = new ArrayList<>();
 
         String regExNew = "(\\S+)";
 
         Pattern pattern = Pattern.compile(regExNew);
-        Matcher matcher = pattern.matcher(fullName);
+        Matcher matcher = pattern.matcher(string);
 
         while (matcher.find()) {
             stringList.add(matcher.group());
@@ -33,7 +33,7 @@ public class StringUtil {
 
     public static String[] getNameAndSurname(String fullName) {
 
-        List<String> stringList = splitFullName(fullName);
+        List<String> stringList = splitString(fullName);
 
         String[] group = new String[2];
 
