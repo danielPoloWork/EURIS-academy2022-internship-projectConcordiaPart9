@@ -33,18 +33,28 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 #### TABLE: Comment
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
-|id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|idMember|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
+|idTrelloComment|CHAR(24)|-|-|✓|✓|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuidMember|CHAR(36)|-|✓|✓|-|-|-|-|-|
 |text|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
 
 #### TABLE: Member
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
-|id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|name|VARCHAR(45)|-|-|✓|-|-|-|-|-|
-|surname|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
+|idTrelloMember|CHAR(24)|-|✓|-|-|-|-|-|-|
+|username|VARCHAR(100)|-|-|✓|✓|-|-|-|-|
+|password|VARCHAR(100)|-|-|✓|-|-|-|-|-|
 |role|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|firstName|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|lastName|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
+
 
 > **Role** in java is an enum('A1', 'A2', 'A3', 'B1', 'C1', 'C2','CONCORDIA','WRS','ADMIN','MANAGER')
 > |LABEL|NAME|
@@ -64,11 +74,14 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
 |id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|title|VARCHAR(100)|-|-|✓|-|-|-|-|-|
-|description|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|title|VARCHAR(255)|-|-|✓|-|-|-|-|-|
+|description|VARCHAR(5000)|-|-|✓|-|-|-|-|-|
+|priority|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|status|VARCHAR(45)|-|-|✓|-|-|-|-|-|
 |deadline|DATETIME|-|-|-|-|-|-|-|-|
-|priority|VARCHAR(8)|-|-|✓|-|-|-|-|-|
-|status|VARCHAR(11)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
 
 > **Priority** in java is an enum('HIGH', 'EXPIRING', 'MEDIUM', 'LOW', 'DONE', 'ARCHIVED')
 > |LABEL|ID|NAME|COLOR|
@@ -91,8 +104,9 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
 |uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
-|idMember|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuidMember|CHAR(36)|-|✓|✓|-|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
 
 ## Motivations following changes
 Following subsequent reflections we opted to merge between the User table and the Member table to avoid code redundancy. 
