@@ -4,6 +4,7 @@ import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneePostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneeDeleteRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +22,8 @@ public class AssigneeController {
         return assigneeService.insert(assigneeDto.toModel());
     }
 
-    @DeleteMapping("/uuidMember={uuidMember}&idTask={idTask}")
-    public ResponseDto<AssigneeDto> remove(@PathVariable String uuidMember, @PathVariable String idTask) {
-        return assigneeService.removeByUuidMemberAndIdTask(uuidMember, idTask);
+    @DeleteMapping
+    public ResponseDto<AssigneeDto> remove(@RequestBody AssigneeDeleteRequest deleteRequest) {
+        return assigneeService.removeByUuidMemberAndIdTask(deleteRequest.getUuidMember(), deleteRequest.getIdTask());
     }
 }
