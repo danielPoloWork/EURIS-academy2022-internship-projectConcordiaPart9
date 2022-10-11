@@ -2,7 +2,10 @@ package com.euris.academy2022.concordia.jpaRepositories;
 
 import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.utils.enums.TaskPriority;
+import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,16 +27,49 @@ class TaskJpaRepositoryTest {
     @Autowired
     private TaskJpaRepository taskJpaRepository;
 
+    private Task task;
+
+    @BeforeEach
+    void init() {
+
+        task = Task.builder()
+                .id("idTask")
+                .title("titleTask")
+                .description("descriptionTask")
+                .priority(TaskPriority.HIGH)
+                .status(TaskStatus.TO_DO)
+                .deadLine(LocalDateTime.now())
+                .dateCreation(LocalDateTime.now())
+                .dateUpdate(LocalDateTime.now())
+                .build();
+    }
+
     @Test
-    void insert() {
-        Task task = Task.builder()
-                .id("idTask").build();
+    void insertTest() {
 
-        taskJpaRepository.save(task);
 
-        Optional<Task> optionalTask = taskJpaRepository.findById("idTask");
+        taskJpaRepository.insert(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getPriority().getLabel(),
+                task.getStatus().getLabel(),
+                task.getDeadLine(),
+                task.getDateCreation(),
+                task.getDateUpdate()
+                );
 
-        Assertions.assertEquals("idTask", optionalTask.get().getId());
+        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+
+        Assertions.assertEquals(task.getId(), optionalTask.get().getId());
+        Assertions.assertEquals(task.getTitle(), optionalTask.get().getTitle());
+        Assertions.assertEquals(task.getDescription(), optionalTask.get().getDescription());
+        Assertions.assertEquals(task.getPriority(), optionalTask.get().getPriority());
+        Assertions.assertEquals(task.getStatus(), optionalTask.get().getStatus());
+        Assertions.assertEquals(task.getDeadLine(), optionalTask.get().getDeadLine());
+        Assertions.assertEquals(task.getDateCreation(), optionalTask.get().getDateCreation());
+        Assertions.assertEquals(task.getDateUpdate(), optionalTask.get().getDateUpdate());
 
     }
+
 }
