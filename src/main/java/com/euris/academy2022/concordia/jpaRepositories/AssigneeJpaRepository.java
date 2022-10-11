@@ -39,7 +39,8 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
     @Query(value = DELETE_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER, nativeQuery = true)
     @Transactional
     Integer removeByUuidMemberAndIdTask(
-            @Param("uuidMember") String uuidMember, @Param("idTask") String idTask);
+            @Param("uuidMember") String uuidMember,
+            @Param("idTask") String idTask);
 
     List<Assignee> findAll();
     @Query(value = SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER, nativeQuery = true)
