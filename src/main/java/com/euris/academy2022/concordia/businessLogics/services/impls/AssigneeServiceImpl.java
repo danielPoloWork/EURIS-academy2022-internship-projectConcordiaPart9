@@ -1,12 +1,11 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.AssigneeJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
@@ -14,6 +13,7 @@ import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +48,8 @@ public class AssigneeServiceImpl implements AssigneeService {
         } else {
             Integer assigneeCreated = assigneeJpaRepository.insert(
                     memberFound.get().getUuid(),
-                    taskFound.get().getId());
+                    taskFound.get().getId(),
+                    LocalDateTime.now());
 
             if (assigneeCreated != 1) {
                 response.setHttpResponse(HttpResponseType.NOT_CREATED);
