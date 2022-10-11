@@ -1,8 +1,8 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TrelloPushService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TrelloCardDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.trelloDTOs.TrelloCardDto;
 import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public class TrelloPushServiceImpl implements TrelloPushService {
         String trellokey = TrelloConstant.KEY;
         String trellotoken = TrelloConstant.TOKEN;
 
-        String URL = "https://api.trello.com/1/cards/{idCard}/actions/{idAction}/comments?text={text}&key={trellokey}&token={trellotoken}";
+        String URL = "https://api.trello.com/1/cards/{idCard}/actions/{idAction}/comments?text={text}&key={key}&token={token}";
 
 
         Map<String, String> urlParams = new HashMap<>();
