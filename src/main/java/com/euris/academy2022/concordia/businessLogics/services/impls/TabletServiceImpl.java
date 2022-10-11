@@ -1,14 +1,14 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TabletService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
+import com.euris.academy2022.concordia.businessLogics.services.TaskService;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
-import com.euris.academy2022.concordia.utils.TimeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TabletServiceImpl implements TabletService {
-    private final TaskJpaRepository taskJpaRepository;
-
-    public TabletServiceImpl(TaskJpaRepository taskJpaRepository) {
-        this.taskJpaRepository = taskJpaRepository;
-    }
+    @Autowired
+    TaskService taskService;
 
     @Override
     public ResponseDto<List<TaskDto>> getMemberTasksByPriority(String uuidMember, TaskPriority priority) {
@@ -44,8 +41,7 @@ public class TabletServiceImpl implements TabletService {
 
         ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.GET);
-        List<Task> memberTasks = taskJpaRepository.findAllTasksByMemberUuid(uuidMember);
-
+        List<Task> memberTasks = taskService.findAllTasksByMemberUuid(uuidMember);
 
         if (!memberTasks.isEmpty()) {
             response.setHttpResponse(HttpResponseType.FOUND);
@@ -65,25 +61,28 @@ public class TabletServiceImpl implements TabletService {
     @Override
     public ResponseDto<List<TaskDto>> getExpiringTasks(String uuidMember) {
 
+        taskService.updateExpiringTasks();
+
         ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.GET);
-        List<Task> memberTasks = taskJpaRepository.findAllTasksByMemberUuid(uuidMember);
 
-        if (!memberTasks.isEmpty()) {
-            List<Task> expiringTasks = memberTasks
-                    .stream()
-                    .filter(task -> TimeUtils.isExpiring(task.getDeadLine()))
-                    .toList();
+        List<Task> expiringTasks = taskService.findAllTasksByMemberUuid(uuidMember)
+                .stream()
+                .filter(task -> task.getPriority().equals(TaskPriority.EXPIRING))
+                .toList();
+
+        if (expiringTasks.isEmpty()) {
+
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
 
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
             response.setBody(expiringTasks.stream().map(Task::toDto).collect(Collectors.toList()));
-
-        } else {
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         }
 
         return response;
