@@ -58,14 +58,14 @@ public class CommentScheduling {
 
                         ResponseDto<CommentDto> commentUpdated = commentService.updateFromTrello(commentOld.toModel());
 
-                        System.out.printf("%s  [pullCard      ] executed at %s  INFO : %s : %s → %s\n",
+                        System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
                                 Thread.currentThread().getName(),
                                 new Date(),
                                 comment.getId(),
                                 HttpResponseType.FOUND.getLabel(),
                                 commentUpdated.getHttpResponse().getLabel());
                     } else {
-                        System.out.printf("%s  [pullCard      ] executed at %s  INFO : %s : %s → %s\n",
+                        System.out.printf("%s  [pullComment  ] executed at %s  INFO : %s : %s → %s\n",
                                 Thread.currentThread().getName(),
                                 new Date(),
                                 comment.getId(),

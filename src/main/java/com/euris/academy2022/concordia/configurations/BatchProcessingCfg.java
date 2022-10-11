@@ -29,15 +29,17 @@ public class BatchProcessingCfg {
     @Autowired private TrelloMemberService trelloMemberService;
 
 
-//    @Scheduled(cron = "* * 1 * * *") /* Every day at 1:00 AM */
-//    public void fetchExpiringTask() {
-//        System.out.println("       ───────────────────────────────────────────────────");
-//        System.out.println("       :: Concordia Scheduling ::         (FETCH EXPIRING)\n");
-//
-//        System.out.printf("\n%s  [fetchExpiring ] executed at %s  INFO : STARTED..\n",
-//            Thread.currentThread().getName(),
-//            new Date());
-//    }
+    @Scheduled(cron = "* * 1 * * *") /* Every day at 1:00 AM */
+    public void fetchExpiringTask() {
+        System.out.println("       ───────────────────────────────────────────────────");
+        System.out.println("       :: Concordia Scheduling ::         (FETCH EXPIRING)\n");
+
+        taskService.updateExpiringTasks();
+
+        System.out.printf("\n%s  [fetchExpiring ] executed at %s  INFO : STARTED..\n",
+            Thread.currentThread().getName(),
+            new Date());
+    }
 
     @Scheduled(cron = "* * * * * *") /* Every day at 1:00 AM */
     public void fetchTrello() {
