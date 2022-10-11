@@ -1,12 +1,12 @@
 package com.euris.academy2022.concordia.utils.time;
 
-import com.euris.academy2022.concordia.utils.TimeUtils;
+import com.euris.academy2022.concordia.utils.TimeUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-class TimeUtilsTest {
+class TimeUtilTest {
 
     @Test
     void isExpiring() {
@@ -14,7 +14,7 @@ class TimeUtilsTest {
 
         LocalDateTime expiringDate = LocalDateTime.now();
 
-        Assertions.assertFalse(TimeUtils.isExpiring(notExpiringDate));
-        Assertions.assertTrue(TimeUtils.isExpiring(expiringDate));
+        Assertions.assertFalse(TimeUtil.isExpiring(notExpiringDate));
+        Assertions.assertTrue(TimeUtil.isExpiring(expiringDate));
     }
 }
