@@ -174,6 +174,7 @@ public class TaskServiceImpl implements TaskService {
         if (optionalTask.isEmpty()) {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
             Integer deletedTask = taskJpaRepository.removeById(id);
 
@@ -322,19 +323,22 @@ public class TaskServiceImpl implements TaskService {
         return taskJpaRepository.findAllTasksByMemberUuid(uuidMember);
     }
 
-    private void updateTaskPriorityToExpiring(Task task) {
+    private Task updateTaskPriorityToExpiring(Task task) {
         task.setPriority(TaskPriority.EXPIRING);
         taskJpaRepository.save(task);
+        return task;
     }
 
     @Override
-    public void updateExpiringTasks() {
-        List<Task> expiringTasks = taskJpaRepository.findAll()
-                .stream()
-                .filter(task -> task.getDeadLine() != null)
-                .filter(task -> TimeUtil.isExpiring(task.getDeadLine()))
-                .toList();
+    public List<Task> updateExpiringTasks() {
 
-        expiringTasks.forEach(this::updateTaskPriorityToExpiring);
+        return taskJpaRepository.findAll()
+                .stream()
+                .filter(task -> task.getDeadLine() != null
+                        && !task.getPriority().equals(TaskPriority.EXPIRING)
+                        && TimeUtil.isExpiring(task.getDeadLine()))
+                .map(this::updateTaskPriorityToExpiring)
+                .collect(Collectors.toList());
+
     }
 }
