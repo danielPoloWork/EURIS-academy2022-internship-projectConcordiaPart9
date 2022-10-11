@@ -15,7 +15,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="username" type="VARCHAR(100)">
-                <constraints nullable="false" uniqueConstraintName="true"/>
+                <constraints nullable="false"
+                  unique="true"
+                  uniqueConstraintName="ukMemberUsername"/>
             </column>
             <column name="password" type="VARCHAR(100)">
                 <constraints nullable="false"/>
