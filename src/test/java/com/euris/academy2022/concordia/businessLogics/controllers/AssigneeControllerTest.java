@@ -43,6 +43,8 @@ public class AssigneeControllerTest {
     private AssigneeDto assignee;
     private AssigneePostRequest assigneePost;
 
+    private AssigneePostRequest assigneeDelete;
+
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
@@ -52,8 +54,8 @@ public class AssigneeControllerTest {
                 .idTrelloMember("1")
                 .username("username1")
                 .role(MemberRole.A1)
-                .name("name1")
-                .surname("surname1")
+                .firstName("name1")
+                .lastName("surname1")
                 .build();
 
         TaskDto task = TaskDto.builder()
@@ -71,6 +73,11 @@ public class AssigneeControllerTest {
                 .build();
 
         assigneePost = AssigneePostRequest.builder()
+                .uuidMember(member.getUuid())
+                .idTask(task.getId())
+                .build();
+
+        assigneeDelete = AssigneePostRequest.builder()
                 .uuidMember(member.getUuid())
                 .idTask(task.getId())
                 .build();
@@ -120,7 +127,7 @@ public class AssigneeControllerTest {
 
         client.perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(assignee)))
+                        .content(objectMapper.writeValueAsString(assigneePost)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -148,9 +155,9 @@ public class AssigneeControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING
-                        + "/uuidMember=" + assignee.getMemberDto().getUuid()
-                        + "&idTask=" + assignee.getTaskDto().getId()))
+                .perform(delete(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assigneeDelete)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -177,9 +184,9 @@ public class AssigneeControllerTest {
                 .thenReturn(response);
 
         client
-                .perform(delete(REQUEST_MAPPING
-                        + "/uuidMember=AnyString"
-                        + "&idTask=AnyString"))
+                .perform(delete(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assigneeDelete)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
