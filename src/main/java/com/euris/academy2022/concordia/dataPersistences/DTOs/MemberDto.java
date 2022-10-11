@@ -1,7 +1,7 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs;
 
-import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.dataPersistences.archetypes.DtoArchetype;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 
 import lombok.AllArgsConstructor;
@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,8 +23,10 @@ public class MemberDto implements DtoArchetype {
     private String idTrelloMember;
     private String username;
     private MemberRole role;
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateUpdate;
 
     @Override
     public Member toModel() {
@@ -31,8 +35,10 @@ public class MemberDto implements DtoArchetype {
                 .idTrelloMember(this.idTrelloMember)
                 .username(this.username)
                 .role(this.role)
-                .name(this.name)
-                .surname(this.surname)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .dateCreation(this.dateCreation)
+                .dateUpdate(this.dateUpdate)
                 .build();
     }
 }

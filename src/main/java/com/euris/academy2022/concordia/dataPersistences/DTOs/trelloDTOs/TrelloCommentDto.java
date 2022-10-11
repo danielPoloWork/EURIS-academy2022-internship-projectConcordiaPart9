@@ -1,9 +1,7 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs.trelloDTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor

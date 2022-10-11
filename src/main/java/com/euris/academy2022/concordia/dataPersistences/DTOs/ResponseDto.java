@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs;
 
 
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;

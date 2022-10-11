@@ -1,14 +1,14 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs.trelloDTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrelloMemberDto {
 

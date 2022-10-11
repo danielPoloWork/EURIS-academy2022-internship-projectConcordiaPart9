@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs.trelloDTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -16,7 +16,7 @@ public class TrelloCardDto {
     private String idList;
     private String name;
     private String desc;
-    private String idLabels;
+    private String idLabel;
     private String due;
     private String dateLastActivity;
 }

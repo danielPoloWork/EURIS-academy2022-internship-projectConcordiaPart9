@@ -1,8 +1,10 @@
-package com.euris.academy2022.concordia.dataPersistences.dataTransferObjects;
+package com.euris.academy2022.concordia.dataPersistences.DTOs;
 
-import com.euris.academy2022.concordia.dataPersistences.dataArchetypes.DtoArchetype;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
+import com.euris.academy2022.concordia.dataPersistences.archetypes.DtoArchetype;
+import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +16,7 @@ public class AssigneeDto implements DtoArchetype {
     private String uuid;
     private MemberDto memberDto;
     private TaskDto taskDto;
+    private LocalDateTime dateCreation;
 
     @Override
     public Assignee toModel() {
@@ -21,6 +24,7 @@ public class AssigneeDto implements DtoArchetype {
                 .uuid(this.uuid)
                 .member(this.memberDto.toModel())
                 .task(this.taskDto.toModel())
+                .dateCreation(this.dateCreation)
                 .build();
     }
 }
