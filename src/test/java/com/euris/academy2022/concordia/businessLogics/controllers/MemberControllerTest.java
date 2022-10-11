@@ -1,10 +1,10 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPostRequest;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
@@ -568,7 +568,7 @@ public class MemberControllerTest {
         response.setBody(memberList);
 
         Mockito
-                .when(memberService.getByName(Mockito.anyString()))
+                .when(memberService.getByFirstName(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -593,7 +593,7 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(memberService.getByName(Mockito.anyString()))
+                .when(memberService.getByFirstName(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -620,7 +620,7 @@ public class MemberControllerTest {
         response.setBody(memberList);
 
         Mockito
-                .when(memberService.getBySurname(Mockito.anyString()))
+                .when(memberService.getByLastName(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -645,7 +645,7 @@ public class MemberControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(memberService.getBySurname(Mockito.anyString()))
+                .when(memberService.getByLastName(Mockito.anyString()))
                 .thenReturn(response);
 
         client

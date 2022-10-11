@@ -1,12 +1,10 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.assignees.AssigneeDeleteRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.assignees.AssigneePostRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneePostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneeDeleteRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

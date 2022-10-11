@@ -26,6 +26,12 @@
             <column name="deadline" type="DATETIME">
                 <constraints nullable="true"/>
             </column>
+            <column name="dateCreation" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <rollback>

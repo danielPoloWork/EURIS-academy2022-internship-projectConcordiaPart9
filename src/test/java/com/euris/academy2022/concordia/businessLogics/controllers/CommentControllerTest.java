@@ -2,10 +2,10 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 
 
 import com.euris.academy2022.concordia.businessLogics.services.CommentService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Comment;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Comment;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -234,7 +234,7 @@ public class CommentControllerTest {
         response.setBody(comment3);
 
         Mockito
-                .when(commentService.deleteByUuid(Mockito.anyString()))
+                .when(commentService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -265,7 +265,7 @@ public class CommentControllerTest {
         response.setDesc(HttpResponseType.NOT_DELETED.getDesc());
 
         Mockito
-                .when(commentService.deleteByUuid(Mockito.anyString()))
+                .when(commentService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -295,7 +295,7 @@ public class CommentControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(commentService.deleteByUuid(Mockito.anyString()))
+                .when(commentService.removeByUuid(Mockito.anyString()))
                 .thenReturn(response);
 
         client

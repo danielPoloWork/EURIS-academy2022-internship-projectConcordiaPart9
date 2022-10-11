@@ -14,6 +14,10 @@ public enum MemberRole {
     C1("C1", "Electronic engineer"),
     C2("C2", "ICT/Radio Technician"),
 
+    /* Worldwide research stations */
+    CONCORDIA("CONCORDIA","Concordia research station"),
+    WRS("WRS","World research station"),
+
     /* Application roles */
     ADMIN("ADMIN", "IT Admin"),
 

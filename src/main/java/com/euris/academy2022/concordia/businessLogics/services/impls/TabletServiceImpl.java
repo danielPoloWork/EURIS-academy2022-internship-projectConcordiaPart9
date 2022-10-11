@@ -2,9 +2,9 @@ package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TabletService;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;

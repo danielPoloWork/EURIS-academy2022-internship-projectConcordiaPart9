@@ -1,11 +1,12 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
-import com.euris.academy2022.concordia.utils.TimeUtils;
+import com.euris.academy2022.concordia.utils.TimeUtil;
+
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
@@ -36,7 +37,40 @@ public class TaskServiceImpl implements TaskService {
                 task.getDescription(),
                 task.getPriority().getLabel(),
                 task.getStatus().getLabel(),
-                task.getDeadLine());
+                task.getDeadLine(),
+                LocalDateTime.now(),
+                LocalDateTime.now());
+
+        response.setHttpRequest(HttpRequestType.POST);
+
+        if (taskCreated != 1) {
+            response.setHttpResponse(HttpResponseType.NOT_CREATED);
+            response.setCode(HttpResponseType.NOT_CREATED.getCode());
+            response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.CREATED);
+            response.setCode(HttpResponseType.CREATED.getCode());
+            response.setDesc(HttpResponseType.CREATED.getDesc());
+            response.setBody(task.toDto());
+
+        }
+
+        return response;
+    }
+
+    @Override
+    public ResponseDto<TaskDto> insertFromTrello(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+
+        Integer taskCreated = taskJpaRepository.insert(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getPriority().getLabel(),
+                task.getStatus().getLabel(),
+                task.getDeadLine(),
+                task.getDateCreation(),
+                task.getDateUpdate());
 
         response.setHttpRequest(HttpRequestType.POST);
 
@@ -75,7 +109,45 @@ public class TaskServiceImpl implements TaskService {
                     task.getDescription(),
                     task.getPriority().getLabel(),
                     task.getStatus().getLabel(),
-                    task.getDeadLine());
+                    task.getDeadLine(),
+                    LocalDateTime.now());
+
+            if (updatedTask != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+
+            } else {
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(task.toDto());
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<TaskDto> updateFromTrello(Task task) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+        Optional<Task> optionalTask = taskJpaRepository.findById(task.getId());
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
+        if (optionalTask.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
+            Integer updatedTask = taskJpaRepository.update(
+                    task.getId(),
+                    task.getTitle(),
+                    task.getDescription(),
+                    task.getPriority().getLabel(),
+                    task.getStatus().getLabel(),
+                    task.getDeadLine(),
+                    task.getDateUpdate());
 
             if (updatedTask != 1) {
                 response.setHttpResponse(HttpResponseType.NOT_UPDATED);
@@ -120,9 +192,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<TaskDto> getById(String id) {
+    public ResponseDto<TaskDto> getByIdTrelloTask(String id) {
         ResponseDto<TaskDto> response = new ResponseDto<>();
-        Optional<Task> optionalTask = taskJpaRepository.findById(id);
+        Optional<Task> optionalTask = taskJpaRepository.findByIdTrelloTask(id);
 
         response.setHttpRequest(HttpRequestType.GET);
 
@@ -260,7 +332,7 @@ public class TaskServiceImpl implements TaskService {
         List<Task> expiringTasks = taskJpaRepository.findAll()
                 .stream()
                 .filter(task -> task.getDeadLine() != null)
-                .filter(task -> TimeUtils.isExpiring(task.getDeadLine()))
+                .filter(task -> TimeUtil.isExpiring(task.getDeadLine()))
                 .toList();
 
         expiringTasks.forEach(this::updateTaskPriorityToExpiring);

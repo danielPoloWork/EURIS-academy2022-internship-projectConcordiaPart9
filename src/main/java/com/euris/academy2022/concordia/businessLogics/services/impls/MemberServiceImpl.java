@@ -1,15 +1,17 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
+import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,12 +30,43 @@ public class MemberServiceImpl implements MemberService {
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
         Integer memberCreated = memberJpaRepository.insert(
+                TrelloConstant.MEMBER_CRS_ID,
+                member.getUsername(),
+                member.getPassword(),
+                member.getRole().getLabel(),
+                member.getFirstName(),
+                member.getLastName(),
+                LocalDateTime.now(),
+                LocalDateTime.now());
+
+        response.setHttpRequest(HttpRequestType.POST);
+
+        if (memberCreated != 1) {
+            response.setHttpResponse(HttpResponseType.NOT_CREATED);
+            response.setCode(HttpResponseType.NOT_CREATED.getCode());
+            response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.CREATED);
+            response.setCode(HttpResponseType.CREATED.getCode());
+            response.setDesc(HttpResponseType.CREATED.getDesc());
+            response.setBody(member.toDto());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<MemberDto> insertFromTrello(Member member) {
+        ResponseDto<MemberDto> response = new ResponseDto<>();
+
+        Integer memberCreated = memberJpaRepository.insert(
                 member.getIdTrelloMember(),
                 member.getUsername(),
                 member.getPassword(),
                 member.getRole().getLabel(),
-                member.getName(),
-                member.getSurname());
+                member.getFirstName(),
+                member.getLastName(),
+                member.getDateCreation(),
+                member.getDateUpdate());
 
         response.setHttpRequest(HttpRequestType.POST);
 
@@ -66,11 +99,47 @@ public class MemberServiceImpl implements MemberService {
 
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
-                    member.getIdTrelloMember(),
                     member.getPassword(),
                     member.getRole().getLabel(),
-                    member.getName(),
-                    member.getSurname());
+                    member.getFirstName(),
+                    member.getLastName(),
+                    LocalDateTime.now());
+
+            if (memberUpdated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(member.toDto());
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<MemberDto> updateFromTrello(Member member) {
+        ResponseDto<MemberDto> response = new ResponseDto<>();
+
+        Optional<Member> memberFound = memberJpaRepository.findByUuid(member.getUuid());
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
+        if (memberFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+
+            Integer memberUpdated = memberJpaRepository.update(
+                    member.getUuid(),
+                    member.getPassword(),
+                    member.getRole().getLabel(),
+                    member.getFirstName(),
+                    member.getLastName(),
+                    member.getDateUpdate());
 
             if (memberUpdated != 1) {
                 response.setHttpResponse(HttpResponseType.NOT_UPDATED);
@@ -202,10 +271,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getByName(String name) {
+    public ResponseDto<List<MemberDto>> getByFirstName(String firstName) {
         ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
-        List<Member> memberListFound = memberJpaRepository.findByName(name);
+        List<Member> memberListFound = memberJpaRepository.findByFirstName(firstName);
 
         response.setHttpRequest(HttpRequestType.GET);
 
@@ -225,9 +294,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getBySurname(String surname) {
+    public ResponseDto<List<MemberDto>> getByLastName(String lastName) {
         ResponseDto<List<MemberDto>> response = new ResponseDto<>();
-        List<Member> memberListFound = memberJpaRepository.findBySurname(surname);
+        List<Member> memberListFound = memberJpaRepository.findByLastName(lastName);
 
         response.setHttpRequest(HttpRequestType.GET);
 

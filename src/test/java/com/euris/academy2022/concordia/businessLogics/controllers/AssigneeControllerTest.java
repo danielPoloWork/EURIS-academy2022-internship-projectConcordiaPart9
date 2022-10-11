@@ -1,15 +1,12 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.assignees.AssigneePostRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneePostRequest;
 import com.euris.academy2022.concordia.utils.enums.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,9 +22,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -60,8 +54,8 @@ public class AssigneeControllerTest {
                 .idTrelloMember("1")
                 .username("username1")
                 .role(MemberRole.A1)
-                .name("name1")
-                .surname("surname1")
+                .firstName("name1")
+                .lastName("surname1")
                 .build();
 
         TaskDto task = TaskDto.builder()

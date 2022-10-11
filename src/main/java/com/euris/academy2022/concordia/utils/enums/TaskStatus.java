@@ -3,6 +3,9 @@ package com.euris.academy2022.concordia.utils.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 @Getter
 public enum TaskStatus {
@@ -22,4 +25,12 @@ public enum TaskStatus {
     private final String label;
     private final String trelloListId;
     private final String trelloListName;
+    private static Stream<TaskStatus> stream() {
+        return Stream.of(TaskStatus.values());
+    }
+    public static TaskStatus getEnumByListId(String listId) {
+        return TaskStatus.stream()
+                .filter(val -> val.getTrelloListId().equals(listId))
+                .findFirst().get();
+    }
 }

@@ -1,9 +1,9 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.tasks.TaskPostRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.tasks.TaskPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseDto<TaskDto> getById(@PathVariable String id) {
-        return taskService.getById(id);
+        return taskService.getByIdTrelloTask(id);
     }
 
     @GetMapping("/title={title}")

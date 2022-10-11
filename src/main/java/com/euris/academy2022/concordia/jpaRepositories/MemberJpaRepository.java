@@ -1,8 +1,7 @@
 package com.euris.academy2022.concordia.jpaRepositories;
 
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 
-import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +17,12 @@ import java.util.Optional;
 @Repository
 public interface MemberJpaRepository extends JpaRepository<Member, String> {
     String INSERT_INTO_MEMBER =
-            "INSERT INTO Member (Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.name, Member.surname) "
-                    + "VALUES (UUID(), :idTrelloMember, :username, :password, :role, :name, :surname)";
+            "INSERT INTO Member (Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.firstName, Member.lastName, Member.dateCreation, Member.dateUpdate) "
+                    + "VALUES (UUID(), :idTrelloMember, :username, :password, :role, :firstName, :lastName, :dateCreation, :dateUpdate)";
 
     String UPDATE_MEMBER =
             "UPDATE Member "
-                    + "SET Member.idTrelloMember = :idTrelloMember, Member.password = :password, Member.role = :role, Member.name = :name, Member.surname = :surname "
+                    + "SET Member.password = :password, Member.role = :role, Member.firstName = :firstName, Member.lastName = :lastName, Member.dateUpdate = :dateUpdate "
                     + "WHERE Member.uuid = :uuid";
 
     String DELETE_MEMBER =
@@ -30,14 +30,14 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
                     + "WHERE Member.uuid = :uuid";
 
     String SELECT_ALL_MEMBERS_BY_TASK_ID =
-            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.name, Member.surname "
+            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.firstName, Member.lastName, Member.dateCreation, Member.dateUpdate "
                     + "FROM Task "
                     + "INNER JOIN Assignee ON Task.id = Assignee.idTask "
                     + "INNER JOIN Member ON Member.uuid = Assignee.uuidMember "
                     + "WHERE Task.id = :id";
 
     String SELECT_ALL_MEMBERS_BY_ROLE =
-            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.name, Member.surname "
+            "SELECT Member.uuid, Member.idTrelloMember, Member.username, Member.password, Member.role, Member.firstName, Member.lastName, Member.dateCreation, Member.dateUpdate "
                     + "FROM Member "
                     + "WHERE Member.role = :role";
 
@@ -49,19 +49,21 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
             @Param("username") String username,
             @Param("password") String password,
             @Param("role") String role,
-            @Param("name") String name,
-            @Param("surname") String surname);
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("dateCreation") LocalDateTime dateCreation,
+            @Param("dateUpdate") LocalDateTime dateUpdate);
 
     @Modifying
     @Query(value = UPDATE_MEMBER, nativeQuery = true)
     @Transactional
     Integer update(
             @Param("uuid") String uuid,
-            @Param("idTrelloMember") String idTrelloMember,
             @Param("password") String password,
             @Param("role") String role,
-            @Param("name") String name,
-            @Param("surname") String surname);
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("dateUpdate") LocalDateTime dateUpdate);
 
     @Modifying
     @Query(value = DELETE_MEMBER, nativeQuery = true)
@@ -83,7 +85,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, String> {
 
     Optional<Member> findByUsername(String username);
 
-    List<Member> findByName(String name);
+    List<Member> findByFirstName(String firstName);
 
-    List<Member> findBySurname(String surname);
+    List<Member> findByLastName(String lastName);
 }

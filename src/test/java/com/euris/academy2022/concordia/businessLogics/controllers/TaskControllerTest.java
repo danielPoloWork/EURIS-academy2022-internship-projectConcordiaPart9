@@ -1,9 +1,9 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.TaskDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -342,7 +342,7 @@ class TaskControllerTest {
         response.setBody(task.toDto());
 
         Mockito
-                .when(taskService.getById(Mockito.anyString()))
+                .when(taskService.getByIdTrelloTask(Mockito.anyString()))
                 .thenReturn(response);
 
         client
@@ -371,7 +371,7 @@ class TaskControllerTest {
         response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         Mockito
-                .when(taskService.getById(Mockito.anyString()))
+                .when(taskService.getByIdTrelloTask(Mockito.anyString()))
                 .thenReturn(response);
 
         client

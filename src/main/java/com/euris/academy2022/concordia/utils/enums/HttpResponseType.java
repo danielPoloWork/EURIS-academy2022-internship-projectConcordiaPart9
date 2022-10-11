@@ -2,7 +2,7 @@ package com.euris.academy2022.concordia.utils.enums;
 
 /**
  * @author Daniel Polo<p>
- * This is a list of Hypertext Transfer Protocol (HTTP) response status codes. Status codes are
+ * @Info This is a list of Hypertext Transfer Protocol (HTTP) response status codes. Status codes are
  * issued by a server in response to a client's request made to the server. It includes codes from
  * IETF Request for Comments (RFCs), other specifications, and some additional codes used in some
  * common applications of the HTTP. The first digit of the status code specifies one of five
@@ -16,13 +16,13 @@ package com.euris.academy2022.concordia.utils.enums;
  * the status code defines the class of response, while the last two digits do not have any
  * classifying or categorization role. There are five classes defined by the standard:
  * <p>
- * 1xx informational – the request was received, continuing process
- * 2xx successful – the request was successfully received, understood, and accepted
- * 3xx redirection – further action needs to be taken in order to complete the request
- * 4xx client error – the request contains bad syntax or cannot be fulfilled
- * 5xx server error – the server failed to fulfil an apparently valid request
+ * 1xx informational – the request was received, continuing process<p>
+ * 2xx successful – the request was successfully received, understood, and accepted<p>
+ * 3xx redirection – further action needs to be taken in order to complete the request<p>
+ * 4xx client error – the request contains bad syntax or cannot be fulfilled<p>
+ * 5xx server error – the server failed to fulfil an apparently valid request<p>
  * <p>
- * 1xx INFORMATIONAL<p>
+ * @Codes 1xx INFORMATIONAL<p>
  * An informational response indicates that the request was received and understood. It is issued
  * on a provisional basis while request processing continues. It alerts the client to wait for a
  * final response. The message consists only of the status line and optional header fields, and is
@@ -30,25 +30,25 @@ package com.euris.academy2022.concordia.utils.enums;
  * servers must not send a 1xx response to an HTTP/1.0 compliant client except under experimental
  * conditions.
  * <p>
- * 2xx SUCCESSFUL<p>
+ * @Codes 2xx SUCCESSFUL<p>
  * This class of status codes indicates the action requested by the client was received, understood,
  * and accepted.
  * <p>
- * 3xx REDIRECTION<p>
+ * @Codes 3xx REDIRECTION<p>
  * This class of status code indicates the client must take additional action to complete the
  * request. Many of these status codes are used in URL redirection.
  * A user agent may carry out the additional action with no user interaction only if the method used
  * in the second request is GET or HEAD. A user agent may automatically redirect a request. A user
  * agent should detect and intervene to prevent cyclical redirects.
  * <p>
- * 4xx CLIENT ERROR<p>
+ * @Codes 4xx CLIENT ERROR<p>
  * This class of status code is intended for situations in which the error seems to have been caused
  * by the client. Except when responding to a HEAD request, the server should include an entity
  * containing an explanation of the error situation, and whether it is a temporary or permanent
  * condition. These status codes are applicable to any request method. User agents should display
  * any included entity to the user.
  * <p>
- * 5xx SERVER ERROR<p>
+ * @Codes 5xx SERVER ERROR<p>
  * Response status codes beginning with the digit "5" indicate cases in which the server is aware
  * that it has encountered an error or is otherwise incapable of performing the request. Except when
  * responding to a HEAD request, the server should include an entity containing an explanation of
@@ -108,23 +108,35 @@ public enum HttpResponseType {
     CREATED(
             "201",
             "CREATED",
-            "The request has been fulfilled, resulting in the creation of a new resource."),
+            "The request has been fulfilled, resulting a new resource to be added."),
     UPDATED(
             "201.1",
             "UPDATED",
-            "The request has been fulfilled, resulting in the modification of an old resource."),
+            "The request has been fulfilled, resulting an old resource to be modified."),
     DELETED(
             "201.2",
             "DELETED",
-            "The request has been fulfilled, resulting in the deletion of a resource."),
-    LOADED(
-            "201.3",
-            "LOADED",
-            "The request has been fulfilled, resulting in the synchronization of a resource."),
+            "The request has been fulfilled, resulting a resource to be removed."),
     ACCEPTED(
             "202",
             "ACCEPTED",
             "The request has been accepted for processing, but the processing has not been completed."),
+    FETCHED(
+            "202.1",
+            "FETCHED",
+            "The request has been processed and fulfilled, resulting a resource to be synchronized."),
+    PULLED(
+            "202.2",
+            "PULLED",
+            "The request has been processed and fulfilled, resulting a resource to be downloaded."),
+    PUSHED(
+            "202.3",
+            "PUSHED",
+            "The request has been processed and fulfilled, resulting a resource to be uploaded."),
+    MERGED(
+            "202.4",
+            "MERGED",
+            "The request has been processed and fulfilled, resulting a resource to be merged."),
     NON_AUTHORITATIVE_INFORMATION(
             "203",
             "NON_AUTHORITATIVE_INFORMATION",
@@ -201,14 +213,14 @@ public enum HttpResponseType {
             "This and all future requests are directed to the given URI."),
 
     /* 4xx client error */
-    FAILED(
-            "4xx",
-            "FAILED",
-            "Failed HTTP request."),
     BAD_REQUEST(
             "400",
             "BAD_REQUEST",
             "The server cannot process the request due to an apparent client error."),
+    FAILED(
+            "400.1",
+            "FAILED",
+            "Failed HTTP request."),
     UNAUTHORIZED(
             "401",
             "UNAUTHORIZED",
@@ -233,14 +245,26 @@ public enum HttpResponseType {
             "403.3",
             "NOT_DELETED",
             "The request has not been fulfilled, resulting in a resource not being deleted."),
-    NOT_LOADED(
-            "403.4",
-            "NOT_LOADED",
-            "The request has been fulfilled, resulting in a resource not being synchronized."),
     NOT_ACCEPTED(
             "403.5",
             "NOT_ACCEPTED",
             "The request has not been accepted for processing."),
+    NOT_FETCHED(
+            "403.6",
+            "NOT_FETCHED",
+            "The request has been processed but not fulfilled, resulting a resource to not being synchronized."),
+    NOT_PULLED(
+            "403.7",
+            "NOT_PULLED",
+            "The request has been processed but not fulfilled, resulting a resource to not being downloaded."),
+    NOT_PUSHED(
+            "403.8",
+            "NOT_PUSHED",
+            "The request has been processed but not fulfilled, resulting a resource to not being uploaded."),
+    NOT_MERGED(
+            "403.9",
+            "NOT_MERGED",
+            "The request has been processed but not fulfilled, resulting a resource to not being merged."),
     NOT_FOUND(
             "404",
             "NOT_FOUND",
@@ -427,19 +451,19 @@ public enum HttpResponseType {
             "REQUEST_HEADER_FIELD_TOO_LARGE",
             "The server is unwilling to process the request because either an individual header field, or all the header fields collectively, are too large."),
     LOGIN_TIME_OUT(
-            "4xx",
+            "431.1",
             "LOGIN_TIME_OUT",
             "The client's session has expired and must log in again."),
     NO_RESPONSE(
-            "4xx",
+            "431.2",
             "NO_RESPONSE",
             "The server cannot return information to the client and closed the connection immediately."),
     RETRY_WITH(
-            "4xx",
+            "431.3",
             "RETRY_WITH",
             "The server cannot honour the request because the user has not provided the required information."),
     BLOCKED_BY_WINDOWS_PARENTAL_CONTROLS(
-            "4xx",
+            "431.4",
             "BLOCKED_BY_WINDOWS_PARENTAL_CONTROLS",
             "Microsoft Windows Parental Controls are turned on and are blocking access to the requested webpage."),
     UNAVAILABLE_FOR_LEGAL_REASONS(
@@ -447,47 +471,47 @@ public enum HttpResponseType {
             "UNAVAILABLE_FOR_LEGAL_REASONS",
             "A server operator has received a legal demand to deny access to a resource or to a set of resources that includes the requested resource."),
     SSL_CERTIFICATE_ERROR(
-            "4xx",
+            "451.1",
             "SSL_CERTIFICATE_ERROR",
             "The client has provided an invalid client certificate."),
     SSL_CERTIFICATE_REQUIRED(
-            "4xx",
+            "451.2",
             "SSL_CERTIFICATE_REQUIRED",
             "The client certificate is required but has not been provided."),
     HTTP_REQUEST_SENT_TO_HTTPS_PORT(
-            "4xx",
+            "451.3",
             "HTTP_REQUEST_SENT_TO_HTTPS_PORT",
             "The client has made a HTTP request to a port listening for HTTPS requests."),
     INVALID_TOKEN(
-            "4xx",
+            "451.4",
             "INVALID_TOKEN",
             "The requested token is expired or otherwise invalid."),
     TOKEN_REQUIRED(
-            "4xx",
+            "451.5",
             "TOKEN_REQUIRED",
             "The requested token is required but not submitted."),
     CLIENT_CLOSED_REQUEST(
-            "4xx",
+            "451.6",
             "CLIENT_CLOSED_REQUEST",
             "The client has closed the request before the server could send a response."),
 
     /* 5xx server error */
-    NOT_CONTINUE(
-            "5xx",
-            "NOT_CONTINUE",
-            "The server has not received the request headers and the client should not proceed to send the request body."),
-    NOT_SWITCHING_PROTOCOLS(
-            "5xx",
-            "NOT_SWITCHING_PROTOCOLS",
-            "The client has asked the server to switch protocols and the server has disagreed to do so."),
-    NOT_PROCESSING(
-            "5xx",
-            "NOT_PROCESSING",
-            "The server has received but is not processing the request."),
     INTERNAL_SERVER_ERROR(
             "500",
             "INTERNAL_SERVER_ERROR",
             "Internal server error."),
+    NOT_CONTINUE(
+            "500.1",
+            "NOT_CONTINUE",
+            "The server has not received the request headers and the client should not proceed to send the request body."),
+    NOT_SWITCHING_PROTOCOLS(
+            "500.2",
+            "NOT_SWITCHING_PROTOCOLS",
+            "The client has asked the server to switch protocols and the server has disagreed to do so."),
+    NOT_PROCESSING(
+            "500.3",
+            "NOT_PROCESSING",
+            "The server has received but is not processing the request."),
     NOT_IMPLEMENTED(
             "501",
             "NOT_IMPLEMENTED",
@@ -533,39 +557,39 @@ public enum HttpResponseType {
             "NETWORK_AUTHENTICATION_REQUIRED",
             "The client needs to authenticate to gain network access."),
     WEB_SERVER_RETURNED_AN_UNKNOWN_ERROR(
-            "5xx",
+            "511.1",
             "WEB_SERVER_RETURNED_AN_UNKNOWN_ERROR",
             "The web server returned an empty, unknown, or unexpected response."),
     WEB_SERVER_IS_DOWN(
-            "5xx",
+            "511.2",
             "WEB_SERVER_IS_DOWN",
             "The web server refused connections."),
     CONNECTION_TIMED_OUT(
-            "5xx",
+            "511.3",
             "CONNECTION_TIMED_OUT",
             "The client timed out contacting the web server."),
     WEB_SERVER_IS_UNREACHABLE(
-            "5xx",
+            "511.4",
             "WEB_SERVER_IS_UNREACHABLE",
             "The request could not reach the web server."),
     A_TIME_OUT_OCCURRED(
-            "5xx",
+            "511.5",
             "A_TIME_OUT_OCCURRED",
             "The request could complete a TCP connection to the web server, but did not receive a timely HTTP response."),
     SSL_HANDSAHKE_FAILED(
-            "5xx",
+            "511.6",
             "SSL_HANDSAHKE_FAILED",
             "The request could not negotiate a SSL/TLS handshake with the web server."),
     INVALID_SSL_CERTIFICATE(
-            "5xx",
+            "511.7",
             "INVALID_SSL_CERTIFICATE",
             "The request could not validate the SSL certificate on the origin web server."),
     RAILGUN_ERROR(
-            "5xx",
+            "511.8",
             "RAILGUN_ERROR",
             "The connection with the Rail-gun server has been interrupted."),
     SITE_IS_OVERLOADED(
-            "5xx",
+            "511.9",
             "SITE_IS_OVERLOADED",
             "The website is overloaded and cannot process the API request."),
     SITE_IS_FROZEN(
@@ -573,11 +597,11 @@ public enum HttpResponseType {
             "SITE_IS_FROZEN",
             "The website has been frozen due to inactivity."),
     NETWORK_READ_TIME_OUT_ERROR(
-            "5xx",
+            "530.1",
             "NETWORK_READ_TIME_OUT_ERROR",
             "The proxy has noticed a network read timeout behind the proxy to a client."),
     NETWORK_CONNECT_TIME_OUT_ERROR(
-            "5xx",
+            "530.2",
             "NETWORK_CONNECT_TIME_OUT_ERROR",
             "The proxy has noticed a network connect timeout behind the proxy to a client.");
 

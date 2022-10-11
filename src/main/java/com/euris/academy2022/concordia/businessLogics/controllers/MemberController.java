@@ -2,12 +2,10 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPostRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.requests.members.MemberPutRequest;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
-import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
-import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPutRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,11 +64,11 @@ public class MemberController {
 
     @GetMapping("/name={name}")
     public ResponseDto<List<MemberDto>> getByName(@PathVariable String name) {
-        return memberService.getByName(name);
+        return memberService.getByFirstName(name);
     }
 
     @GetMapping("/surname={surname}")
     public ResponseDto<List<MemberDto>> getBySurname(@PathVariable String surname) {
-        return memberService.getBySurname(surname);
+        return memberService.getByLastName(surname);
     }
 }

@@ -1,12 +1,11 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Assignee;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Member;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.Task;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.AssigneeDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.MemberDto;
-import com.euris.academy2022.concordia.dataPersistences.dataTransferObjects.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import com.euris.academy2022.concordia.dataPersistences.models.Task;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.jpaRepositories.AssigneeJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
@@ -14,6 +13,7 @@ import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,35 +46,26 @@ public class AssigneeServiceImpl implements AssigneeService {
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
-            Optional<Assignee> assigneeFound = assigneeJpaRepository.findByUuidMemberAndIdTask(
-                    assignee.getMember().getUuid(),
-                    assignee.getTask().getId());
+            Integer assigneeCreated = assigneeJpaRepository.insert(
+                    memberFound.get().getUuid(),
+                    taskFound.get().getId(),
+                    LocalDateTime.now());
 
-            if (assigneeFound.isPresent()) {
-                response.setHttpResponse(HttpResponseType.FOUND);
-                response.setCode(HttpResponseType.FOUND.getCode());
-                response.setDesc(HttpResponseType.FOUND.getDesc());
+            if (assigneeCreated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
             } else {
-                Integer assigneeCreated = assigneeJpaRepository.insert(
-                        memberFound.get().getUuid(),
-                        taskFound.get().getId());
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
 
-                if (assigneeCreated != 1) {
-                    response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                    response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                    response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-                } else {
-                    response.setHttpResponse(HttpResponseType.CREATED);
-                    response.setCode(HttpResponseType.CREATED.getCode());
-                    response.setDesc(HttpResponseType.CREATED.getDesc());
+                AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
+                        .memberDto(memberFound.get().toDto())
+                        .taskDto(taskFound.get().toDto())
+                        .build();
 
-                    AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
-                            .memberDto(memberFound.get().toDto())
-                            .taskDto(taskFound.get().toDto())
-                            .build();
-
-                    response.setBody(assigneeDtoResponse);
-                }
+                response.setBody(assigneeDtoResponse);
             }
         }
         return response;
