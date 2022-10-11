@@ -1,0 +1,97 @@
+# DANIEL POLO
+## List of my activities
+- Started writing documentation
+- Designed database (UML schema)
+- Studied Trello functionality and APIs
+- Identified some mandatory Trello APIs
+- Created Trello board for Concordia project
+  - Created custom lists to manage status:
+    - Todo
+    - In progress
+    - Completed
+  - Created custom labels to manage priorities:
+    - High
+    - Expiring
+    - Medium
+    - Low
+    - Done
+    - Archived
+- Created GitHub repository and added teammates as collaborators
+  - NB. This is a solution we found to bypass the VPN issue, so we kept working with our development environment
+- Cloning GitHub repository to VM and pushing into bitBucket
+- Created file: 
+  - application.properties
+  - create.table.user.xml
+  - change.log.xml
+- Folders creation
+- Develop User entity feature:
+  - Model
+  - Data transfer object
+  - JPA repository
+  - Service
+  - Implementation of the service
+  - Controller
+  - Controller tests
+- Created enum features:
+  - HttpRequestType
+  - HttpResponseType
+  - MemberRole
+  - TaskPriority
+  - TaskStatus
+- Exported User API and test with Postman
+- Helped the team to fix any bugs
+- Refactoring and fixing by my own in case of trouble
+- Following an additional analysis we evaluated to merge User into Member
+- Merged User into Member:
+  - Change log XML files 
+  - Models
+  - Data transfer objects
+  - JPA repositories
+  - Services
+  - Implementation of the services
+  - Controllers
+  - API Front-end tests with postman to check functionality
+- Created data transfer objects for Trello APIs responses:
+  - TrelloCardDto
+  - TrelloMemberDto
+  - TrelloTaskDto
+- Studied how to manage Sync
+  - Fetching from trello
+  - Pushing into trello
+- Created utils:
+  - PingUtil, to manage connection and check if is possible to reach trello webserver
+- Studied how to schedule sync operations
+- Created BatchProcessingCfg to schedule sync
+- Created schedule jobs:
+  - CardScheduling
+  - MemberScheduling
+  - TaskScheduling
+- Fixed and refactored many classes to make the application work properly
+- Created interfaces that works as constants and explained it to the team:
+  - AssigneeConstant
+  - CommentConstant
+  - ConcordiaConstant
+  - MemberConstant
+  - TaskConstant
+  - TrelloConstant
+- Created utils:
+  - CommentTextUtil
+  - ResponseUtil
+- Created methods in TimeUtil:
+  - cleanString()
+  - parseDue()
+  - parseToLocalDateTime()
+- Split TrelloService and TrelloServiceImpl in three classes:
+  - TrelloCardService and TrelloCardServiceImpl
+  - TrelloCommentService and TrelloCommentServiceImpl
+  - TrelloMemberService and TrelloMemberServiceImpl
+- Revamp and refactor of DB structure
+  - Added again relation between Member and Comment
+  - Added dateCreation and DateUpdate for all tables
+  - Changed name and surname to firstName and lastName
+  - Fixed all classes to match new changes:
+    - all models
+    - all DTOs
+    - all JPAs
+    - all service
+    - all serviceImpl
