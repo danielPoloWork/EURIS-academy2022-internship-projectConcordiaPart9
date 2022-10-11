@@ -12,7 +12,7 @@
                 <constraints primaryKey="true" primaryKeyName="pkMember"/>
             </column>
             <column name="idTrelloMember" type="CHAR(24)">
-                <constraints nullable="true" uniqueConstraintName="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="username" type="VARCHAR(100)">
                 <constraints nullable="false" uniqueConstraintName="true"/>
@@ -23,10 +23,16 @@
             <column name="role" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="VARCHAR(45)">
+            <column name="firstName" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="surname" type="VARCHAR(45)">
+            <column name="lastName" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateCreation" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateUpdate" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
         </createTable>

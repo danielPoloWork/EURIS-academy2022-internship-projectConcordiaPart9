@@ -11,6 +11,10 @@
             <column name="uuid" type="CHAR(36)">
                 <constraints primaryKey="true" primaryKeyName="pkComment"/>
             </column>
+            <column name="idTrelloComment" type="CHAR(24)">
+                <constraints uniqueConstraintName="true"
+                             nullable="false" />
+            </column>
             <column name="idTask" type="CHAR(24)">
                 <constraints referencedTableName="Task"
                              referencedColumnNames="id"
@@ -21,15 +25,15 @@
                 <constraints referencedTableName="Member"
                              referencedColumnNames="uuid"
                              foreignKeyName="fkCommentMember"
-                             nullable="false"/>
-            </column>
-            <column name="idTrelloComment" type="CHAR(24)">
-                <constraints nullable="true" uniqueConstraintName="true"/>
+                             nullable="false" />
             </column>
             <column name="text" type="VARCHAR(1000)">
                 <constraints nullable="false"/>
             </column>
-            <column name="lastUpdate" type="DATETIME">
+            <column name="dateCreation" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateUpdate" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
         </createTable>
