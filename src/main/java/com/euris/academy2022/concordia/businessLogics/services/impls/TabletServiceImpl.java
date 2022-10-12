@@ -11,6 +11,7 @@ import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,10 +68,22 @@ public class TabletServiceImpl implements TabletService {
         List<Task> memberTasks = taskService.findAllTasksByMemberUuid(uuidMember);
 
         if (!memberTasks.isEmpty()) {
+
+            memberTasks.sort(new Comparator<Task>() {
+                @Override
+                public int compare(Task t1, Task t2) {
+                    if (t1.getPriority().getLabel().equals(t2.getPriority().getLabel())) {
+                        return t1.getId().compareTo(t2.getId());
+                    } else {
+                        return t1.getPriority().compareTo(t2.getPriority());
+                    }
+                }
+            });
+
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberTasks.stream().map(Task::toDto).collect(Collectors.toList()));
+            response.setBody(memberTasks.stream().map(Task::toDto).toList());
 
         } else {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);

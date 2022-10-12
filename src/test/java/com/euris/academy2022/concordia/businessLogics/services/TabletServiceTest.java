@@ -31,7 +31,12 @@ class TabletServiceTest {
     @MockBean
     private TaskService taskService;
     private TabletService tabletService;
+
     private Task task;
+    private Task taskHigh;
+    private Task taskExp;
+    private Task taskMedium;
+    private Task taskLow;
     private Member member;
 
     private List<Task> taskList;
@@ -44,8 +49,32 @@ class TabletServiceTest {
         tabletService = new TabletServiceImpl(taskService);
 
         task = Task.builder()
-                .id("idTask")
+                .id("idTask1")
                 .priority(TaskPriority.HIGH)
+                .status(TaskStatus.TO_DO)
+                .build();
+
+        taskHigh = Task.builder()
+                .id("idTask2")
+                .priority(TaskPriority.HIGH)
+                .status(TaskStatus.TO_DO)
+                .build();
+
+        taskExp = Task.builder()
+                .id("idTask3")
+                .priority(TaskPriority.EXPIRING)
+                .status(TaskStatus.TO_DO)
+                .build();
+
+        taskMedium = Task.builder()
+                .id("idTask4")
+                .priority(TaskPriority.MEDIUM)
+                .status(TaskStatus.TO_DO)
+                .build();
+
+        taskLow = Task.builder()
+                .id("idTask5")
+                .priority(TaskPriority.LOW)
                 .status(TaskStatus.TO_DO)
                 .build();
 
@@ -87,13 +116,20 @@ class TabletServiceTest {
     @Test
     void getMemberTasksTest_FOUND() {
 
+        taskList.clear();
+
+        taskList.add(taskLow);
+        taskList.add(taskHigh);
+        taskList.add(taskExp);
+        taskList.add(taskMedium);
+        taskList.add(task);
+
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
         expectedResponse.setHttpResponse(HttpResponseType.FOUND);
         expectedResponse.setCode(HttpResponseType.FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(taskDtoList);
 
         Mockito
                 .when(taskService.findAllTasksByMemberUuid(Mockito.anyString()))
@@ -107,7 +143,18 @@ class TabletServiceTest {
         Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
         Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
         Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getId(), response.getBody().get(0).getId());
+
+        Assertions.assertEquals(task.getId(), response.getBody().get(0).getId());
+        Assertions.assertEquals(taskHigh.getId(), response.getBody().get(1).getId());
+        Assertions.assertEquals(taskExp.getId(), response.getBody().get(2).getId());
+        Assertions.assertEquals(taskMedium.getId(), response.getBody().get(3).getId());
+        Assertions.assertEquals(taskLow.getId(), response.getBody().get(4).getId());
+
+        Assertions.assertEquals(task.getPriority(), response.getBody().get(0).getPriority());
+        Assertions.assertEquals(taskHigh.getPriority(), response.getBody().get(1).getPriority());
+        Assertions.assertEquals(taskExp.getPriority(), response.getBody().get(2).getPriority());
+        Assertions.assertEquals(taskMedium.getPriority(), response.getBody().get(3).getPriority());
+        Assertions.assertEquals(taskLow.getPriority(), response.getBody().get(4).getPriority());
     }
 
     @Test
