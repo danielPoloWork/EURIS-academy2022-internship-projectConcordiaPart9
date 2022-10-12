@@ -5,7 +5,6 @@ import com.euris.academy2022.concordia.dataPersistences.DTOs.trelloDTOs.TrelloCa
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
 public interface TrelloPushService {
 
     void updateComment(String idAction, String idCard, String text);

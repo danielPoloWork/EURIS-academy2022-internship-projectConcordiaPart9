@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface CommentService {
     ResponseDto<CommentDto> insert(Comment comment);
     ResponseDto<CommentDto> insertFromTrello(Comment comment);
