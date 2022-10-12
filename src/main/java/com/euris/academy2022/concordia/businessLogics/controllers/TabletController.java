@@ -42,7 +42,7 @@ public class TabletController {
     }
 
     @GetMapping("/expiringPriority/{uuidMember}")
-    public ResponseDto<List<TaskDto>> getExpiringTasks(@PathVariable String uuidMember) {
+    public ResponseDto<List<TaskDto>> getExpiringPriorityTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByPriority(uuidMember, TaskPriority.EXPIRING);
     }
 

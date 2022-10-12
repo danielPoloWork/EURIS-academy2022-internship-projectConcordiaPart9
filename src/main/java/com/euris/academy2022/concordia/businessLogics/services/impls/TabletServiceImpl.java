@@ -27,8 +27,6 @@ public class TabletServiceImpl implements TabletService {
     @Override
     public ResponseDto<List<TaskDto>> getMemberTasksByPriority(String uuidMember, TaskPriority priority) {
 
-        taskService.updateExpiringTasks();
-
         ResponseDto<List<TaskDto>> response = getMemberTasks(uuidMember);
 
         if (response.getBody() != null) {
@@ -63,8 +61,11 @@ public class TabletServiceImpl implements TabletService {
     @Override
     public ResponseDto<List<TaskDto>> getMemberTasks(String uuidMember) {
 
+        taskService.updateExpiringTasks();
+
         ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.GET);
+
         List<Task> memberTasks = taskService.findAllTasksByMemberUuid(uuidMember);
 
         if (!memberTasks.isEmpty()) {
