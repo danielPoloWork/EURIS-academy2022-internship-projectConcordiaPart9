@@ -8,7 +8,7 @@ import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +16,41 @@ import java.util.stream.Collectors;
 
 @Service
 public class TabletServiceImpl implements TabletService {
-    @Autowired
-    TaskService taskService;
+
+    private TaskService taskService;
+
+    public TabletServiceImpl(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @Override
     public ResponseDto<List<TaskDto>> getMemberTasksByPriority(String uuidMember, TaskPriority priority) {
 
+        taskService.updateExpiringTasks();
+
         ResponseDto<List<TaskDto>> response = getMemberTasks(uuidMember);
 
-        if (!response.getBody().isEmpty()) {
+        if (response.getBody() != null) {
             List<TaskDto> filteredBody = response.getBody()
                     .stream()
-                    .filter(task -> task.getPriority().getLabel().equals(priority.getLabel()))
+                    .filter(task -> task.getPriority().equals(priority))
+                    .toList();
+
+            response.setBody(filteredBody);
+        }
+
+        return response;
+    }
+
+    @Override
+    public ResponseDto<List<TaskDto>> getMemberTasksByStatus(String uuidMember, TaskStatus status) {
+
+        ResponseDto<List<TaskDto>> response = getMemberTasks(uuidMember);
+
+        if (response.getBody() != null) {
+            List<TaskDto> filteredBody = response.getBody()
+                    .stream()
+                    .filter(task -> task.getStatus().equals(status))
                     .toList();
 
             response.setBody(filteredBody);
@@ -53,36 +76,6 @@ public class TabletServiceImpl implements TabletService {
             response.setHttpResponse(HttpResponseType.NOT_FOUND);
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-        }
-
-        return response;
-    }
-
-    @Override
-    public ResponseDto<List<TaskDto>> getExpiringTasks(String uuidMember) {
-
-        taskService.updateExpiringTasks();
-
-        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
-        response.setHttpRequest(HttpRequestType.GET);
-
-        List<Task> expiringTasks = taskService.findAllTasksByMemberUuid(uuidMember)
-                .stream()
-                .filter(task -> task.getPriority().equals(TaskPriority.EXPIRING))
-                .toList();
-
-        if (expiringTasks.isEmpty()) {
-
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        } else {
-
-            response.setHttpResponse(HttpResponseType.FOUND);
-            response.setCode(HttpResponseType.FOUND.getCode());
-            response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(expiringTasks.stream().map(Task::toDto).collect(Collectors.toList()));
         }
 
         return response;
