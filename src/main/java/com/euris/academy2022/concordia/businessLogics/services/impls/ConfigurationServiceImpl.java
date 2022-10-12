@@ -8,10 +8,11 @@ import com.euris.academy2022.concordia.jpaRepositories.ConfigurationJpaRepositor
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import liquibase.pro.packaged.H;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
+@Service
 public class ConfigurationServiceImpl implements ConfigurationService {
 
     private final ConfigurationJpaRepository configurationJpaRepository;

@@ -18,7 +18,7 @@ public interface ConfigurationJpaRepository extends JpaRepository<Configuration,
 
     String UPDATE_CONFIGURATION =
             "UPDATE CONFIGURATION "
-                    + "SET CONFIGURATION.value = :value, CONFIGURATION.dateUpdate "
+                    + "SET CONFIGURATION.value = :value, CONFIGURATION.dateUpdate = :dateUpdate "
                     + "WHERE CONFIGURATION.label = :label";
 
     String DELETE_CONFIGURATION =
