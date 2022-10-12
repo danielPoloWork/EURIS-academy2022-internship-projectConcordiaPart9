@@ -20,7 +20,7 @@ The following PDFs/PNGs show the database schemas for different Concordia versio
 
 The database schema is also described in ../java/resources/database/changeLog/ xml files in the Concordia web 
 application. All entitymodel.xml file has an XML definition of all Concordia database tables, table columns, and their 
-data type. Some of the relationships between tables also appear in the files.
+data type. Some relationships between tables also appear in the files.
 - [**Assignee**](../../../../../main/resources/database/changeLog/create.table.assignee.xml)
 - [**Comment**](../../../../../main/resources/database/changeLog/create.table.comment.xml)
 - [**Member**](../../../../../main/resources/database/changeLog/create.table.member.xml)
@@ -109,7 +109,28 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
 |dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
 
-## Motivations following changes
-Following subsequent reflections we opted to merge between the User table and the Member table to avoid code redundancy. 
+
+### Motivations following changes
+Following subsequent briefing we opted to merge between the User table and the Member table to avoid code redundancy. 
 Initially it was considered to have two separate tables between the creation of the members and a table to manage the 
 authentication service with its privileges in anticipation of a front-end development.
+
+
+## Changelog v1.4
+
+#### TABLE: Configuration
+|FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
+|-|-|-|-|-|-|-|-|-|-|
+|label|VARCHAR(255)|✓|-|✓|-|-|-|-|-|
+|value|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
+
+#### TABLE: Connection Window
+|FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
+|-|-|-|-|-|-|-|-|-|-|
+|month|TINYINT|✓|-|✓|-|-|-|-|-|
+|cron|VARCHAR(255)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|

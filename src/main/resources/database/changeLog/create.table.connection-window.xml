@@ -8,7 +8,7 @@
     <comment>Create table Connection Window</comment>
 
     <createTable tableName="ConnectionWindow">
-      <column name="month" type="INT">
+      <column name="month" type="TINYINT">
         <constraints primaryKey="true" primaryKeyName="pkConnectionWindow"/>
       </column>
       <column name="cron" type="VARCHAR(255)">
