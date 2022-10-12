@@ -12,9 +12,7 @@
                 <constraints primaryKey="true" primaryKeyName="pkComment"/>
             </column>
             <column name="idTrelloComment" type="CHAR(24)">
-                <constraints nullable="false"
-                  unique="true"
-                  uniqueConstraintName="ukCommentIdTrelloComment"/>
+                <constraints nullable="true"/>
             </column>
             <column name="idTask" type="CHAR(24)">
                 <constraints referencedTableName="Task"
