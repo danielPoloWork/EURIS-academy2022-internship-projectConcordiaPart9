@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static com.euris.academy2022.concordia.utils.constants.CommentConstant.*;
+import static com.euris.academy2022.concordia.utils.constants.models.CommentConstant.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
