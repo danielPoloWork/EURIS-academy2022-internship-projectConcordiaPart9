@@ -35,7 +35,7 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
 |uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
-|idTrelloComment|CHAR(24)|-|-|✓|✓|-|-|-|-|
+|idTrelloComment|CHAR(24)|-|-|-|-|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
 |uuidMember|CHAR(36)|-|✓|✓|-|-|-|-|-|
 |text|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
