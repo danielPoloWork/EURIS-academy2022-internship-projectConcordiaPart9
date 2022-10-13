@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final utlizzo versione della libreria JasperReports6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1fb8b551-c32a-49f3-8277-a7951ac4266c">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idList" class="java.lang.String"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="idLabels" class="java.lang.String"/>
+	<field name="completed" class="java.lang.Integer"/>
+	<field name="todo" class="java.lang.Integer"/>
+	<field name="inprogress" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="10" width="261" height="61" uuid="af281cdb-b319-41c0-b4e9-251803d567da"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[APP DATA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="-10" y="6" width="172" height="14" uuid="eecbde2b-0a9d-4800-b537-f50175372ab5"/>
+				<text><![CDATA[completed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="3" width="181" height="21" uuid="d6bfe931-f69b-4856-8076-5558b4ced113"/>
+				<text><![CDATA[todo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="6" width="186" height="21" uuid="eaa40941-0591-4730-9f83-b857206c7fa4"/>
+				<text><![CDATA[inprogress]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="-11" y="-1" width="172" height="21" uuid="41b687e9-6830-4895-a90f-cfaf760c28e9"/>
+				<textFieldExpression><![CDATA[$F{completed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="181" height="21" uuid="f5319da6-c20f-4b95-a1c4-0556263a66dd"/>
+				<textFieldExpression><![CDATA[$F{todo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="0" width="186" height="21" uuid="29c6def1-fcec-46e8-970e-15c0ef7600c8"/>
+				<textFieldExpression><![CDATA[$F{inprogress}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
