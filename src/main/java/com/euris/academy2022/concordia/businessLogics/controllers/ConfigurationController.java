@@ -5,11 +5,10 @@ import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.configurations.ConfigurationPostRequest;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.configurations.ConfigurationPutRequest;
-import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/controller")
+@RequestMapping("/api/configuration")
 public class ConfigurationController {
 
     private final ConfigurationService configurationService;
