@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 public interface MemberJpaRepository extends JpaRepository<Member, String> {
     String INSERT_INTO_MEMBER =
