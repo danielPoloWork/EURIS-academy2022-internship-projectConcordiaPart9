@@ -112,7 +112,7 @@ public class MemberControllerTest {
     @Test
     void getAllTest() throws Exception {
         Mockito
-                .when(memberService.getAll())
+                .when(memberService.getAllMemberDto())
                 .thenReturn(listResponse);
 
         client
@@ -123,13 +123,13 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getAll();
+        Mockito.verify(memberService, Mockito.times(1)).getAllMemberDto();
     }
 
     @Test
     void getByUuidTest() throws Exception {
         Mockito
-                .when(memberService.getByUuid(Mockito.anyString()))
+                .when(memberService.getMemberDtoByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
 
         client
@@ -140,7 +140,7 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getByUuid(Mockito.anyString());
+        Mockito.verify(memberService, Mockito.times(1)).getMemberDtoByUuid(Mockito.anyString());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class MemberControllerTest {
     @Test
     void getUsernameTest() throws Exception {
         Mockito
-                .when(memberService.getByUsername(Mockito.anyString()))
+                .when(memberService.getMemberDtoByUsername(Mockito.anyString()))
                 .thenReturn(modelResponse);
 
         client
@@ -174,7 +174,7 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getByUsername(Mockito.anyString());
+        Mockito.verify(memberService, Mockito.times(1)).getMemberDtoByUsername(Mockito.anyString());
     }
 
     @Test

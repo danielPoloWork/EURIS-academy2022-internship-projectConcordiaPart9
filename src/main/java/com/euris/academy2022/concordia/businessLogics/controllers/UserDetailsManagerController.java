@@ -1,31 +1,49 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
-import com.euris.academy2022.concordia.businessLogics.services.UserDetailsManagerService;
-import com.euris.academy2022.concordia.businessLogics.services.UserService;
-import com.euris.academy2022.concordia.dataPersistences.dataModels.User;
+import com.euris.academy2022.concordia.businessLogics.services.MemberService;
+import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/userDetailManager")
 public class UserDetailsManagerController {
 
 	private final UserDetailsManagerService userDetailsManagerService;
-	private final UserService userService;
+	private final MemberService memberService;
 
-	public UserDetailsManagerController(UserDetailsManagerService userDetailsManagerService, UserService userService) {
+	public UserDetailsManagerController(UserDetailsManagerService userDetailsManagerService, MemberService memberService) {
 		this.userDetailsManagerService = userDetailsManagerService;
-		this.userService = userService;
+		this.memberService = memberService;
 	}
 
-	@GetMapping("/load")
-	public List<User> loadUserList() {
-		List<User> response = userService.getAll();
-		return userDetailsManagerService.getUserListByUserList(response);
+	@GetMapping
+	public ResponseDto<List<MemberDto>> fetch() {
+		ResponseDto<List<Member>> response = memberService.getAllMember();
+		return userDetailsManagerService.responseLoadByList(response.getBody());
 	}
+
+//	@PostMapping
+//	public ResponseDto<MemberDto> postUserDetailManager(@PathVariable String uuidMember) {
+//		ResponseDto<Member> response = memberService.getMemberByUuid(uuidMember);
+//		return userDetailsManagerService.responsePostByModel(response.getBody());
+//	}
+//
+//	@PutMapping
+//	public ResponseDto<MemberDto> putUserDetailManager(@PathVariable String uuidMember) {
+//		ResponseDto<Member> response = memberService.getMemberByUuid(uuidMember);
+//		return userDetailsManagerService.responsePutByModel(response.getBody());
+//	}
+//
+//	@DeleteMapping
+//	public ResponseDto<String> deleteUserDetailManager(@PathVariable String username) {
+//		return userDetailsManagerService.responseDeleteByUsername(username);
+//	}
+
 }
 
