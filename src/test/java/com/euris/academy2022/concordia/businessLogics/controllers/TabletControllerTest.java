@@ -38,7 +38,7 @@ class TabletControllerTest {
     @MockBean
     private TabletService tabletService;
     private String uuidMember;
-    private final String REQUEST_MAPPING = "/api/tablet/";
+    private final String REQUEST_MAPPING = "/api/tablet";
     private ResponseDto<List<TaskDto>> listResponse;
 
     @BeforeEach
