@@ -52,12 +52,12 @@ public class BatchProcessingCfg {
         printFetchTrelloEnd(Thread.currentThread().getName());
     }
 
-    private void fetchConcordiaAndPushToTrello() {
-        printFetchConcordiaStart(Thread.currentThread().getName());
-        TaskScheduling.fetchAndPush(trelloCardService, trellolabelService, taskService);
-        CommentScheduling.fetchAndPush(trelloCommentService, commentService, taskService);
-        printFetchConcordiaEnd(Thread.currentThread().getName());
-    }
+//    private void fetchConcordiaAndPushToTrello() {
+//        printFetchConcordiaStart(Thread.currentThread().getName());
+//        TaskScheduling.fetchAndPush(trelloCardService, trellolabelService, taskService);
+//        CommentScheduling.fetchAndPush(trelloCommentService, commentService, taskService);
+//        printFetchConcordiaEnd(Thread.currentThread().getName());
+//    }
 
     //TODO:private void generateReportAndSendEmail(){}
 }

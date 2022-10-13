@@ -20,6 +20,16 @@ import java.util.Optional;
 
 public class CommentScheduling {
 
+    // download tutti i comment da trello
+    // controllo se ogni comment esiste in DB
+    // se non esiste lo inserisco su local
+    // se esiste:
+    // contorllo se la data su trello è più recente
+    // se è più recente faccio update su local
+    // se la data è uguale è già aggiornato e quindi ritorno OK
+    // controllo se il DB local ha un comment con trello id che non esiste su trello
+    // se esiste in local va eliminato da local
+    // se non esiste neanche in local ritorno OK
     public static void fetchAndPull(TrelloCommentService trelloCommentService, CommentService commentService, MemberService memberService) {
         try {
             ResponseDto<List<TrelloCommentDto>> allTrelloComments = trelloCommentService.getAllComments();
@@ -50,6 +60,7 @@ public class CommentScheduling {
                 } else {
                     if (TimeUtil.parseToLocalDateTime(comment.getDateLastEdited()).isBefore(commentFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
 
+                        System.out.println("IM_HERE_UPDATE");
                         CommentPutRequest commentOld = CommentPutRequest.builder()
                                 .uuid(commentFound.getBody().getUuid())
                                 .idTrelloComment(comment.getId())

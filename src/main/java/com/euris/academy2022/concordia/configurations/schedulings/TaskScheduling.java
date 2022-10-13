@@ -19,6 +19,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskScheduling {
+
+    // download da trello
+    // controllo se il task esiste in DB
+    // se non esiste lo inserisco su local
+    // se esiste
+    // contorllo se la data su trello è più recente
+    // se è più recente faccio update su local
+    // se la data è uguale ritorno OK
+    // controllo se il DB local ha un task con trello id che non esiste su trello
+    // se esiste in local va eliminato
+    // se non esiste neanche in local ritorno OK
     public static void fetchAndPull(TrelloCardService trelloCardService, TaskService taskService, TaskStatus trelloListId) {
         try {
             ResponseDto<List<TrelloCardDto>> trelloCardList = trelloCardService.getCardsByIdList(trelloListId.getTrelloListId());
@@ -47,7 +58,7 @@ public class TaskScheduling {
                             HttpResponseType.NOT_FOUND.getLabel(),
                             taskCreated.getHttpResponse().getLabel());
                 } else {
-                    if (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isAfter(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
+                    if (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isBefore(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
 
                         TaskPutRequest taskOld = TaskPutRequest.builder()
                                 .id(taskFound.getBody().getId())
@@ -90,6 +101,17 @@ public class TaskScheduling {
         }
     }
 
+
+    // contorllo l'id della lista di trello
+    // se la lista di trello è diversa devo aggiornare il task su trello
+    // se è uguale ritorno OK
+    /* devo fare questa operazioen per gestire i passaggi da una lista all'alltra*/
+
+    // controllo se la label è diversa
+    // se è diversa aggiorno il task su trello
+    // se è uguale ritorno OK
+
+    // Upload su trello
     public static void fetchAndPush(TrelloCardService trelloCardService, TrelloLabelService trelloLabelService, TaskService taskService) {
         try {
             ResponseDto<List<TaskDto>> taskList = taskService.getAll();

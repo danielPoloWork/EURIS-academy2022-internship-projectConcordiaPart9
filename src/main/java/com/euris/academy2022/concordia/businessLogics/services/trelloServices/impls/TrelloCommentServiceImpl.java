@@ -187,7 +187,6 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
                     getUrlParamsByIdCard(idCard));
 
             if (Optional.ofNullable(comments).isPresent()) {
-                System.out.println("JSON_" + comments);
                 setResponseForGetAllCommentsByIdCard(response, comments);
             }
         }
@@ -220,8 +219,6 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject object = new JSONObject(jsonArray.get(i).toString());
-                System.out.println("JSONOBJECT[" + i + "]_" + object);
-
                 JSONObject data = new JSONObject(object.get(DATA).toString());
                 JSONObject card = new JSONObject(data.get(CARD).toString());
                 JSONObject member = new JSONObject(object.get(MEMBER_CREATOR).toString());
@@ -231,7 +228,7 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
                 if (dataObj.has(DATE_LAST_EDITED)) {
                     dateLastEdited = dataObj.getString(DATE_LAST_EDITED);
                 } else {
-                    dateLastEdited = null;
+                    dateLastEdited = "0000-01-01T00:00:00.000Z";
                 }
 
                 TrelloCommentDto comment = TrelloCommentDto.builder()
@@ -299,7 +296,7 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
             if (dataObj.has(DATE_LAST_EDITED)) {
                 dateLastEdited = dataObj.getString(DATE_LAST_EDITED);
             } else {
-                dateLastEdited = null;
+                dateLastEdited = "0000-01-01T00:00:00.000Z";
             }
 
             TrelloCommentDto trelloCommentDto = TrelloCommentDto.builder()
