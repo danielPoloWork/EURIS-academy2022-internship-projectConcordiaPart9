@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
-import static com.euris.academy2022.concordia.utils.constants.AssigneeConstant.*;
+import static com.euris.academy2022.concordia.utils.constants.models.AssigneeConstant.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

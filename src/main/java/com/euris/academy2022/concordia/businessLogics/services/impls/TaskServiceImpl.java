@@ -336,6 +336,7 @@ public class TaskServiceImpl implements TaskService {
                 .stream()
                 .filter(task -> task.getDeadLine() != null
                         && !task.getPriority().equals(TaskPriority.EXPIRING)
+                        && !task.getStatus().equals(TaskStatus.COMPLETED)
                         && TimeUtil.isExpiring(task.getDeadLine()))
                 .map(this::updateTaskPriorityToExpiring)
                 .collect(Collectors.toList());
