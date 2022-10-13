@@ -39,7 +39,7 @@ public class TaskControllerTest {
     private TaskService taskService;
     private ObjectMapper objectMapper;
     private Task task;
-    private final String REQUEST_MAPPING = "/api/task/";
+    private final String REQUEST_MAPPING = "/api/task";
     private ResponseDto<TaskDto> modelResponse;
     private ResponseDto<List<TaskDto>> listResponse;
 
