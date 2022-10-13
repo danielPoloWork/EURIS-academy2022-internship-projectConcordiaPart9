@@ -1,5 +1,6 @@
 package com.euris.academy2022.concordia.jpaRepositories;
 
+import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,7 +29,7 @@ public interface ConfigurationJpaRepository extends JpaRepository<Configuration,
                     + "WHERE CONFIGURATION.label = :label";
 
     String SELECT_BY_LABEL =
-            "SELECT CONFIGURATION.label, CONFIGURATION.value, CONFIGURATION.dateCreate, CONFIGURATION.dateUpdate"
+            "SELECT CONFIGURATION.label CONFIGURATION.value "
                     + "FROM CONFIGURATION"
                     + "WHERE CONFIGURATION.label = :label";
 
@@ -60,6 +61,7 @@ public interface ConfigurationJpaRepository extends JpaRepository<Configuration,
 
 
     @Query(value = SELECT_BY_LABEL, nativeQuery = true)
-    Optional<Configuration> findByLabel(@Param("label") String label);
+    Optional<Configuration> findByLabel(
+            @Param("label") String label);
 
 }
