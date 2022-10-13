@@ -17,4 +17,5 @@ public interface CommentService {
     ResponseDto<List<CommentDto>> getAll();
     ResponseDto<CommentDto> getByUuid(String uuid);
     ResponseDto<CommentDto> getByIdTrelloComment(String idTrelloComment);
+    ResponseDto<List<CommentDto>> getAllWhereIdTrelloTaskIsNotNull();
 }

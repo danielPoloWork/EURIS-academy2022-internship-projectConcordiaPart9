@@ -56,11 +56,11 @@ public class MemberScheduling {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             //e.printStackTrace();
-            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : INTERRUPTED MANUALLY\n",
+            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : ********MemberScheduling : INTERRUPTED MANUALLY\n",
                     Thread.currentThread().getName(),
                     new Date());
         } catch (NullPointerException e) {
-            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : RECORD IS NULL\n",
+            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : ********MemberScheduling : NULL POINTER\n",
                     Thread.currentThread().getName(),
                     new Date());
         }

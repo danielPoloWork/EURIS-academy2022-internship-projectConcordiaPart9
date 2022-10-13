@@ -167,15 +167,10 @@ public class TrelloPushServiceImpl implements TrelloPushService {
 
     }
 
-
-
-
     public void pushTrelloCards(List<Task> taskList){
         updateListFromCards(taskList);
         updateLabelsFromCards(taskList);
     }
-
-
 
     private void updateListFromCard(Task task) {
 
@@ -197,9 +192,6 @@ public class TrelloPushServiceImpl implements TrelloPushService {
         restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.PUT, requestEntity, Void.class);
 
     }
-
-
-
 
     private void updateLabelFromCard(Task task) {
         String trellokey = TrelloConstant.KEY;
@@ -233,19 +225,10 @@ public class TrelloPushServiceImpl implements TrelloPushService {
 
         builder = UriComponentsBuilder.fromUriString(URLPOSTLABEL);
         restTemplate.exchange(builder.buildAndExpand(urlParams).toUri(), HttpMethod.POST, requestEntity, Void.class);
-
-
     }
-
-
-
 
     public void updateSingleCard(Task task){
         updateListFromCard(task);
         updateLabelFromCard(task);
     }
-
-
-
-
 }

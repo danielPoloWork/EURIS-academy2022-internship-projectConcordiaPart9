@@ -337,4 +337,9 @@ public class TaskServiceImpl implements TaskService {
 
         expiringTasks.forEach(this::updateTaskPriorityToExpiring);
     }
+
+    @Override
+    public Optional<String> findIdByUuidComment(String uuidComment) {
+        return taskJpaRepository.findIdByUuidComment(uuidComment);
+    }
 }
