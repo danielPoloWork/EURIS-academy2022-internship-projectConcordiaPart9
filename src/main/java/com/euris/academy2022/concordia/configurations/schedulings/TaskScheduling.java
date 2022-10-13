@@ -58,7 +58,9 @@ public class TaskScheduling {
                             HttpResponseType.NOT_FOUND.getLabel(),
                             taskCreated.getHttpResponse().getLabel());
                 } else {
-                    if (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isBefore(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
+                    System.out.println("TRELLO_"+TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()));
+                    System.out.println("CONCORDIA"+taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS));
+                    if (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isAfter(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
 
                         TaskPutRequest taskOld = TaskPutRequest.builder()
                                 .id(taskFound.getBody().getId())
