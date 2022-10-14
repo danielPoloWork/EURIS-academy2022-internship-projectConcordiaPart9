@@ -12,7 +12,7 @@
                 <constraints primaryKey="true" primaryKeyName="pkMember"/>
             </column>
             <column name="idTrelloMember" type="CHAR(24)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="username" type="VARCHAR(100)">
                 <constraints nullable="false"

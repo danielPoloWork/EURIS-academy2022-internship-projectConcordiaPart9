@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
+import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPostRequest;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPutRequest;
@@ -18,23 +19,38 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    private final UserDetailsManagerService userDetailsManagerService;
+
+    public MemberController(MemberService memberService, UserDetailsManagerService userDetailsManagerService) {
         this.memberService = memberService;
+        this.userDetailsManagerService = userDetailsManagerService;
     }
 
     @PostMapping
     public ResponseDto<MemberDto> insert(@RequestBody MemberPostRequest memberDto) {
-        return memberService.insert(memberDto.toModel());
+        ResponseDto<MemberDto> response = memberService.insert(memberDto.toModel());
+        if (response.getBody() != null) {
+            userDetailsManagerService.responsePostByModel(response.getBody().toModel());
+        }
+        return response;
     }
 
     @PutMapping
     public ResponseDto<MemberDto> update(@RequestBody MemberPutRequest memberDto) {
-        return memberService.update(memberDto.toModel());
+        ResponseDto<MemberDto> response = memberService.update(memberDto.toModel());
+        if (response.getBody() != null) {
+            userDetailsManagerService.responsePutByModel(response.getBody().toModel());
+        }
+        return response;
     }
 
     @DeleteMapping("/{uuid}")
     public ResponseDto<MemberDto> removeByUuid(@PathVariable String uuid) {
-        return memberService.removeByUuid(uuid);
+        ResponseDto<MemberDto> response = memberService.removeByUuid(uuid);
+        if (response.getBody() != null) {
+            userDetailsManagerService.responseDeleteByUsername(response.getBody().getUsername());
+        }
+        return response;
     }
 
     @GetMapping
@@ -44,7 +60,7 @@ public class MemberController {
 
     @GetMapping("/{uuid}")
     public ResponseDto<MemberDto> getByUuid(@PathVariable String uuid) {
-        return memberService.getByUuid(uuid);
+        return memberService.getMemberDtoByUuid(uuid);
     }
 
     @GetMapping("/idTrelloMember={idTrelloMember}")

@@ -1,6 +1,9 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
+import com.euris.academy2022.concordia.businessLogics.configurations.TestSecurityCfg;
+import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
+import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
@@ -14,7 +17,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,11 +29,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Import(value = {
+        TestSecurityCfg.class,
+        SecurityCfg.class
+})
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(TaskController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -35,8 +45,16 @@ public class TaskControllerTest {
 
     @Autowired
     private MockMvc client;
+    @Autowired
+    private UserDetailsManager beanUdmAdmin;
+    @Autowired
+    private UserDetailsManager beanUdmBasicMember;
+
     @MockBean
     private TaskService taskService;
+    @MockBean
+    private MemberService memberService;
+
     private ObjectMapper objectMapper;
     private Task task;
     private final String REQUEST_MAPPING = "/api/task";
@@ -60,7 +78,8 @@ public class TaskControllerTest {
     }
 
     @Test
-    void insertTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void insertTest_AUTORIZED() throws Exception {
         Mockito
                 .when(taskService.insert(Mockito.any(Task.class)))
                 .thenReturn(modelResponse);
@@ -77,6 +96,19 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void insertTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(post(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(task)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void updateTest() throws Exception {
         Mockito
                 .when(taskService.update(Mockito.any(Task.class)))
@@ -94,7 +126,8 @@ public class TaskControllerTest {
     }
 
     @Test
-    void deleteByIdTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void deleteByIdTest_AUTORIZED() throws Exception {
         Mockito
                 .when(taskService.deleteById(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -111,6 +144,19 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void deleteByIdTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(delete(REQUEST_MAPPING + "/" + task.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(task)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getAllTest() throws Exception {
         Mockito
                 .when(taskService.getAll())
@@ -127,6 +173,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByIdTest() throws Exception {
         Mockito
                 .when(taskService.getByIdTrelloTask(Mockito.anyString()))
@@ -143,6 +190,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByTitle() throws Exception {
         Mockito
                 .when(taskService.getByTitle(Mockito.anyString()))
@@ -159,6 +207,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByPriority() throws Exception {
         Mockito
                 .when(taskService.getByPriority(Mockito.any(TaskPriority.class)))
@@ -175,6 +224,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByStatus() throws Exception {
         Mockito
                 .when(taskService.getByStatus(Mockito.any(TaskStatus.class)))
@@ -191,6 +241,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByDeadLine() throws Exception {
 
         task.setDeadLine(LocalDateTime.now());

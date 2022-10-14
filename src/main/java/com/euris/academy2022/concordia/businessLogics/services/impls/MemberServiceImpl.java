@@ -9,6 +9,7 @@ import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,8 +22,11 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public MemberServiceImpl(MemberJpaRepository memberJpaRepository) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public MemberServiceImpl(MemberJpaRepository memberJpaRepository, BCryptPasswordEncoder passwordEncoder) {
         this.memberJpaRepository = memberJpaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
         Integer memberCreated = memberJpaRepository.insert(
                 TrelloConstant.MEMBER_CRS_ID,
                 member.getUsername(),
-                member.getPassword(),
+                passwordEncoder.encode(member.getPassword()),
                 member.getRole().getLabel(),
                 member.getFirstName(),
                 member.getLastName(),
@@ -61,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
         Integer memberCreated = memberJpaRepository.insert(
                 member.getIdTrelloMember(),
                 member.getUsername(),
-                member.getPassword(),
+                passwordEncoder.encode(member.getPassword()),
                 member.getRole().getLabel(),
                 member.getFirstName(),
                 member.getLastName(),
@@ -99,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
-                    member.getPassword(),
+                    passwordEncoder.encode(member.getPassword()),
                     member.getRole().getLabel(),
                     member.getFirstName(),
                     member.getLastName(),
@@ -135,7 +139,7 @@ public class MemberServiceImpl implements MemberService {
 
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
-                    member.getPassword(),
+                    passwordEncoder.encode(member.getPassword()),
                     member.getRole().getLabel(),
                     member.getFirstName(),
                     member.getLastName(),
@@ -185,8 +189,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getAll() {
-        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
+    public ResponseDto<List<Member>> getAllMember() {
+        ResponseDto<List<Member>> response = new ResponseDto<>();
         List<Member> memberListFound = memberJpaRepository.findAll();
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -199,17 +203,32 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberListFound.stream()
-                    .map(Member::toDto)
-                    .collect(Collectors.toList()));
+            response.setBody(memberListFound);
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<MemberDto> getByUuid(String uuid) {
-        ResponseDto<MemberDto> response = new ResponseDto<>();
+    public ResponseDto<List<MemberDto>> getAllMemberDto() {
+
+        ResponseDto<List<Member>> response = getAllMember();
+        ResponseDto<List<MemberDto>> dtoResponse = new ResponseDto<>();
+
+        dtoResponse.setHttpRequest(response.getHttpRequest());
+        dtoResponse.setHttpResponse(response.getHttpResponse());
+        dtoResponse.setCode(response.getCode());
+        dtoResponse.setDesc(response.getDesc());
+        if (response.getBody() == null) {
+            dtoResponse.setBody(response.getBody().stream().map(Member::toDto).toList());
+        }
+
+        return dtoResponse;
+    }
+
+    @Override
+    public ResponseDto<Member> getMemberByUuid(String uuid) {
+        ResponseDto<Member> response = new ResponseDto<>();
 
         Optional<Member> memberFound = memberJpaRepository.findByUuid(uuid);
 
@@ -223,9 +242,25 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberFound.get().toDto());
+            response.setBody(memberFound.get());
         }
         return response;
+    }
+
+    @Override
+    public ResponseDto<MemberDto> getMemberDtoByUuid(String uuid) {
+        ResponseDto<Member> response = getMemberByUuid(uuid);
+        ResponseDto<MemberDto> dtoResponse = new ResponseDto<>();
+
+        dtoResponse.setHttpRequest(response.getHttpRequest());
+        dtoResponse.setHttpResponse(response.getHttpResponse());
+        dtoResponse.setCode(response.getCode());
+        dtoResponse.setDesc(response.getDesc());
+        if (response.getBody() == null) {
+            dtoResponse.setBody(response.getBody().toDto());
+        }
+
+        return dtoResponse;
     }
 
     @Override
@@ -250,8 +285,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<MemberDto> getByUsername(String username) {
-        ResponseDto<MemberDto> response = new ResponseDto<>();
+    public ResponseDto<Member> getMemberByUsername(String username) {
+        ResponseDto<Member> response = new ResponseDto<>();
 
         Optional<Member> memberFound = memberJpaRepository.findByUsername(username);
 
@@ -265,9 +300,25 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberFound.get().toDto());
+            response.setBody(memberFound.get());
         }
         return response;
+    }
+
+    @Override
+    public ResponseDto<MemberDto> getMemberDtoByUsername(String username) {
+        ResponseDto<Member> response = getMemberByUsername(username);
+        ResponseDto<MemberDto> dtoResponse = new ResponseDto<>();
+
+        dtoResponse.setHttpRequest(response.getHttpRequest());
+        dtoResponse.setHttpResponse(response.getHttpResponse());
+        dtoResponse.setCode(response.getCode());
+        dtoResponse.setDesc(response.getDesc());
+        if (response.getBody() == null) {
+            dtoResponse.setBody(response.getBody().toDto());
+        }
+
+        return dtoResponse;
     }
 
     @Override

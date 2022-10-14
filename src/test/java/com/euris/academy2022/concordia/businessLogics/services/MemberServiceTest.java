@@ -4,10 +4,8 @@ import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.MemberServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
-import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
@@ -18,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -42,10 +41,14 @@ class MemberServiceTest {
 
     private List<MemberDto> memberDtoList;
 
+    private BCryptPasswordEncoder passwordEncoder;
+
     @BeforeEach
     void init() {
 
-        memberService = new MemberServiceImpl(memberJpaRepository);
+        passwordEncoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
+
+        memberService = new MemberServiceImpl(memberJpaRepository, passwordEncoder);
 
         member = Member.builder()
                 .uuid("uuidMember")
@@ -410,7 +413,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.of(member));
 
-        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 
@@ -434,7 +437,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.empty());
 
-        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 
