@@ -1,7 +1,6 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
 
-import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.ConfigurationServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 public class ConfigurationServiceTest {
 
@@ -334,7 +331,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    void getByIdTest_NOT_FOUND() {
+    void getByLabelTest_NOT_FOUND() {
         ResponseDto<ConfigurationDto> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
