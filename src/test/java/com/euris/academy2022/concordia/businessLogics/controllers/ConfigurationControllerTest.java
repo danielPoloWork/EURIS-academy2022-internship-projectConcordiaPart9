@@ -5,8 +5,6 @@ import com.euris.academy2022.concordia.businessLogics.services.ConfigurationServ
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
-import com.euris.academy2022.concordia.dataPersistences.models.Task;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
