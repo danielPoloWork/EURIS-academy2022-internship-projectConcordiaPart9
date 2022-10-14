@@ -14,6 +14,7 @@ public interface CommentService {
     ResponseDto<CommentDto> insert(Comment comment);
     ResponseDto<CommentDto> insertFromTrello(Comment comment);
     ResponseDto<CommentDto> update(Comment comment);
+    ResponseDto<CommentFromTrelloDto> updateTrelloCommentIdMissing(CommentFromTrelloDto comment);
     ResponseDto<CommentFromTrelloDto> updateFromTrello(CommentFromTrelloDto comment);
     ResponseDto<CommentDto> removeByUuid(String uuid);
     ResponseDto<List<CommentDto>> getAll();
