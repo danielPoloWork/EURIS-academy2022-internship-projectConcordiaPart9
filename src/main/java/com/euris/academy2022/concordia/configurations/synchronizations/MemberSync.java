@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.configurations.schedulings;
+package com.euris.academy2022.concordia.configurations.synchronizations;
 
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.TrelloMemberService;
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
@@ -14,13 +14,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class MemberScheduling {
+public class MemberSync {
 
     public static void fetchAndPull(TrelloMemberService trelloMemberService, MemberService memberService, String idBoard) {
         try {
             ResponseDto<List<TrelloMemberDto>> response = trelloMemberService.getMembersByBoardId(idBoard);
 
             for (TrelloMemberDto member : response.getBody()) {
+
                 ResponseDto<MemberDto> memberFound = memberService.getByIdTrelloMember(member.getId());
 
                 if (Optional.ofNullable(memberFound.getBody()).isEmpty()) {

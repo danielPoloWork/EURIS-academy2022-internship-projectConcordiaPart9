@@ -23,7 +23,7 @@ public class Comment implements ModelArchetype {
     @Column(name = COLUMN_UUID)
     String uuid;
 
-    @JoinColumn(name = COLUMN_ID_TRELLO_COMMENT)
+    @Column(name = COLUMN_ID_TRELLO_COMMENT)
     String idTrelloComment;
 
     @ManyToOne(fetch = FetchType.LAZY)

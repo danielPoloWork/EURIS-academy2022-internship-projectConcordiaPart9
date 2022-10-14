@@ -5,9 +5,9 @@ import com.euris.academy2022.concordia.businessLogics.services.trelloServices.Tr
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.TrelloCommentService;
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.TrelloLabelService;
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.TrelloMemberService;
-import com.euris.academy2022.concordia.configurations.schedulings.TaskScheduling;
-import com.euris.academy2022.concordia.configurations.schedulings.CommentScheduling;
-import com.euris.academy2022.concordia.configurations.schedulings.MemberScheduling;
+import com.euris.academy2022.concordia.configurations.synchronizations.TaskSync;
+import com.euris.academy2022.concordia.configurations.synchronizations.CommentSync;
+import com.euris.academy2022.concordia.configurations.synchronizations.MemberSync;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class BatchProcessingCfg {
     @Autowired private TaskService taskService;
     @Autowired private TrelloCardService trelloCardService;
     @Autowired private TrelloCommentService trelloCommentService;
-    @Autowired private TrelloLabelService trellolabelService;
+    @Autowired private TrelloLabelService trelloLabelService;
     @Autowired private TrelloMemberService trelloMemberService;
 
     @Scheduled(cron = "* * 1 * * *") /* Every day at 1:00 AM */
@@ -38,26 +38,26 @@ public class BatchProcessingCfg {
     @Scheduled(cron = "* * * * * *") /* Every second, just for testing */
     public void synchronize() {
         fetchTrelloAndPullToConcordia();
-        //fetchConcordiaAndPushToTrello();
+        fetchConcordiaAndPushToTrello();
         //TODO:generateReportAndSendEmail()
     }
 
     private void fetchTrelloAndPullToConcordia() {
         printFetchTrelloStart(Thread.currentThread().getName());
-        MemberScheduling.fetchAndPull(trelloMemberService, memberService, ID_BOARD_VALUE);
-        TaskScheduling.fetchAndPull(trelloCardService, taskService, TaskStatus.TO_DO);
-        TaskScheduling.fetchAndPull(trelloCardService, taskService, TaskStatus.IN_PROGRESS);
-        TaskScheduling.fetchAndPull(trelloCardService, taskService, TaskStatus.COMPLETED);
-        CommentScheduling.fetchAndPull(trelloCommentService, commentService, memberService);
+        MemberSync.fetchAndPull(trelloMemberService, memberService, ID_BOARD_VALUE);
+        TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.TO_DO);
+        TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.IN_PROGRESS);
+        TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.COMPLETED);
+        CommentSync.fetchAndPull(trelloCommentService, commentService, memberService);
         printFetchTrelloEnd(Thread.currentThread().getName());
     }
 
-//    private void fetchConcordiaAndPushToTrello() {
-//        printFetchConcordiaStart(Thread.currentThread().getName());
-//        TaskScheduling.fetchAndPush(trelloCardService, trellolabelService, taskService);
-//        CommentScheduling.fetchAndPush(trelloCommentService, commentService, taskService);
-//        printFetchConcordiaEnd(Thread.currentThread().getName());
-//    }
+    private void fetchConcordiaAndPushToTrello() {
+        printFetchConcordiaStart(Thread.currentThread().getName());
+//        TaskScheduling.fetchAndPush(trelloCardService, trelloLabelService, taskService);
+        CommentSync.fetchAndPush(trelloCommentService, commentService, taskService);
+        printFetchConcordiaEnd(Thread.currentThread().getName());
+    }
 
     //TODO:private void generateReportAndSendEmail(){}
 }

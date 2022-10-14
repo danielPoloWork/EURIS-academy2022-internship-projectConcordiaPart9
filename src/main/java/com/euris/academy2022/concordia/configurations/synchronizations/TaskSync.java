@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.configurations.schedulings;
+package com.euris.academy2022.concordia.configurations.synchronizations;
 
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.TrelloCardService;
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class TaskScheduling {
+public class TaskSync {
 
     // download da trello
     // controllo se il task esiste in DB
