@@ -307,6 +307,26 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public ResponseDto<List<Member>> getMemberListByRole(MemberRole role) {
+        ResponseDto<List<Member>> response = new ResponseDto<>();
+        response.setHttpRequest(HttpRequestType.GET);
+
+        List<Member> memberListFound = memberJpaRepository.findByRole(role.getLabel());
+
+        if (memberListFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(memberListFound);
+        }
+        return response;
+    }
+
+    @Override
     public ResponseDto<List<MemberDto>> getByFirstName(String firstName) {
         ResponseDto<List<MemberDto>> response = new ResponseDto<>();
 
@@ -351,24 +371,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getByRole(MemberRole role) {
-        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
-        response.setHttpRequest(HttpRequestType.GET);
+    public ResponseDto<List<MemberDto>> getMemberDtoListByRole(MemberRole role) {
+        ResponseDto<List<MemberDto>> dtoResponse = new ResponseDto<>();
+        ResponseDto<List<Member>> modelResponse = getMemberListByRole(role);
 
-        List<Member> memberListFound = memberJpaRepository.findByRole(role.getLabel());
+        dtoResponse.setHttpRequest(modelResponse.getHttpRequest());
+        dtoResponse.setHttpResponse(modelResponse.getHttpResponse());
+        dtoResponse.setCode(modelResponse.getCode());
+        dtoResponse.setDesc(modelResponse.getDesc());
 
-        if (memberListFound.isEmpty()) {
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-        } else {
-            response.setHttpResponse(HttpResponseType.FOUND);
-            response.setCode(HttpResponseType.FOUND.getCode());
-            response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberListFound.stream()
-                    .map(Member::toDto)
-                    .collect(Collectors.toList()));
+        if (modelResponse.getBody() != null) {
+            dtoResponse.setBody(modelResponse.getBody().stream().map(Member::toDto).toList());
         }
-        return response;
+
+        return dtoResponse;
     }
 }

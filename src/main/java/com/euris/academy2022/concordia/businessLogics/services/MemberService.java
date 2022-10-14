@@ -20,7 +20,8 @@ public interface MemberService {
     ResponseDto<MemberDto> getMemberDtoByUuid(String uuid);
     ResponseDto<MemberDto> getByIdTrelloMember(String idTrelloMember);
     ResponseDto<MemberDto> getByUsername(String username);
-    ResponseDto<List<MemberDto>> getByRole(MemberRole role);
+    ResponseDto<List<Member>> getMemberListByRole(MemberRole role);
+    ResponseDto<List<MemberDto>> getMemberDtoListByRole(MemberRole role);
     ResponseDto<List<MemberDto>> getByFirstName(String name);
     ResponseDto<List<MemberDto>> getByLastName(String surname);
 }

@@ -1,7 +1,6 @@
 package com.euris.academy2022.concordia.configurations;
 
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
@@ -82,13 +81,13 @@ public class SecurityCfg {
 
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
-        ResponseDto<List<MemberDto>> managers = memberService.getByRole(MemberRole.MANAGER);
+        ResponseDto<List<Member>> managers = memberService.getMemberListByRole(MemberRole.MANAGER);
 
         if (managers != null && managers.getBody() != null) {
                 System.out.println("Managers already exists.");
             } else {
                 userDetailsManager.createUser(User
-                        .withUsername("default_manager")
+                        .withUsername("manager")
                         .password(passwordEncoder.encode("manager"))
                         .roles(MANAGER)
                         .build());
@@ -101,7 +100,7 @@ public class SecurityCfg {
             getAllResponse.getBody().forEach(member -> userDetailsManager
                     .createUser(User
                             .withUsername(member.getUsername())
-                            .password(passwordEncoder.encode(member.getPassword()))
+                            .password(member.getPassword())
                             .roles(member.getRole().getLabel())
                             .build()));
             } else {

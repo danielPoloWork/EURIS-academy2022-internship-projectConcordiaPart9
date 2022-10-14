@@ -7,6 +7,7 @@ import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPostRequest;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,12 @@ public class MemberController {
     public ResponseDto<MemberDto> insert(@RequestBody MemberPostRequest memberDto) {
         ResponseDto<MemberDto> response = memberService.insert(memberDto.toModel());
         if (response.getBody() != null) {
-            userDetailsManagerService.responsePostByModel(response.getBody().toModel());
+            Member member = Member.builder()
+                    .username(memberDto.getUsername())
+                    .password(memberDto.getPassword())
+                    .role(memberDto.getRole())
+                    .build();
+            userDetailsManagerService.responsePostByModel(member);
         }
         return response;
     }
@@ -39,7 +45,12 @@ public class MemberController {
     public ResponseDto<MemberDto> update(@RequestBody MemberPutRequest memberDto) {
         ResponseDto<MemberDto> response = memberService.update(memberDto.toModel());
         if (response.getBody() != null) {
-            userDetailsManagerService.responsePutByModel(response.getBody().toModel());
+            Member member = Member.builder()
+                    .username(response.getBody().getUsername())
+                    .password(memberDto.getPassword())
+                    .role(memberDto.getRole())
+                    .build();
+            userDetailsManagerService.responsePutByModel(member);
         }
         return response;
     }
@@ -75,7 +86,7 @@ public class MemberController {
 
     @GetMapping("/role={role}")
     public ResponseDto<List<MemberDto>> getByRole(@PathVariable MemberRole role) {
-        return memberService.getByRole(role);
+        return memberService.getMemberDtoListByRole(role);
     }
 
     @GetMapping("/name={name}")

@@ -1,6 +1,5 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
-import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.MemberServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
@@ -659,7 +657,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByRole(Mockito.anyString()))
                 .thenReturn(memberList);
 
-        ResponseDto<List<MemberDto>> response = memberService.getByRole(member.getRole());
+        ResponseDto<List<MemberDto>> response = memberService.getMemberDtoListByRole(member.getRole());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByRole(Mockito.anyString());
 
@@ -684,7 +682,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByRole(Mockito.anyString()))
                 .thenReturn(new ArrayList<>());
 
-        ResponseDto<List<MemberDto>> response = memberService.getByRole(member.getRole());
+        ResponseDto<List<MemberDto>> response = memberService.getMemberDtoListByRole(member.getRole());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByRole(Mockito.anyString());
 

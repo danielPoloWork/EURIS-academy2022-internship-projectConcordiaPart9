@@ -291,7 +291,7 @@ public class MemberControllerTest {
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void getByRoleTest_AUTORIZED() throws Exception {
         Mockito
-                .when(memberService.getByRole(Mockito.any(MemberRole.class)))
+                .when(memberService.getMemberDtoListByRole(Mockito.any(MemberRole.class)))
                 .thenReturn(listResponse);
 
         client
@@ -302,7 +302,7 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getByRole(Mockito.any(MemberRole.class));
+        Mockito.verify(memberService, Mockito.times(1)).getMemberDtoListByRole(Mockito.any(MemberRole.class));
     }
 
     @Test
