@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class ConnectionWindowImpl implements ConnectionWindowService {
+public class ConnectionWindowServiceImpl implements ConnectionWindowService {
 
     private final ConnectionWindowJpaRepository connectionWindowJpaRepository;
 
-    public ConnectionWindowImpl(ConnectionWindowJpaRepository connectionWindowJpaRepository) {
+    public ConnectionWindowServiceImpl(ConnectionWindowJpaRepository connectionWindowJpaRepository) {
         this.connectionWindowJpaRepository = connectionWindowJpaRepository;
     }
 
