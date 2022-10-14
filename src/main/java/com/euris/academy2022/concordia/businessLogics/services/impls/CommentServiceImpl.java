@@ -124,6 +124,39 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public ResponseDto<CommentFromTrelloDto> updateTrelloCommentIdMissing(CommentFromTrelloDto comment) {
+        ResponseDto<CommentFromTrelloDto> response = new ResponseDto<>();
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
+        Optional<Comment> commentFound = commentJpaRepository.findByUuid(comment.getUuid());
+
+        if (commentFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            Integer updated = commentJpaRepository.updateFromTrello(
+                    comment.getUuid(),
+                    comment.getIdTrelloComment(),
+                    comment.getText(),
+                    LocalDateTime.now());
+
+            if (updated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+                response.setBody(comment);
+            }
+        }
+        return response;
+    }
+
+    @Override
     public ResponseDto<CommentFromTrelloDto> updateFromTrello(CommentFromTrelloDto comment) {
         ResponseDto<CommentFromTrelloDto> response = new ResponseDto<>();
 
