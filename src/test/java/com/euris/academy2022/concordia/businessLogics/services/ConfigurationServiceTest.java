@@ -5,12 +5,10 @@ import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.ConfigurationServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
 import com.euris.academy2022.concordia.jpaRepositories.ConfigurationJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
-import liquibase.pro.packaged.M;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -253,7 +251,6 @@ public class ConfigurationServiceTest {
         Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
         Assertions.assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
     }
-
 
 
     @Test
