@@ -49,6 +49,7 @@ public class Comment implements ModelArchetype {
     public CommentDto toDto() {
         return CommentDto.builder()
                 .uuid(this.uuid)
+                .idTrelloComment(this.idTrelloComment)
                 .taskDto(this.task.toDto())
                 .memberDto(this.member.toDto())
                 .dateCreation(this.dateCreation)
