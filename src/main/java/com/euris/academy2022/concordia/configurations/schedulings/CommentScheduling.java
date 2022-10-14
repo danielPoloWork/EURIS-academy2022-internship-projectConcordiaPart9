@@ -34,19 +34,19 @@ public class CommentScheduling {
         try {
             ResponseDto<List<TrelloCommentDto>> allTrelloComments = trelloCommentService.getAllComments();
 
-            for (TrelloCommentDto comment : allTrelloComments.getBody()) {
-                ResponseDto<CommentDto> commentFound = commentService.getByIdTrelloComment(comment.getId());
+            for (TrelloCommentDto trelloComment : allTrelloComments.getBody()) {
+                ResponseDto<CommentDto> concordiaCommentFound = commentService.getByIdTrelloComment(trelloComment.getId());
 
-                if (Optional.ofNullable(commentFound.getBody()).isEmpty()) {
-                    ResponseDto<MemberDto> memberFound = memberService.getByIdTrelloMember(comment.getIdMemberCreator());
+                if (Optional.ofNullable(concordiaCommentFound.getBody()).isEmpty()) {
+                    ResponseDto<MemberDto> memberFound = memberService.getByIdTrelloMember(trelloComment.getIdMemberCreator());
 
                     CommentPostFromTrello commentNew = CommentPostFromTrello.builder()
-                            .idTrelloComment(comment.getId())
-                            .idTask(comment.getIdCard())
+                            .idTrelloComment(trelloComment.getId())
+                            .idTask(trelloComment.getIdCard())
                             .uuidMember(memberFound.getBody().getUuid())
-                            .text(comment.getText())
+                            .text(trelloComment.getText())
                             .dateCreation(LocalDateTime.now())
-                            .dateUpdate(TimeUtil.parseToLocalDateTime(comment.getDateLastEdited()))
+                            .dateUpdate(TimeUtil.parseToLocalDateTime(trelloComment.getDateLastEdited()))
                             .build();
 
                     ResponseDto<CommentDto> commentCreated = commentService.insertFromTrello(commentNew.toModel());
@@ -54,33 +54,46 @@ public class CommentScheduling {
                     System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
                             Thread.currentThread().getName(),
                             new Date(),
-                            comment.getId(),
+                            trelloComment.getId(),
                             HttpResponseType.NOT_FOUND.getLabel(),
                             HttpResponseType.CREATED.getLabel());
                 } else {
-                    if (TimeUtil.parseToLocalDateTime(comment.getDateLastEdited()).isBefore(commentFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
+                    System.out.println("TRELLO_"+TimeUtil.parseToLocalDateTime(trelloComment.getDateLastEdited()));
+                    System.out.println("CONCORDIA"+concordiaCommentFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS));
+                    if (TimeUtil.parseToLocalDateTime(trelloComment.getDateLastEdited()).isAfter(concordiaCommentFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
 
                         System.out.println("IM_HERE_UPDATE");
-                        CommentPutRequest commentOld = CommentPutRequest.builder()
-                                .uuid(commentFound.getBody().getUuid())
-                                .idTrelloComment(comment.getId())
-                                .text(comment.getText())
-                                .dateUpdate(TimeUtil.parseToLocalDateTime(comment.getDateLastEdited()))
+                        CommentFromTrelloDto commentOld = CommentFromTrelloDto.builder()
+                                .uuid(concordiaCommentFound.getBody().getUuid())
+                                .idTrelloComment(trelloComment.getId())
+                                .text(trelloComment.getText())
+                                .dateUpdate(TimeUtil.parseToLocalDateTime(trelloComment.getDateLastEdited()))
                                 .build();
 
-                        ResponseDto<CommentDto> commentUpdated = commentService.updateFromTrello(commentOld.toModel());
+                        System.out.println("COMMENT_OLD_"+commentOld.getUuid()+","+commentOld.getIdTrelloComment()+","+commentOld.getText()+",-c.id:"+concordiaCommentFound.getBody().getTaskDto().getId());
 
-                        System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
-                                Thread.currentThread().getName(),
-                                new Date(),
-                                comment.getId(),
-                                HttpResponseType.FOUND.getLabel(),
-                                HttpResponseType.UPDATED.getLabel());
+                        ResponseDto<CommentFromTrelloDto> commentUpdated = commentService.updateFromTrello(commentOld);
+
+                        if (commentUpdated.getHttpResponse().getLabel().equals(HttpResponseType.UPDATED.getLabel())) {
+                            System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
+                                    Thread.currentThread().getName(),
+                                    new Date(),
+                                    trelloComment.getId(),
+                                    HttpResponseType.FOUND.getLabel(),
+                                    HttpResponseType.UPDATED.getLabel());
+                        } else {
+                            System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
+                                    Thread.currentThread().getName(),
+                                    new Date(),
+                                    trelloComment.getId(),
+                                    HttpResponseType.FOUND.getLabel(),
+                                    HttpResponseType.NOT_UPDATED.getLabel());
+                        }
                     } else {
                         System.out.printf("%s  [pullComment   ] executed at %s  INFO : %s : %s → %s\n",
                                 Thread.currentThread().getName(),
                                 new Date(),
-                                comment.getId(),
+                                trelloComment.getId(),
                                 HttpResponseType.FOUND.getLabel(),
                                 HttpResponseType.OK.getLabel());
                     }
@@ -100,11 +113,12 @@ public class CommentScheduling {
             System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : *******CommentScheduling : INTERRUPTED MANUALLY\n",
                     Thread.currentThread().getName(),
                     new Date());
-        } catch (NullPointerException e) {
-            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : *******CommentScheduling : NULL POINTER\n",
-                    Thread.currentThread().getName(),
-                    new Date());
         }
+//        catch (NullPointerException e) {
+//            System.out.printf("%s  [fetchTrello   ] executed at %s  WARN : *******CommentScheduling : NULL POINTER\n",
+//                    Thread.currentThread().getName(),
+//                    new Date());
+//        }
     }
 
     private static void removeCommentsDeletedOnTrello(ResponseDto<List<TrelloCommentDto>> allTrelloComments, ResponseDto<List<CommentDto>> allConcordiaComments, CommentService commentService) {

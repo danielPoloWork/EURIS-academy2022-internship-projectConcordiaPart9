@@ -1,6 +1,8 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.CommentService;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.CommentFromTrelloDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments.CommentPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Comment;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.CommentDto;
@@ -122,8 +124,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseDto<CommentDto> updateFromTrello(Comment comment) {
-        ResponseDto<CommentDto> response = new ResponseDto<>();
+    public ResponseDto<CommentFromTrelloDto> updateFromTrello(CommentFromTrelloDto comment) {
+        ResponseDto<CommentFromTrelloDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
 
@@ -148,7 +150,7 @@ public class CommentServiceImpl implements CommentService {
                 response.setHttpResponse(HttpResponseType.UPDATED);
                 response.setCode(HttpResponseType.UPDATED.getCode());
                 response.setDesc(HttpResponseType.UPDATED.getDesc());
-                response.setBody(comment.toDto());
+                response.setBody(comment);
             }
         }
         return response;
