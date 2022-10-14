@@ -49,7 +49,6 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
             HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
             URI uri = uriBuilderByIdCardAndText(URL_API_POST_COMMENT_BY_ID_CARD, idCard, text);
             ResponseEntity<String> card = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
-
             setResponseForCard(response, card);
         }
         return response;
@@ -66,7 +65,6 @@ public class TrelloCommentServiceImpl implements TrelloCommentService {
             HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
             URI uri = uriBuilderByIdCardAndIdCommentAndText(URL_API_PUT_COMMENT_BY_ID_CARD_AND_ID_COMMENT_AND_TEXT, idCard, idComment, text);
             ResponseEntity<String> card = restTemplate.exchange(uri, HttpMethod.PUT, requestEntity, String.class);
-
             setResponseForCard(response, card);
         }
         return response;
