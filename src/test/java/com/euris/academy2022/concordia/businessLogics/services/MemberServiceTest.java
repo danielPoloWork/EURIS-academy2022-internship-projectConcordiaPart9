@@ -413,7 +413,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.of(member));
 
-        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 
@@ -437,7 +437,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.empty());
 
-        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 

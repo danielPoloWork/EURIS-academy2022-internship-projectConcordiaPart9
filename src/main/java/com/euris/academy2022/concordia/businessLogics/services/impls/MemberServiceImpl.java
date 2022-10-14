@@ -189,8 +189,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<Member>> getAllMember() {
-        ResponseDto<List<Member>> response = new ResponseDto<>();
+    public ResponseDto<List<MemberDto>> getAll() {
+
+        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
         List<Member> memberListFound = memberJpaRepository.findAll();
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -203,32 +204,15 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberListFound);
+            response.setBody(memberListFound.stream().map(Member::toDto).toList());
         }
 
         return response;
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getAllMemberDto() {
-
-        ResponseDto<List<Member>> response = getAllMember();
-        ResponseDto<List<MemberDto>> dtoResponse = new ResponseDto<>();
-
-        dtoResponse.setHttpRequest(response.getHttpRequest());
-        dtoResponse.setHttpResponse(response.getHttpResponse());
-        dtoResponse.setCode(response.getCode());
-        dtoResponse.setDesc(response.getDesc());
-        if (response.getBody() == null) {
-            dtoResponse.setBody(response.getBody().stream().map(Member::toDto).toList());
-        }
-
-        return dtoResponse;
-    }
-
-    @Override
-    public ResponseDto<Member> getMemberByUuid(String uuid) {
-        ResponseDto<Member> response = new ResponseDto<>();
+    public ResponseDto<MemberDto> getByUuid(String uuid) {
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         Optional<Member> memberFound = memberJpaRepository.findByUuid(uuid);
 
@@ -242,25 +226,9 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberFound.get());
+            response.setBody(memberFound.get().toDto());
         }
         return response;
-    }
-
-    @Override
-    public ResponseDto<MemberDto> getMemberDtoByUuid(String uuid) {
-        ResponseDto<Member> response = getMemberByUuid(uuid);
-        ResponseDto<MemberDto> dtoResponse = new ResponseDto<>();
-
-        dtoResponse.setHttpRequest(response.getHttpRequest());
-        dtoResponse.setHttpResponse(response.getHttpResponse());
-        dtoResponse.setCode(response.getCode());
-        dtoResponse.setDesc(response.getDesc());
-        if (response.getBody() == null) {
-            dtoResponse.setBody(response.getBody().toDto());
-        }
-
-        return dtoResponse;
     }
 
     @Override
@@ -285,8 +253,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<Member> getMemberByUsername(String username) {
-        ResponseDto<Member> response = new ResponseDto<>();
+    public ResponseDto<MemberDto> getByUsername(String username) {
+        ResponseDto<MemberDto> response = new ResponseDto<>();
 
         Optional<Member> memberFound = memberJpaRepository.findByUsername(username);
 
@@ -300,25 +268,9 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberFound.get());
+            response.setBody(memberFound.get().toDto());
         }
         return response;
-    }
-
-    @Override
-    public ResponseDto<MemberDto> getMemberDtoByUsername(String username) {
-        ResponseDto<Member> response = getMemberByUsername(username);
-        ResponseDto<MemberDto> dtoResponse = new ResponseDto<>();
-
-        dtoResponse.setHttpRequest(response.getHttpRequest());
-        dtoResponse.setHttpResponse(response.getHttpResponse());
-        dtoResponse.setCode(response.getCode());
-        dtoResponse.setDesc(response.getDesc());
-        if (response.getBody() == null) {
-            dtoResponse.setBody(response.getBody().toDto());
-        }
-
-        return dtoResponse;
     }
 
     @Override

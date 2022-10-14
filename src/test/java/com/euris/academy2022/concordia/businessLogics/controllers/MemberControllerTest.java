@@ -201,7 +201,7 @@ public class MemberControllerTest {
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void getByUuidTest_AUTORIZED() throws Exception {
         Mockito
-                .when(memberService.getMemberDtoByUuid(Mockito.anyString()))
+                .when(memberService.getByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
 
         client
@@ -212,7 +212,7 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getMemberDtoByUuid(Mockito.anyString());
+        Mockito.verify(memberService, Mockito.times(1)).getByUuid(Mockito.anyString());
     }
 
     @Test

@@ -60,7 +60,7 @@ public class MemberController {
 
     @GetMapping("/{uuid}")
     public ResponseDto<MemberDto> getByUuid(@PathVariable String uuid) {
-        return memberService.getMemberDtoByUuid(uuid);
+        return memberService.getByUuid(uuid);
     }
 
     @GetMapping("/idTrelloMember={idTrelloMember}")
