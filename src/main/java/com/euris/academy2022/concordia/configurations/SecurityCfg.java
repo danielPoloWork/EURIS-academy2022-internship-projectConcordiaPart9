@@ -34,7 +34,7 @@ public class SecurityCfg {
         return httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/*").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
+                .antMatchers("/*").hasAnyRole(MANAGER, ADMIN, A1, A2, A3, B1, C1, C2)
                 // MAPPING MEMBER
                 .antMatchers(HttpMethod.POST, MAPPING_MEMBER + "/**").hasAnyRole(MANAGER, ADMIN)
                 .antMatchers(HttpMethod.PUT, MAPPING_MEMBER + "/**").hasAnyRole(MANAGER, ADMIN)
