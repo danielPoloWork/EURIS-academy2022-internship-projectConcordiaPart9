@@ -1,7 +1,10 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 
+import com.euris.academy2022.concordia.businessLogics.configurations.TestSecurityCfg;
 import com.euris.academy2022.concordia.businessLogics.services.ConfigurationService;
+import com.euris.academy2022.concordia.businessLogics.services.MemberService;
+import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ConfigurationDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
@@ -13,26 +16,40 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_ADMIN;
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_USERNAME_ADMIN;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(value = {
+        TestSecurityCfg.class,
+        SecurityCfg.class
+})
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConfigurationController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 public class ConfigurationControllerTest {
 
-
     @Autowired
     private MockMvc client;
+    @Autowired
+    private UserDetailsManager beanUdmAdmin;
+
     @MockBean
     private ConfigurationService configurationService;
+    @MockBean
+    private MemberService memberService;
+
     private final String REQUEST_MAPPING = "/api/configuration";
     private ObjectMapper objectMapper;
     private ResponseDto<ConfigurationDto> modelResponse;
@@ -54,6 +71,7 @@ public class ConfigurationControllerTest {
     }
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void insertTest() throws Exception {
 
         Mockito
@@ -74,6 +92,7 @@ public class ConfigurationControllerTest {
 
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void updateTest() throws Exception {
 
         Mockito
@@ -93,6 +112,7 @@ public class ConfigurationControllerTest {
 
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void deleteByLabelTest() throws Exception {
 
         Mockito
@@ -112,6 +132,7 @@ public class ConfigurationControllerTest {
 
 
     @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void getByLabelTest() throws Exception {
 
         Mockito
