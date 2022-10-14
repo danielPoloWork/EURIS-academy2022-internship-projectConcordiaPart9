@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 public class ConfigurationServiceTest {
 

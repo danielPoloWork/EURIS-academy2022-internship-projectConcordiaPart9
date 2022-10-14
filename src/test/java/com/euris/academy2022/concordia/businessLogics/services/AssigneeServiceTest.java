@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.services;
 
 import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.AssigneeServiceImpl;
+import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 class AssigneeServiceTest {
 

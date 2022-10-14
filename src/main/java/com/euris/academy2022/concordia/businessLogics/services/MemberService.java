@@ -14,8 +14,10 @@ public interface MemberService {
     ResponseDto<MemberDto> update(Member member);
     ResponseDto<MemberDto> updateFromTrello(Member member);
     ResponseDto<MemberDto> removeByUuid(String uuid);
-    ResponseDto<List<MemberDto>> getAll();
-    ResponseDto<MemberDto> getByUuid(String uuid);
+    ResponseDto<List<Member>> getAllMember();
+    ResponseDto<List<MemberDto>> getAllMemberDto();
+    ResponseDto<Member> getMemberByUuid(String uuid);
+    ResponseDto<MemberDto> getMemberDtoByUuid(String uuid);
     ResponseDto<MemberDto> getByIdTrelloMember(String idTrelloMember);
     ResponseDto<MemberDto> getByUsername(String username);
     ResponseDto<List<MemberDto>> getByRole(MemberRole role);

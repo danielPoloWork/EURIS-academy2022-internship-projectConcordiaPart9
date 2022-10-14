@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 class TabletServiceTest {
 

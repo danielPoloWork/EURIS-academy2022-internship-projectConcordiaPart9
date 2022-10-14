@@ -3,6 +3,7 @@ package com.euris.academy2022.concordia.configurations;
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -83,7 +84,7 @@ public class SecurityCfg {
 
         ResponseDto<List<MemberDto>> managers = memberService.getByRole(MemberRole.MANAGER);
 
-        if (managers.getBody() != null) {
+        if (managers != null && managers.getBody() != null) {
                 System.out.println("Managers already exists.");
             } else {
                 userDetailsManager.createUser(User
@@ -94,14 +95,14 @@ public class SecurityCfg {
         }
 
 
-        ResponseDto<List<MemberDto>> memberList = memberService.getAll();
+        ResponseDto<List<Member>> getAllResponse = memberService.getAllMember();
 
-        if (memberList.getBody() != null) {
-            memberList.getBody().forEach(memberDto -> userDetailsManager
+        if (getAllResponse != null && getAllResponse.getBody() != null) {
+            getAllResponse.getBody().forEach(member -> userDetailsManager
                     .createUser(User
-                            .withUsername(memberDto.getUsername())
-                            .password(passwordEncoder.encode(memberDto.toModel().getPassword()))
-                            .roles(memberDto.getRole().getLabel())
+                            .withUsername(member.getUsername())
+                            .password(passwordEncoder.encode(member.getPassword()))
+                            .roles(member.getRole().getLabel())
                             .build()));
             } else {
             System.out.println("There are no members to add.");

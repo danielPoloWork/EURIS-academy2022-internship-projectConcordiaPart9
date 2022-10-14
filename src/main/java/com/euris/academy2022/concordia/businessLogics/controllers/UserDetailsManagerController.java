@@ -24,7 +24,7 @@ public class UserDetailsManagerController {
 
 	@GetMapping
 	public ResponseDto<List<MemberDto>> fetch() {
-		List<Member> response = memberService.getAll().getBody()
+		List<Member> response = memberService.getAllMemberDto().getBody()
 				.stream()
 				.map(MemberDto::toModel)
 				.toList();

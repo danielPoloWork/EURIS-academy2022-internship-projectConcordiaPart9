@@ -55,12 +55,12 @@ public class MemberController {
 
     @GetMapping
     public ResponseDto<List<MemberDto>> getAll() {
-        return memberService.getAll();
+        return memberService.getAllMemberDto();
     }
 
     @GetMapping("/{uuid}")
     public ResponseDto<MemberDto> getByUuid(@PathVariable String uuid) {
-        return memberService.getByUuid(uuid);
+        return memberService.getMemberDtoByUuid(uuid);
     }
 
     @GetMapping("/idTrelloMember={idTrelloMember}")

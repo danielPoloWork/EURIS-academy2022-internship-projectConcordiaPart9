@@ -27,7 +27,6 @@ import java.util.Optional;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 class MemberServiceTest {
 
@@ -363,7 +362,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findAll())
                 .thenReturn(memberList);
 
-        ResponseDto<List<MemberDto>> response = memberService.getAll();
+        ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
 
@@ -388,7 +387,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findAll())
                 .thenReturn(new ArrayList<>());
 
-        ResponseDto<List<MemberDto>> response = memberService.getAll();
+        ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
 
@@ -413,7 +412,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.of(member));
 
-        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 
@@ -437,7 +436,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUuid(Mockito.anyString()))
                 .thenReturn(Optional.empty());
 
-        ResponseDto<MemberDto> response = memberService.getByUuid(member.getUuid());
+        ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
 
