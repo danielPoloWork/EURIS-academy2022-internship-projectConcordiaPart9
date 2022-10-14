@@ -11,7 +11,6 @@ import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -29,26 +28,34 @@ public class MemberController {
 
     @PostMapping
     public ResponseDto<MemberDto> insert(@RequestBody MemberPostRequest memberDto) {
-        ResponseDto<MemberDto> responseDB = memberService.insert(memberDto.toModel());
-        if (Optional.ofNullable(responseDB.getBody()).isPresent()) {
-            userDetailsManagerService.responsePostByModel(responseDB.getBody().toModel());
+        ResponseDto<MemberDto> response = memberService.insert(memberDto.toModel());
+        if (response.getBody() != null) {
+            userDetailsManagerService.responsePostByModel(response.getBody().toModel());
         }
-        return responseDB;
+        return response;
     }
 
     @PutMapping
     public ResponseDto<MemberDto> update(@RequestBody MemberPutRequest memberDto) {
-        return memberService.update(memberDto.toModel());
+        ResponseDto<MemberDto> response = memberService.update(memberDto.toModel());
+        if (response.getBody() != null) {
+            userDetailsManagerService.responsePutByModel(response.getBody().toModel());
+        }
+        return response;
     }
 
     @DeleteMapping("/{uuid}")
     public ResponseDto<MemberDto> removeByUuid(@PathVariable String uuid) {
-        return memberService.removeByUuid(uuid);
+        ResponseDto<MemberDto> response = memberService.removeByUuid(uuid);
+        if (response.getBody() != null) {
+            userDetailsManagerService.responseDeleteByUsername(response.getBody().getUsername());
+        }
+        return response;
     }
 
     @GetMapping
     public ResponseDto<List<MemberDto>> getAll() {
-        return memberService.getAllMemberDto();
+        return memberService.getAll();
     }
 
     @GetMapping("/{uuid}")
@@ -63,7 +70,7 @@ public class MemberController {
 
     @GetMapping("/username={username}")
     public ResponseDto<MemberDto> getByUsername(@PathVariable String username) {
-        return memberService.getMemberDtoByUsername(username);
+        return memberService.getByUsername(username);
     }
 
     @GetMapping("/role={role}")

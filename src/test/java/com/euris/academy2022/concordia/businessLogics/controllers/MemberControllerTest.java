@@ -1,6 +1,9 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
+import com.euris.academy2022.concordia.businessLogics.configurations.TestSecurityCfg;
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
+import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
+import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
@@ -13,7 +16,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,10 +27,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(value = {
+        TestSecurityCfg.class,
+        SecurityCfg.class
+})
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MemberController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -32,8 +43,16 @@ public class MemberControllerTest {
 
     @Autowired
     private MockMvc client;
+    @Autowired
+    private UserDetailsManager beanUdmAdmin;
+    @Autowired
+    private UserDetailsManager beanUdmBasicMember;
+
     @MockBean
     private MemberService memberService;
+    @MockBean
+    private UserDetailsManagerService userDetailsManagerService;
+
     private ObjectMapper objectMapper;
     private Member member;
     private final String REQUEST_MAPPING = "/api/member";
@@ -59,7 +78,8 @@ public class MemberControllerTest {
     }
 
     @Test
-    void insertTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void insertTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.insert(Mockito.any(Member.class)))
                 .thenReturn(modelResponse);
@@ -76,7 +96,20 @@ public class MemberControllerTest {
     }
 
     @Test
-    void updateTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void insertTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(post(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void updateTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.update(Mockito.any(Member.class)))
                 .thenReturn(modelResponse);
@@ -93,7 +126,20 @@ public class MemberControllerTest {
     }
 
     @Test
-    void removeByUuidTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void updateTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(put(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void removeByUuidTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.removeByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -110,9 +156,22 @@ public class MemberControllerTest {
     }
 
     @Test
-    void getAllTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void removeByUuidTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getAllTest_AUTORIZED() throws Exception {
         Mockito
-                .when(memberService.getAllMemberDto())
+                .when(memberService.getAll())
                 .thenReturn(listResponse);
 
         client
@@ -123,11 +182,24 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getAllMemberDto();
+        Mockito.verify(memberService, Mockito.times(1)).getAll();
     }
 
     @Test
-    void getByUuidTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getAllTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getByUuidTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.getMemberDtoByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -144,7 +216,20 @@ public class MemberControllerTest {
     }
 
     @Test
-    void getByIdTrelloMemberTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByUuidTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/" + member.getUuid())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getByIdTrelloMemberTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.getByIdTrelloMember(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -161,9 +246,22 @@ public class MemberControllerTest {
     }
 
     @Test
-    void getUsernameTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByIdTrelloMemberTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/idTrelloMember=" + member.getIdTrelloMember())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getUsernameTest_AUTORIZED() throws Exception {
         Mockito
-                .when(memberService.getMemberDtoByUsername(Mockito.anyString()))
+                .when(memberService.getByUsername(Mockito.anyString()))
                 .thenReturn(modelResponse);
 
         client
@@ -174,11 +272,24 @@ public class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(memberService, Mockito.times(1)).getMemberDtoByUsername(Mockito.anyString());
+        Mockito.verify(memberService, Mockito.times(1)).getByUsername(Mockito.anyString());
     }
 
     @Test
-    void getByRoleTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getUsernameTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/username=" + member.getUsername())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getByRoleTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.getByRole(Mockito.any(MemberRole.class)))
                 .thenReturn(listResponse);
@@ -195,7 +306,20 @@ public class MemberControllerTest {
     }
 
     @Test
-    void getByNameTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByRoleTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/role=" + member.getRole())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getByNameTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.getByFirstName(Mockito.anyString()))
                 .thenReturn(listResponse);
@@ -212,7 +336,20 @@ public class MemberControllerTest {
     }
 
     @Test
-    void getBySurnameTest() throws Exception {
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByNameTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/name=" + member.getFirstName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
+    void getBySurnameTest_AUTORIZED() throws Exception {
         Mockito
                 .when(memberService.getByLastName(Mockito.anyString()))
                 .thenReturn(listResponse);
@@ -226,5 +363,17 @@ public class MemberControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         Mockito.verify(memberService, Mockito.times(1)).getByLastName(Mockito.anyString());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getBySurnameTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/surname=" + member.getLastName())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(member)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
     }
 }

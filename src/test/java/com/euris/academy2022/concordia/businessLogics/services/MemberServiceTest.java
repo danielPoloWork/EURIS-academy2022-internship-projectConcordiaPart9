@@ -363,7 +363,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findAll())
                 .thenReturn(memberList);
 
-        ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
+        ResponseDto<List<MemberDto>> response = memberService.getAll();
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
 
@@ -388,7 +388,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findAll())
                 .thenReturn(new ArrayList<>());
 
-        ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
+        ResponseDto<List<MemberDto>> response = memberService.getAll();
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
 
@@ -511,7 +511,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUsername(Mockito.anyString()))
                 .thenReturn(Optional.of(member));
 
-        ResponseDto<MemberDto> response = memberService.getMemberDtoByUsername(member.getUsername());
+        ResponseDto<MemberDto> response = memberService.getByUsername(member.getUsername());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
 
@@ -535,7 +535,7 @@ class MemberServiceTest {
                 .when(memberJpaRepository.findByUsername(Mockito.anyString()))
                 .thenReturn(Optional.empty());
 
-        ResponseDto<MemberDto> response = memberService.getMemberDtoByUsername(member.getUsername());
+        ResponseDto<MemberDto> response = memberService.getByUsername(member.getUsername());
 
         Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
 

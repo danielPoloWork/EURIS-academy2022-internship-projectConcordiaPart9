@@ -24,26 +24,12 @@ public class UserDetailsManagerController {
 
 	@GetMapping
 	public ResponseDto<List<MemberDto>> fetch() {
-		ResponseDto<List<Member>> response = memberService.getAllMember();
-		return userDetailsManagerService.responseLoadByList(response.getBody());
+		List<Member> response = memberService.getAll().getBody()
+				.stream()
+				.map(MemberDto::toModel)
+				.toList();
+		return userDetailsManagerService.responseLoadByList(response);
 	}
-
-//	@PostMapping
-//	public ResponseDto<MemberDto> postUserDetailManager(@PathVariable String uuidMember) {
-//		ResponseDto<Member> response = memberService.getMemberByUuid(uuidMember);
-//		return userDetailsManagerService.responsePostByModel(response.getBody());
-//	}
-//
-//	@PutMapping
-//	public ResponseDto<MemberDto> putUserDetailManager(@PathVariable String uuidMember) {
-//		ResponseDto<Member> response = memberService.getMemberByUuid(uuidMember);
-//		return userDetailsManagerService.responsePutByModel(response.getBody());
-//	}
-//
-//	@DeleteMapping
-//	public ResponseDto<String> deleteUserDetailManager(@PathVariable String username) {
-//		return userDetailsManagerService.responseDeleteByUsername(username);
-//	}
 
 }
 
