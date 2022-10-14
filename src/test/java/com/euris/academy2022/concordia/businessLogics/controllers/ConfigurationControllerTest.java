@@ -25,8 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_ADMIN;
-import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_USERNAME_ADMIN;
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +43,8 @@ public class ConfigurationControllerTest {
     private MockMvc client;
     @Autowired
     private UserDetailsManager beanUdmAdmin;
+    @Autowired
+    private UserDetailsManager beanUdmBasicMember;
 
     @MockBean
     private ConfigurationService configurationService;
@@ -72,7 +73,7 @@ public class ConfigurationControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest() throws Exception {
+    void insertTest_AUTORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.insert(Mockito.any(Configuration.class)))
@@ -90,10 +91,22 @@ public class ConfigurationControllerTest {
 
     }
 
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void insertTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(post(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(configuration)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void updateTest() throws Exception {
+    void updateTest_AUTORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.update(Mockito.any(Configuration.class)))
@@ -110,10 +123,22 @@ public class ConfigurationControllerTest {
         Mockito.verify(configurationService, Mockito.times(1)).update(Mockito.any(Configuration.class));
     }
 
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void updateTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(put(REQUEST_MAPPING)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(configuration)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void deleteByLabelTest() throws Exception {
+    void deleteByLabelTest_AUTORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.deleteByLabel(Mockito.anyString()))
@@ -130,10 +155,22 @@ public class ConfigurationControllerTest {
         Mockito.verify(configurationService, Mockito.times(1)).deleteByLabel(Mockito.anyString());
     }
 
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void deleteByLabelTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(delete(REQUEST_MAPPING + "/" + configuration.getLabel())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(configuration)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
+    }
+
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByLabelTest() throws Exception {
+    void getByLabelTest_AUTORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.getByLabel(Mockito.anyString()))
@@ -147,5 +184,16 @@ public class ConfigurationControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         Mockito.verify(configurationService, Mockito.times(1)).getByLabel(Mockito.anyString());
+    }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByLabelTest_FORBIDDEN() throws Exception {
+
+        client
+                .perform(get(REQUEST_MAPPING + "/" + configuration.getLabel())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isForbidden());
     }
 }
