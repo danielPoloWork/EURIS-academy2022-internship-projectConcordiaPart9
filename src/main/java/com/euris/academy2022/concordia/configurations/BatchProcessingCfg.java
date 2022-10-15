@@ -54,7 +54,7 @@ public class BatchProcessingCfg {
 
     private void fetchConcordiaAndPushToTrello() {
         printFetchConcordiaStart(Thread.currentThread().getName());
-//        TaskScheduling.fetchAndPush(trelloCardService, trelloLabelService, taskService);
+        TaskSync.fetchAndPush(trelloCardService, trelloLabelService, taskService);
         CommentSync.fetchAndPush(trelloCommentService, commentService, taskService);
         printFetchConcordiaEnd(Thread.currentThread().getName());
     }
