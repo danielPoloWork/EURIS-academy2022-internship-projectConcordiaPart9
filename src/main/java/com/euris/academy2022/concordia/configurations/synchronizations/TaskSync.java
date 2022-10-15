@@ -20,16 +20,8 @@ import java.util.Optional;
 
 public class TaskSync {
 
-    // download da trello
-    // controllo se il task esiste in DB
-    // se non esiste lo inserisco su local
-    // se esiste
-    // contorllo se la data su trello è più recente
-    // se è più recente faccio update su local
-    // se la data è uguale ritorno OK
-    // controllo se il DB local ha un task con trello id che non esiste su trello
-    // se esiste in local va eliminato
-    // se non esiste neanche in local ritorno OK
+    // Insert from trello to localhost: OK
+    // Update from trello to localhost: OK
     public static void fetchAndPull(TrelloCardService trelloCardService, TaskService taskService, TaskStatus trelloListId) {
         try {
             ResponseDto<List<TrelloCardDto>> trelloCardList = trelloCardService.getCardsByIdList(trelloListId.getTrelloListId());
@@ -58,14 +50,18 @@ public class TaskSync {
                             HttpResponseType.NOT_FOUND.getLabel(),
                             taskCreated.getHttpResponse().getLabel());
                 } else {
-                    if (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isAfter(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS))) {
+                    //2022-10-14T21:12 Edited if condition
+                    if ((!taskFound.getBody().getPriority().getLabel().equals(TaskPriority.DONE.getLabel())
+                            || !taskFound.getBody().getPriority().getLabel().equals(TaskPriority.EXPIRING.getLabel()))
+                            && (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isAfter(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS)))) {
 
                         TaskPutRequest taskOld = TaskPutRequest.builder()
                                 .id(taskFound.getBody().getId())
                                 .title(trelloCard.getName())
                                 .description(trelloCard.getDesc())
                                 .priority(TaskPriority.getEnumByLabelId(trelloCard.getIdLabel()))
-                                .status(TaskStatus.getEnumByListId(trelloCard.getIdList()))
+                                //.status(TaskStatus.getEnumByListId(trelloCard.getIdList()))
+                                .status(taskFound.getBody().getStatus())
                                 .deadLine(TimeUtil.parseDue(trelloCard.getDue()))
                                 .dateUpdate(TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()))
                                 .build();
@@ -102,16 +98,8 @@ public class TaskSync {
     }
 
 
-    // contorllo l'id della lista di trello
-    // se la lista di trello è diversa devo aggiornare il task su trello
-    // se è uguale ritorno OK
-    /* devo fare questa operazioen per gestire i passaggi da una lista all'alltra*/
-
-    // controllo se la label è diversa
-    // se è diversa aggiorno il task su trello
-    // se è uguale ritorno OK
-
-    // Upload su trello
+    // Update Card list id on trello (move a card from a list to another): CHECKING
+    // Update Card label on trello: CHECKING
     public static void fetchAndPush(TrelloCardService trelloCardService, TrelloLabelService trelloLabelService, TaskService taskService) {
         try {
             ResponseDto<List<TaskDto>> taskList = taskService.getAll();
@@ -137,7 +125,7 @@ public class TaskSync {
     }
 
     private static void ifFoundExecuteChangeListAndChangeLabel(ResponseDto<TrelloCardDto> cardFound, TaskDto task, TrelloCardService trelloCardService, TrelloLabelService trelloLabelService) {
-        if (Optional.ofNullable(cardFound.getBody()).isEmpty()) {
+        if (Optional.ofNullable(cardFound.getBody()).isPresent()) {
             ifNeededChangeList(cardFound, task, trelloCardService);
             ifNeededChangeLabel(cardFound, task, trelloLabelService);
         } else {
