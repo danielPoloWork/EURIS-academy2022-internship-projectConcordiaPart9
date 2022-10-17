@@ -1,9 +1,14 @@
 package com.euris.academy2022.concordia.utils.constants;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface TrelloConstant {
 
+    @Value("${trello.constant.ip.one}")
     String IP_1 = "185.166.143.24";
+    @Value("${trello.constant.ip.two}")
     String IP_2 = "185.166.143.25";
+    @Value("${trello.constant.ip.three}")
     String IP_3 = "185.166.143.26";
 
     String CARD = "card";
@@ -31,8 +36,10 @@ public interface TrelloConstant {
     String TEXT = "text";
     String TYPE = "type";
 
+    @Value("${trello.constant.id.board.value}")
     String ID_BOARD_VALUE = "6331a6227f9f991a315ca097";
 
+    @Value("${trello.constant.member.crs.id}")
     String MEMBER_CRS_ID = "633c1268379fad02799a6eb3";
     String MEMBER_CRS_FULL_NAME = "Concordia Research Station";
     String MEMBER_CRS_USERNAME = "concordiaresearchstation";
@@ -40,7 +47,11 @@ public interface TrelloConstant {
     String KEY = "key";
     String TOKEN = "token";
 
+    @Value("${trello.constant.url.board}")
+    String URL_BOARD = "https://trello.com/b/13aqL2ga/concordia";
+    @Value("${trello.constant.key.value}")
     String KEY_VALUE = "5c9e2406452c6b8b303c7362e444dd3f";
+    @Value("${trello.constant.token.value}")
     String TOKEN_VALUE = "3999110dcd7da4a6ebf75b0f67c8bb78b17e9b2706f65e0e33bb5fda8cb8810f";
 
     String URL_API_GET_MEMBERS_BY_ID_BOARD = "https://api.trello.com/1/boards/{idBoard}/members?key={key}&token={token}";
@@ -57,5 +68,4 @@ public interface TrelloConstant {
     String URL_API_DELETE_COMMENT_BY_ID_CARD_AND_ID_COMMENT = "https://api.trello.com/1/cards/{idCard}/actions/{idComment}/comments?&key={key}&token={token}";
     String URL_API_DELETE_LABEL_ON_CARD_BY_ID_CARD = "https://api.trello.com/1/cards/{idCard}/idLabels/{idLabel}?key={key}&token={token}";
     String URL_API_PUT_ID_LIST_ON_CARD_BY_ID_CARD = "https://api.trello.com/1/cards/{idCard}?&idList={idList}&key={key}&token={token}";
-    String URL_BOARD = "https://trello.com/b/13aqL2ga/concordia";
 }
