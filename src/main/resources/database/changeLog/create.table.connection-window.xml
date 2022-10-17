@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="create-table-connection-window-001" author="marcelloCescutti">
+    <comment>Create table Connection Window</comment>
+
+    <createTable tableName="ConnectionWindow">
+      <column name="month" type="TINYINT">
+        <constraints primaryKey="true" primaryKeyName="pkConnectionWindow"/>
+      </column>
+      <column name="cron" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dateCreation" type="DATETIME">
+        <constraints nullable="false"/>
+      </column>
+      <column name="dateUpdate" type="DATETIME">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="ConnectionWindow"/>
+    </rollback>
+
+  </changeSet>
+</databaseChangeLog>

@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.utils.constants;
+package com.euris.academy2022.concordia.utils.constants.models;
 
 public interface TaskConstant {
     String TABLE_NAME = "Task";

@@ -9,6 +9,7 @@ import com.euris.academy2022.concordia.utils.constants.TrelloConstant;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,8 +22,11 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberJpaRepository memberJpaRepository;
 
-    public MemberServiceImpl(MemberJpaRepository memberJpaRepository) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public MemberServiceImpl(MemberJpaRepository memberJpaRepository, BCryptPasswordEncoder passwordEncoder) {
         this.memberJpaRepository = memberJpaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
         Integer memberCreated = memberJpaRepository.insert(
                 null,
                 member.getUsername(),
-                member.getPassword(),
+                passwordEncoder.encode(member.getPassword()),
                 member.getRole().getLabel(),
                 member.getFirstName(),
                 member.getLastName(),
@@ -61,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
         Integer memberCreated = memberJpaRepository.insert(
                 member.getIdTrelloMember(),
                 member.getUsername(),
-                member.getPassword(),
+                passwordEncoder.encode(member.getPassword()),
                 member.getRole().getLabel(),
                 member.getFirstName(),
                 member.getLastName(),
@@ -99,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
-                    member.getPassword(),
+                    passwordEncoder.encode(member.getPassword()),
                     member.getRole().getLabel(),
                     member.getFirstName(),
                     member.getLastName(),
@@ -135,7 +139,7 @@ public class MemberServiceImpl implements MemberService {
 
             Integer memberUpdated = memberJpaRepository.update(
                     member.getUuid(),
-                    member.getPassword(),
+                    passwordEncoder.encode(member.getPassword()),
                     member.getRole().getLabel(),
                     member.getFirstName(),
                     member.getLastName(),
@@ -185,8 +189,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getAll() {
-        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
+    public ResponseDto<List<Member>> getAllMember() {
+        ResponseDto<List<Member>> response = new ResponseDto<>();
         List<Member> memberListFound = memberJpaRepository.findAll();
 
         response.setHttpRequest(HttpRequestType.GET);
@@ -199,17 +203,32 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberListFound.stream()
-                    .map(Member::toDto)
-                    .collect(Collectors.toList()));
+            response.setBody(memberListFound);
         }
-
         return response;
     }
 
     @Override
-    public ResponseDto<MemberDto> getByUuid(String uuid) {
-        ResponseDto<MemberDto> response = new ResponseDto<>();
+    public ResponseDto<List<MemberDto>> getAllMemberDto() {
+
+        ResponseDto<List<MemberDto>> dtoResponse = new ResponseDto<>();
+        ResponseDto<List<Member>> modelResponse = getAllMember();
+
+        dtoResponse.setHttpRequest(modelResponse.getHttpRequest());
+        dtoResponse.setHttpResponse(modelResponse.getHttpResponse());
+        dtoResponse.setCode(modelResponse.getCode());
+        dtoResponse.setDesc(modelResponse.getDesc());
+
+        if (modelResponse.getBody() != null) {
+            dtoResponse.setBody(modelResponse.getBody().stream().map(Member::toDto).toList());
+        }
+
+        return dtoResponse;
+    }
+
+    @Override
+    public ResponseDto<Member> getMemberByUuid(String uuid) {
+        ResponseDto<Member> response = new ResponseDto<>();
 
         Optional<Member> memberFound = memberJpaRepository.findByUuid(uuid);
 
@@ -223,9 +242,26 @@ public class MemberServiceImpl implements MemberService {
             response.setHttpResponse(HttpResponseType.FOUND);
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberFound.get().toDto());
+            response.setBody(memberFound.get());
         }
         return response;
+    }
+
+    @Override
+    public ResponseDto<MemberDto> getMemberDtoByUuid(String uuid) {
+        ResponseDto<MemberDto> dtoResponse = new ResponseDto<>();
+        ResponseDto<Member> modelResponse = getMemberByUuid(uuid);
+
+        dtoResponse.setHttpRequest(modelResponse.getHttpRequest());
+        dtoResponse.setHttpResponse(modelResponse.getHttpResponse());
+        dtoResponse.setCode(modelResponse.getCode());
+        dtoResponse.setDesc(modelResponse.getDesc());
+
+        if (modelResponse.getBody() != null) {
+            dtoResponse.setBody(modelResponse.getBody().toDto());
+        }
+
+        return dtoResponse;
     }
 
     @Override
@@ -266,6 +302,26 @@ public class MemberServiceImpl implements MemberService {
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
             response.setBody(memberFound.get().toDto());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<List<Member>> getMemberListByRole(MemberRole role) {
+        ResponseDto<List<Member>> response = new ResponseDto<>();
+        response.setHttpRequest(HttpRequestType.GET);
+
+        List<Member> memberListFound = memberJpaRepository.findByRole(role.getLabel());
+
+        if (memberListFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(memberListFound);
         }
         return response;
     }
@@ -315,24 +371,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseDto<List<MemberDto>> getByRole(MemberRole role) {
-        ResponseDto<List<MemberDto>> response = new ResponseDto<>();
-        response.setHttpRequest(HttpRequestType.GET);
+    public ResponseDto<List<MemberDto>> getMemberDtoListByRole(MemberRole role) {
+        ResponseDto<List<MemberDto>> dtoResponse = new ResponseDto<>();
+        ResponseDto<List<Member>> modelResponse = getMemberListByRole(role);
 
-        List<Member> memberListFound = memberJpaRepository.findByRole(role.getLabel());
+        dtoResponse.setHttpRequest(modelResponse.getHttpRequest());
+        dtoResponse.setHttpResponse(modelResponse.getHttpResponse());
+        dtoResponse.setCode(modelResponse.getCode());
+        dtoResponse.setDesc(modelResponse.getDesc());
 
-        if (memberListFound.isEmpty()) {
-            response.setHttpResponse(HttpResponseType.NOT_FOUND);
-            response.setCode(HttpResponseType.NOT_FOUND.getCode());
-            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-        } else {
-            response.setHttpResponse(HttpResponseType.FOUND);
-            response.setCode(HttpResponseType.FOUND.getCode());
-            response.setDesc(HttpResponseType.FOUND.getDesc());
-            response.setBody(memberListFound.stream()
-                    .map(Member::toDto)
-                    .collect(Collectors.toList()));
+        if (modelResponse.getBody() != null) {
+            dtoResponse.setBody(modelResponse.getBody().stream().map(Member::toDto).toList());
         }
-        return response;
+
+        return dtoResponse;
     }
 }

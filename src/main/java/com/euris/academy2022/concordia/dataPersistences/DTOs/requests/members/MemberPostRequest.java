@@ -23,7 +23,6 @@ public class MemberPostRequest implements DtoArchetype {
     private LocalDateTime dateCreation;
     private LocalDateTime dateUpdate;
 
-
     @Override
     public Member toModel() {
         return Member.builder()

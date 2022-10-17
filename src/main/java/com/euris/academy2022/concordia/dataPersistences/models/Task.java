@@ -2,8 +2,8 @@ package com.euris.academy2022.concordia.dataPersistences.models;
 
 import com.euris.academy2022.concordia.dataPersistences.archetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
-import com.euris.academy2022.concordia.utils.constants.AssigneeConstant;
-import com.euris.academy2022.concordia.utils.constants.CommentConstant;
+import com.euris.academy2022.concordia.utils.constants.models.AssigneeConstant;
+import com.euris.academy2022.concordia.utils.constants.models.CommentConstant;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.euris.academy2022.concordia.utils.constants.TaskConstant.*;
+import static com.euris.academy2022.concordia.utils.constants.models.TaskConstant.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

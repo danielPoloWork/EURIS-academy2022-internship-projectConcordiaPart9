@@ -2,8 +2,8 @@ package com.euris.academy2022.concordia.dataPersistences.models;
 
 import com.euris.academy2022.concordia.dataPersistences.archetypes.ModelArchetype;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
-import com.euris.academy2022.concordia.utils.constants.AssigneeConstant;
-import com.euris.academy2022.concordia.utils.constants.CommentConstant;
+import com.euris.academy2022.concordia.utils.constants.models.AssigneeConstant;
+import com.euris.academy2022.concordia.utils.constants.models.CommentConstant;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static com.euris.academy2022.concordia.utils.constants.MemberConstant.*;
+import static com.euris.academy2022.concordia.utils.constants.models.MemberConstant.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

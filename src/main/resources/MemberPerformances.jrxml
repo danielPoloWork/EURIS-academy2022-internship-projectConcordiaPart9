@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final utlizzo versione della libreria JasperReports6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MemberPerformances" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="89da3864-9634-4fca-b782-82d8156bedab">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="user" class="java.lang.String"/>
+	<field name="taskNumber" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement x="120" y="0" width="321" height="81" uuid="ec21801c-7d6e-4365-a856-7218cf85c923"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[MEMBER PERFORMANCES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="-11" y="4" width="302" height="16" uuid="9ba624c9-4acd-4c9f-9523-b266d23bf7f5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[member]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="4" width="244" height="16" uuid="326cef65-4bd1-4744-a99d-e427e878cc0e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[success percentage]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="3" width="310" height="21" uuid="300e96fb-9424-4885-a249-e8b28df1b30b"/>
+				<textFieldExpression><![CDATA[$F{user}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="241" height="21" uuid="a61feb8e-d6f8-4c82-b9af-8127c032b44b"/>
+				<textFieldExpression><![CDATA[$F{taskNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

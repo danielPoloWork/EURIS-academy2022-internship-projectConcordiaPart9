@@ -8,4 +8,6 @@
     <include file="/database/changeLog/create.table.member.xml"/>
     <include file="/database/changeLog/create.table.assignee.xml"/>
     <include file="/database/changeLog/create.table.comment.xml"/>
+    <include file="/database/changeLog/create.table.configuration.xml"/>
+    <include file="/database/changeLog/create.table.connection-window.xml"/>
 </databaseChangeLog>

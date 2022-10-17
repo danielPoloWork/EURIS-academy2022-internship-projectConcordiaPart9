@@ -16,10 +16,11 @@ The following PDFs/PNGs show the database schemas for different Concordia versio
 - [**Open PDF/PNG v1.1**](uml-diagram.v1-1.md)
 - [**Open PDF/PNG v1.2**](uml-diagram.v1-2.md)
 - [**Open PDF/PNG v1.3**](uml-diagram.v1-3.md)
+- [**Open PDF/PNG v1.3**](uml-diagram.v1-4.md)
 
 The database schema is also described in ../java/resources/database/changeLog/ xml files in the Concordia web 
 application. All entitymodel.xml file has an XML definition of all Concordia database tables, table columns, and their 
-data type. Some of the relationships between tables also appear in the files.
+data type. Some relationships between tables also appear in the files.
 - [**Assignee**](../../../../../main/resources/database/changeLog/create.table.assignee.xml)
 - [**Comment**](../../../../../main/resources/database/changeLog/create.table.comment.xml)
 - [**Member**](../../../../../main/resources/database/changeLog/create.table.member.xml)
@@ -33,18 +34,28 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 #### TABLE: Comment
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
-|id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|idMember|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
+|idTrelloComment|CHAR(24)|-|-|-|-|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuidMember|CHAR(36)|-|✓|✓|-|-|-|-|-|
 |text|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
 
 #### TABLE: Member
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
-|id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|name|VARCHAR(45)|-|-|✓|-|-|-|-|-|
-|surname|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
+|idTrelloMember|CHAR(24)|-|✓|-|-|-|-|-|-|
+|username|VARCHAR(100)|-|-|✓|✓|-|-|-|-|
+|password|VARCHAR(100)|-|-|✓|-|-|-|-|-|
 |role|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|firstName|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|lastName|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
+
 
 > **Role** in java is an enum('A1', 'A2', 'A3', 'B1', 'C1', 'C2','CONCORDIA','WRS','ADMIN','MANAGER')
 > |LABEL|NAME|
@@ -64,11 +75,14 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
 |id|CHAR(24)|✓|-|✓|-|-|-|-|-|
-|title|VARCHAR(100)|-|-|✓|-|-|-|-|-|
-|description|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|title|VARCHAR(255)|-|-|✓|-|-|-|-|-|
+|description|VARCHAR(5000)|-|-|✓|-|-|-|-|-|
+|priority|VARCHAR(45)|-|-|✓|-|-|-|-|-|
+|status|VARCHAR(45)|-|-|✓|-|-|-|-|-|
 |deadline|DATETIME|-|-|-|-|-|-|-|-|
-|priority|VARCHAR(8)|-|-|✓|-|-|-|-|-|
-|status|VARCHAR(11)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
 
 > **Priority** in java is an enum('HIGH', 'EXPIRING', 'MEDIUM', 'LOW', 'DONE', 'ARCHIVED')
 > |LABEL|ID|NAME|COLOR|
@@ -91,10 +105,32 @@ the sequence you can click [**here**](../../../../../main/resources/database/cha
 |FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
 |-|-|-|-|-|-|-|-|-|-|
 |uuid|CHAR(36)|✓|-|✓|-|-|-|-|-|
-|idMember|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|uuidMember|CHAR(36)|-|✓|✓|-|-|-|-|-|
 |idTask|CHAR(24)|-|✓|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
 
-## Motivations following changes
-Following subsequent reflections we opted to merge between the User table and the Member table to avoid code redundancy. 
+
+### Motivations following changes
+Following subsequent briefing we opted to merge between the User table and the Member table to avoid code redundancy. 
 Initially it was considered to have two separate tables between the creation of the members and a table to manage the 
 authentication service with its privileges in anticipation of a front-end development.
+
+
+## Changelog v1.4
+
+#### TABLE: Configuration
+|FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
+|-|-|-|-|-|-|-|-|-|-|
+|label|VARCHAR(255)|✓|-|✓|-|-|-|-|-|
+|value|VARCHAR(1000)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
+
+
+#### TABLE: Connection Window
+|FIELD|DATATYPE|PK|FK|NN|UQ|B|UN|AI|G|
+|-|-|-|-|-|-|-|-|-|-|
+|month|TINYINT|✓|-|✓|-|-|-|-|-|
+|cron|VARCHAR(255)|-|-|✓|-|-|-|-|-|
+|dateCreation|DATETIME|-|-|✓|-|-|-|-|-|
+|dateUpdate|DATETIME|-|-|✓|-|-|-|-|-|
