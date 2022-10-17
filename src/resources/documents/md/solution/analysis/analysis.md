@@ -43,6 +43,24 @@ trello to verify that the data is up-to-date and synchronized. If they are not, 
 - Change priority labels to emphasize when some experiments are expiring
 - Add, edit, or delete comments.
 
+Due limited time we couldn't implement Trello APIs batch to push all information at once. 
+Pro for using trello batch API:
+- just one ping to check connection
+- rollback
+
+## Jasper report and mail service
+..missing..
+
+## Web application
+This was the most optional feature, so we did not spend much time on development. To make it simple we did not use 
+frontend frameworks like angular but only:
+- HTML
+- Javascript
+- Jquery
+- CSS
+- Foundation CSS framework
+- Google icons and fonts
+
 ## Actions management
 Due develop time limitation and to bypass management problems of IT competence we have opted for a solution that does 
 not provide the creation of a trello account to each researcher who will have the opportunity to work for the Concordia 
