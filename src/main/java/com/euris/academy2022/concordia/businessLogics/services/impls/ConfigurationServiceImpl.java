@@ -27,7 +27,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         ResponseDto<ConfigurationDto> response = new ResponseDto<>();
 
         Integer configurationCreated = configurationJpaRepository.insert(
-                configuration.getLabel(),
+                configuration.getLabel().replaceAll("\\s",""),
                 configuration.getValue(),
                 LocalDateTime.now(),
                 LocalDateTime.now());
@@ -61,7 +61,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
             Integer updatedConfiguration = configurationJpaRepository.update(
-                    configuration.getLabel(),
+                    configuration.getLabel().replaceAll("\\s", ""),
                     configuration.getValue(),
                     LocalDateTime.now());
 
@@ -109,6 +109,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public ResponseDto<ConfigurationDto> getByLabel(String label) {
+
         ResponseDto<ConfigurationDto> response = new ResponseDto<>();
         Optional<Configuration> optionalConfiguration = configurationJpaRepository.findByLabel(label);
 

@@ -22,16 +22,16 @@ public interface ConfigurationJpaRepository extends JpaRepository<Configuration,
     String UPDATE_CONFIGURATION =
             "UPDATE CONFIGURATION "
                     + "SET CONFIGURATION.value = :value, CONFIGURATION.dateUpdate = :dateUpdate "
-                    + "WHERE CONFIGURATION.label = :label";
+                    + "WHERE CONFIGURATION.label = :label ";
 
     String DELETE_CONFIGURATION =
             "DELETE FROM CONFIGURATION "
-                    + "WHERE CONFIGURATION.label = :label";
+                    + "WHERE CONFIGURATION.label = :label ";
 
     String SELECT_BY_LABEL =
-            "SELECT CONFIGURATION.label CONFIGURATION.value "
-                    + "FROM CONFIGURATION"
-                    + "WHERE CONFIGURATION.label = :label";
+            "SELECT CONFIGURATION.label, CONFIGURATION.value, CONFIGURATION.dateCreation, CONFIGURATION.dateUpdate "
+                    + "FROM CONFIGURATION "
+                    + "WHERE CONFIGURATION.label LIKE :label ";
 
 
     @Modifying
