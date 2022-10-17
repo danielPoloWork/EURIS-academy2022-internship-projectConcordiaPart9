@@ -33,28 +33,39 @@ public class MemberServiceImpl implements MemberService {
     public ResponseDto<MemberDto> insert(Member member) {
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
-        Integer memberCreated = memberJpaRepository.insert(
-                TrelloConstant.MEMBER_CRS_ID,
-                member.getUsername(),
-                passwordEncoder.encode(member.getPassword()),
-                member.getRole().getLabel(),
-                member.getFirstName(),
-                member.getLastName(),
-                LocalDateTime.now(),
-                LocalDateTime.now());
+        Optional<Member> optionalMember = memberJpaRepository.findByUsername(member.getUsername());
 
         response.setHttpRequest(HttpRequestType.POST);
 
-        if (memberCreated != 1) {
+        if (optionalMember.isEmpty()) {
+            Integer memberCreated = memberJpaRepository.insert(
+                    TrelloConstant.MEMBER_CRS_ID,
+                    member.getUsername(),
+                    passwordEncoder.encode(member.getPassword()),
+                    member.getRole().getLabel(),
+                    member.getFirstName(),
+                    member.getLastName(),
+                    LocalDateTime.now(),
+                    LocalDateTime.now());
+
+            if (memberCreated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+
+            } else {
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+                response.setBody(member.toDto());
+            }
+
+        } else {
             response.setHttpResponse(HttpResponseType.NOT_CREATED);
             response.setCode(HttpResponseType.NOT_CREATED.getCode());
             response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-        } else {
-            response.setHttpResponse(HttpResponseType.CREATED);
-            response.setCode(HttpResponseType.CREATED.getCode());
-            response.setDesc(HttpResponseType.CREATED.getDesc());
-            response.setBody(member.toDto());
         }
+
         return response;
     }
 

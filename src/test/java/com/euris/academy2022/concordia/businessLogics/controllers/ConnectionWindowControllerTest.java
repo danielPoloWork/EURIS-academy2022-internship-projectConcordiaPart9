@@ -74,7 +74,7 @@ public class ConnectionWindowControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest_AUTORIZED() throws Exception {
+    void insertTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(connectionWindowService.insert(Mockito.any(ConnectionWindow.class)))
@@ -107,7 +107,7 @@ public class ConnectionWindowControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void updateTest_AUTORIZED() throws Exception {
+    void updateTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(connectionWindowService.update(Mockito.any(ConnectionWindow.class)))
@@ -139,7 +139,7 @@ public class ConnectionWindowControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByMonthTest_AUTORIZED() throws Exception {
+    void getByMonthTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(connectionWindowService.getByMonth(Mockito.anyInt()))

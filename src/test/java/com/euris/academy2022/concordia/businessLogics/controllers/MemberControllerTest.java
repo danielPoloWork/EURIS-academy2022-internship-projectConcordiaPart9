@@ -79,7 +79,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest_AUTORIZED() throws Exception {
+    void insertTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.insert(Mockito.any(Member.class)))
                 .thenReturn(modelResponse);
@@ -109,7 +109,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void updateTest_AUTORIZED() throws Exception {
+    void updateTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.update(Mockito.any(Member.class)))
                 .thenReturn(modelResponse);
@@ -139,7 +139,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void removeByUuidTest_AUTORIZED() throws Exception {
+    void removeByUuidTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.removeByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -169,7 +169,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getAllTest_AUTORIZED() throws Exception {
+    void getAllTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.getAllMemberDto())
                 .thenReturn(listResponse);
@@ -199,7 +199,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByUuidTest_AUTORIZED() throws Exception {
+    void getByUuidTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.getMemberDtoByUuid(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -229,7 +229,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByIdTrelloMemberTest_AUTORIZED() throws Exception {
+    void getByIdTrelloMemberTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.getByIdTrelloMember(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -259,7 +259,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getUsernameTest_AUTORIZED() throws Exception {
+    void getUsernameTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.getByUsername(Mockito.anyString()))
                 .thenReturn(modelResponse);
@@ -289,7 +289,7 @@ public class MemberControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByRoleTest_AUTORIZED() throws Exception {
+    void getByRoleTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(memberService.getMemberDtoListByRole(Mockito.any(MemberRole.class)))
                 .thenReturn(listResponse);

@@ -1,6 +1,7 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
+import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
@@ -11,6 +12,7 @@ import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.jpaRepositories.TaskJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
+import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,11 +26,13 @@ public class AssigneeServiceImpl implements AssigneeService {
     private final AssigneeJpaRepository assigneeJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
     private final TaskJpaRepository taskJpaRepository;
+    private final TaskService taskService;
 
-    public AssigneeServiceImpl(AssigneeJpaRepository assigneeJpaRepository, MemberJpaRepository memberJpaRepository, TaskJpaRepository taskJpaRepository) {
+    public AssigneeServiceImpl(AssigneeJpaRepository assigneeJpaRepository, MemberJpaRepository memberJpaRepository, TaskJpaRepository taskJpaRepository, TaskService taskService) {
         this.assigneeJpaRepository = assigneeJpaRepository;
         this.memberJpaRepository = memberJpaRepository;
         this.taskJpaRepository = taskJpaRepository;
+        this.taskService = taskService;
     }
 
 
@@ -56,6 +60,10 @@ public class AssigneeServiceImpl implements AssigneeService {
                 response.setCode(HttpResponseType.NOT_CREATED.getCode());
                 response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
             } else {
+                if (taskFound.get().getStatus().equals(TaskStatus.TO_DO)) {
+                    taskFound.get().setStatus(TaskStatus.IN_PROGRESS);
+                    taskService.update(taskFound.get());
+                }
                 response.setHttpResponse(HttpResponseType.CREATED);
                 response.setCode(HttpResponseType.CREATED.getCode());
                 response.setDesc(HttpResponseType.CREATED.getDesc());
