@@ -50,6 +50,12 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
                     + "FROM Task "
                     + "WHERE Task.status = :status";
 
+    String SELECT_TASK_ID_BY_COMMENT_UUID =
+            "SELECT Task.id " +
+            "FROM Task " +
+            "INNER JOIN Comment ON Task.id = Comment.idTask " +
+            "WHERE Comment.uuid = :uuid";
+
     @Modifying
     @Query(value = INSERT_INTO_TASK, nativeQuery = true)
     @Transactional
@@ -91,6 +97,9 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
 
     @Query(value = SELECT_TASK_BY_STATUS, nativeQuery = true)
     List<Task> findByStatus(@Param("status") String status);
+
+    @Query(value = SELECT_TASK_ID_BY_COMMENT_UUID, nativeQuery = true)
+    Optional<String> findIdByUuidComment(@Param("uuid") String uuidComment);
 
     List<Task> findByTitle(String title);
     List<Task> findByDeadLine(LocalDateTime deadLine);

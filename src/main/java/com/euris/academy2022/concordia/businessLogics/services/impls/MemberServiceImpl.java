@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
         ResponseDto<MemberDto> response = new ResponseDto<>();
 
         Integer memberCreated = memberJpaRepository.insert(
-                TrelloConstant.MEMBER_CRS_ID,
+                null,
                 member.getUsername(),
                 passwordEncoder.encode(member.getPassword()),
                 member.getRole().getLabel(),

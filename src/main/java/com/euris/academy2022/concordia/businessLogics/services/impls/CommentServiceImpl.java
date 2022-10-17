@@ -1,6 +1,8 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.CommentService;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.CommentFromTrelloDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments.CommentPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Comment;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.CommentDto;
@@ -42,7 +44,6 @@ public class CommentServiceImpl implements CommentService {
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else{
             Integer commentCreated = commentJpaRepository.insert(
-                    comment.getIdTrelloComment(),
                     comment.getTask().getId(),
                     comment.getMember().getUuid(),
                     comment.getText(),
@@ -68,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
         ResponseDto<CommentDto> response = new ResponseDto<>();
         response.setHttpRequest(HttpRequestType.POST);
 
-        Integer commentCreated = commentJpaRepository.insert(
+        Integer commentCreated = commentJpaRepository.insertFromTrello(
                 comment.getIdTrelloComment(),
                 comment.getTask().getId(),
                 comment.getMember().getUuid(),
@@ -123,8 +124,41 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseDto<CommentDto> updateFromTrello(Comment comment) {
-        ResponseDto<CommentDto> response = new ResponseDto<>();
+    public ResponseDto<CommentFromTrelloDto> updateTrelloCommentIdMissing(CommentFromTrelloDto comment) {
+        ResponseDto<CommentFromTrelloDto> response = new ResponseDto<>();
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
+        Optional<Comment> commentFound = commentJpaRepository.findByUuid(comment.getUuid());
+
+        if (commentFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            Integer updated = commentJpaRepository.updateFromTrello(
+                    comment.getUuid(),
+                    comment.getIdTrelloComment(),
+                    comment.getText(),
+                    LocalDateTime.now());
+
+            if (updated != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            } else {
+                response.setHttpResponse(HttpResponseType.CREATED);
+                response.setCode(HttpResponseType.CREATED.getCode());
+                response.setDesc(HttpResponseType.CREATED.getDesc());
+                response.setBody(comment);
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<CommentFromTrelloDto> updateFromTrello(CommentFromTrelloDto comment) {
+        ResponseDto<CommentFromTrelloDto> response = new ResponseDto<>();
 
         response.setHttpRequest(HttpRequestType.PUT);
 
@@ -142,14 +176,14 @@ public class CommentServiceImpl implements CommentService {
                     comment.getDateUpdate());
 
             if (updated != 1) {
-                response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
             } else {
-                response.setHttpResponse(HttpResponseType.CREATED);
-                response.setCode(HttpResponseType.CREATED.getCode());
-                response.setDesc(HttpResponseType.CREATED.getDesc());
-                response.setBody(comment.toDto());
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(comment);
             }
         }
         return response;
@@ -237,6 +271,29 @@ public class CommentServiceImpl implements CommentService {
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
             response.setBody(commentFound.get().toDto());
+        }
+
+        return response;
+    }
+
+    @Override
+    public ResponseDto<List<CommentDto>> getAllWhereIdTrelloTaskIsNotNull() {
+        ResponseDto<List<CommentDto>> response = new ResponseDto<>();
+        List<Comment> commentListFound = commentJpaRepository.findAllWhereIdTrelloCommentIsNotNull();
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (commentListFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(commentListFound.stream()
+                    .map(Comment::toDto)
+                    .collect(Collectors.toList()));
         }
 
         return response;

@@ -8,6 +8,7 @@ import com.euris.academy2022.concordia.utils.enums.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskService {
 
@@ -23,5 +24,6 @@ public interface TaskService {
     ResponseDto<List<TaskDto>> getByTitle(String title);
     ResponseDto<List<TaskDto>> getByDeadLine(LocalDateTime deadLine);
     List<Task> findAllTasksByMemberUuid(String uuidMember);
+    Optional<String> findIdByUuidComment(String uuidComment);
     List<Task> updateExpiringTasks();
 }

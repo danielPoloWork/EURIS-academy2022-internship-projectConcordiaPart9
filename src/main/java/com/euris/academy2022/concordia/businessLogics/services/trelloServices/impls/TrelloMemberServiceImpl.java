@@ -33,7 +33,7 @@ public class TrelloMemberServiceImpl implements TrelloMemberService {
         response.setHttpRequest(HttpRequestType.GET);
 
         if (!isHttpURLConnectionReached(URL_BOARD)) {
-            setMemberResponseConnectionTimeOut(response);
+            setListTrelloMemberDtoResponseConnectionTimeOut(response);
         } else {
             String members = restTemplate.getForObject(
                     URL_API_GET_MEMBERS_BY_ID_BOARD,
@@ -56,9 +56,9 @@ public class TrelloMemberServiceImpl implements TrelloMemberService {
 
     private static void setResponseForGetMembersByBoardId(ResponseDto<List<TrelloMemberDto>> response, String members) {
         if (Optional.ofNullable(members).isEmpty()) {
-            setMemberResponseNotFound(response);
+            setListTrelloMemberDtoResponseNotFound(response);
         } else {
-            setMemberResponseFound(response);
+            setListTrelloMemberDtoResponseFound(response);
 
             JSONArray jsonArray = new JSONArray(members);
             List<TrelloMemberDto> memberList = new ArrayList<>();
