@@ -40,7 +40,7 @@ Devs specific activities:
 - [**Antonio Collinassi**](src/resources/documents/md/job/antonio-collinassi.md)
 - [**Daniel Polo**](src/resources/documents/md/job/daniel-polo.md)
 - [**Marcello Cescutti**](src/resources/documents/md/job/marcello-cescutti.md)
-- [**Simone Copetti**](src/resources/documents/md/job/simone-coppetti.md)
+- [**Simone Copetti**](src/resources/documents/md/job/simone-copetti.md)
 
 ## Technologies
 - **Java**│version 18│
