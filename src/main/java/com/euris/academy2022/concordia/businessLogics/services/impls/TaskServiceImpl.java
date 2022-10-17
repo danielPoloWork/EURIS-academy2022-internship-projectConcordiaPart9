@@ -31,6 +31,11 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<TaskDto> insert(Task task) {
         ResponseDto<TaskDto> response = new ResponseDto<>();
 
+        response.setHttpRequest(HttpRequestType.POST);
+
+        task.setPriority(task.getPriority().equals(TaskPriority.DONE) ? TaskPriority.LOW : task.getPriority());
+        task.setStatus(TaskStatus.TO_DO);
+
         Integer taskCreated = taskJpaRepository.insert(
                 task.getId(),
                 task.getTitle(),
@@ -41,12 +46,11 @@ public class TaskServiceImpl implements TaskService {
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
-        response.setHttpRequest(HttpRequestType.POST);
-
         if (taskCreated != 1) {
             response.setHttpResponse(HttpResponseType.NOT_CREATED);
             response.setCode(HttpResponseType.NOT_CREATED.getCode());
             response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+
         } else {
             response.setHttpResponse(HttpResponseType.CREATED);
             response.setCode(HttpResponseType.CREATED.getCode());
@@ -103,6 +107,10 @@ public class TaskServiceImpl implements TaskService {
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
         } else {
+
+            task.setStatus(task.getPriority().equals(TaskPriority.DONE) && !task.getStatus().equals(TaskStatus.COMPLETED) ? TaskStatus.COMPLETED : task.getStatus());
+            task.setPriority(task.getStatus().equals(TaskStatus.COMPLETED) && !task.getPriority().equals(TaskPriority.DONE) ? TaskPriority.DONE : task.getPriority());
+
             Integer updatedTask = taskJpaRepository.update(
                     task.getId(),
                     task.getTitle(),

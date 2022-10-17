@@ -60,6 +60,8 @@ class TaskServiceTest {
 
         task.setDateCreation(LocalDateTime.now());
         task.setDateUpdate(LocalDateTime.now());
+        task.setPriority(TaskPriority.DONE);
+        task.setStatus(TaskStatus.COMPLETED);
 
         expectedResponse.setHttpRequest(HttpRequestType.POST);
         expectedResponse.setHttpResponse(HttpResponseType.CREATED);
@@ -98,11 +100,10 @@ class TaskServiceTest {
         Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
         Assertions.assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
         Assertions.assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
-        Assertions.assertEquals(expectedResponse.getBody().getPriority(), response.getBody().getPriority());
-        Assertions.assertEquals(expectedResponse.getBody().getStatus(), response.getBody().getStatus());
+        Assertions.assertEquals(TaskPriority.LOW, response.getBody().getPriority());
+        Assertions.assertEquals(TaskStatus.TO_DO, response.getBody().getStatus());
         Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
         Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
-
     }
 
     @Test
@@ -151,6 +152,9 @@ class TaskServiceTest {
     void updateTest_FOUND_UPDATED() {
         ResponseDto<TaskDto> expectedResponse = new ResponseDto<>();
 
+        task.setPriority(TaskPriority.HIGH);
+        task.setStatus(TaskStatus.COMPLETED);
+
         expectedResponse.setHttpRequest(HttpRequestType.PUT);
         expectedResponse.setHttpResponse(HttpResponseType.UPDATED);
         expectedResponse.setCode(HttpResponseType.UPDATED.getCode());
@@ -192,8 +196,8 @@ class TaskServiceTest {
         Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
         Assertions.assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
         Assertions.assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
-        Assertions.assertEquals(expectedResponse.getBody().getPriority(), response.getBody().getPriority());
-        Assertions.assertEquals(expectedResponse.getBody().getStatus(), response.getBody().getStatus());
+        Assertions.assertEquals(TaskPriority.DONE, response.getBody().getPriority());
+        Assertions.assertEquals(TaskStatus.COMPLETED, response.getBody().getStatus());
         Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
         Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
     }
