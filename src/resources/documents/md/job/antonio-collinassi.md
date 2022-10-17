@@ -1,6 +1,6 @@
 # ANTONIO COLLINASSI
 ## List of my activities
-- Develop of Task.class entity and Tablet.class feature:
+- Develop of Task.class entity and Tablet feature:
     - DB ChangeLog
     - Model
     - DTOs
