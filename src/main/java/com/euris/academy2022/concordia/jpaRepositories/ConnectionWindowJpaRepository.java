@@ -24,7 +24,7 @@ public interface ConnectionWindowJpaRepository extends JpaRepository<ConnectionW
                     + "WHERE ConnectionWindow.month = :month";
 
     String SELECT_BY_MONTH =
-            "SELECT ConnectionWindow.month ConnectionWindow.cron "
+            "SELECT ConnectionWindow.month, ConnectionWindow.cron, ConnectionWindow.dateCreation, ConnectionWindow.dateUpdate "
                     + "FROM ConnectionWindow "
                     + "WHERE ConnectionWindow.month = :month";
 
