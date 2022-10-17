@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments;
 
 import com.euris.academy2022.concordia.dataPersistences.archetypes.DtoArchetype;
 import com.euris.academy2022.concordia.dataPersistences.models.Comment;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
 import lombok.*;
 
@@ -16,8 +17,7 @@ public class CommentPostRequest implements DtoArchetype {
 
     private String idTrelloComment;
     private String idTask;
-//    private String idTrelloMember;
-//    private String uuidMember;
+    private String uuidMember;
     private String text;
     private LocalDateTime dateCreation;
     private LocalDateTime dateUpdate;
@@ -27,14 +27,13 @@ public class CommentPostRequest implements DtoArchetype {
         Task task = Task.builder()
                 .id(this.idTask).build();
 
-//        Member member = Member.builder()
-//                .uuid(this.uuidMember).build();
+        Member member = Member.builder()
+                .uuid(this.uuidMember).build();
 
         return Comment.builder()
                 .idTrelloComment(this.idTrelloComment)
                 .task(task)
-//                .idTrelloMember(this.idTrelloMember)
-//                .member(member)
+                .member(member)
                 .text(this.text)
                 .dateCreation(this.dateCreation)
                 .dateUpdate(this.dateUpdate)
