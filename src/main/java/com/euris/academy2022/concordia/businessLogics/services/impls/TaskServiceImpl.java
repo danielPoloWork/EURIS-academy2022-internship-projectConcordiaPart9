@@ -342,4 +342,9 @@ public class TaskServiceImpl implements TaskService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public Optional<String> findIdByUuidComment(String uuidComment) {
+        return taskJpaRepository.findIdByUuidComment(uuidComment);
+    }
 }

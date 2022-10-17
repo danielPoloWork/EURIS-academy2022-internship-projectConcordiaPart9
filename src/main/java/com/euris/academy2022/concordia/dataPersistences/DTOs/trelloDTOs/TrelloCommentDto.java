@@ -16,5 +16,5 @@ public class TrelloCommentDto {
     private String idMemberCreator;
     private String text;
     private String type;
-    private String date;
+    private String dateLastEdited;
 }

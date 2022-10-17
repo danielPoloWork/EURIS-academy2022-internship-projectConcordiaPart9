@@ -23,7 +23,7 @@ public class Comment implements ModelArchetype {
     @Column(name = COLUMN_UUID)
     String uuid;
 
-    @JoinColumn(name = COLUMN_ID_TRELLO_COMMENT)
+    @Column(name = COLUMN_ID_TRELLO_COMMENT)
     String idTrelloComment;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,6 +49,7 @@ public class Comment implements ModelArchetype {
     public CommentDto toDto() {
         return CommentDto.builder()
                 .uuid(this.uuid)
+                .idTrelloComment(this.idTrelloComment)
                 .taskDto(this.task.toDto())
                 .memberDto(this.member.toDto())
                 .dateCreation(this.dateCreation)

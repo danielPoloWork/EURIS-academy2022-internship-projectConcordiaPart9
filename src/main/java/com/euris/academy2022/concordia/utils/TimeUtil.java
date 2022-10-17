@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 
 public class TimeUtil {
 
@@ -16,10 +17,10 @@ public class TimeUtil {
         return dateTime.replace("Z", "");
     }
     public static LocalDateTime parseDue(String due) {
-        return due.equals("null") || due.equals("") ? null : LocalDateTime.parse(cleanString(due)).truncatedTo(ChronoUnit.SECONDS);
+        return due.equals("null") || due.equals("") ? null : LocalDateTime.parse(cleanString(due)).truncatedTo(ChronoUnit.SECONDS).plusHours(2);
     }
 
     public static LocalDateTime parseToLocalDateTime(String dateTime) {
-        return LocalDateTime.parse(cleanString(dateTime)).truncatedTo(ChronoUnit.SECONDS);
+        return LocalDateTime.parse(cleanString(dateTime)).truncatedTo(ChronoUnit.SECONDS).plusHours(2);
     }
 }
