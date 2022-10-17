@@ -33,7 +33,9 @@ public class SecurityCfg {
         return httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/*").hasAnyRole(MANAGER, ADMIN, A1, A2, A3, B1, C1, C2)
+                .antMatchers(HttpMethod.GET, MAPPING_MEMBER).permitAll()
+                .antMatchers("/admin.html").hasRole(ADMIN)
+                .antMatchers("/researcher.html").hasAnyRole(A1, A2, A3, B1, C1, C2)
                 // MAPPING MEMBER
                 .antMatchers(HttpMethod.POST, MAPPING_MEMBER + "/**").hasAnyRole(MANAGER, ADMIN)
                 .antMatchers(HttpMethod.PUT, MAPPING_MEMBER + "/**").hasAnyRole(MANAGER, ADMIN)
@@ -70,9 +72,10 @@ public class SecurityCfg {
                 .antMatchers(HttpMethod.DELETE, MAPPING_CONNECTION_WINDOW + "/**").hasRole(ADMIN)
                 .antMatchers(HttpMethod.GET, MAPPING_CONNECTION_WINDOW + "/**").hasRole(ADMIN)
                 //
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().formLogin()
                 .and().build();
     }
 

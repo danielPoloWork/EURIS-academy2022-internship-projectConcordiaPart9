@@ -1,8 +1,6 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
-import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.AssigneeServiceImpl;
-import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
@@ -17,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -39,6 +36,8 @@ class AssigneeServiceTest {
     private MemberJpaRepository memberJpaRepository;
     @MockBean
     private TaskJpaRepository taskJpaRepository;
+    @MockBean
+    private TaskService taskService;
     private AssigneeService assigneeService;
 
     private Task task;
@@ -49,9 +48,10 @@ class AssigneeServiceTest {
 
     @BeforeEach
     void init() {
-        assigneeService = new AssigneeServiceImpl(assigneeJpaRepository, memberJpaRepository, taskJpaRepository);
+        assigneeService = new AssigneeServiceImpl(assigneeJpaRepository, memberJpaRepository, taskJpaRepository, taskService);
         task = Task.builder()
                 .id("idTask")
+                .status(TaskStatus.TO_DO)
                 .build();
 
         member = Member.builder()
@@ -112,6 +112,7 @@ class AssigneeServiceTest {
         Assertions.assertEquals(expectedResponse.getBody().getMemberDto().getIdTrelloMember(), response.getBody().getMemberDto().getIdTrelloMember());
         Assertions.assertEquals(expectedResponse.getBody().getMemberDto().getUuid(), response.getBody().getMemberDto().getUuid());
         Assertions.assertEquals(expectedResponse.getBody().getTaskDto().getId(), response.getBody().getTaskDto().getId());
+        Assertions.assertEquals(TaskStatus.IN_PROGRESS, response.getBody().getTaskDto().getStatus());
 
     }
 

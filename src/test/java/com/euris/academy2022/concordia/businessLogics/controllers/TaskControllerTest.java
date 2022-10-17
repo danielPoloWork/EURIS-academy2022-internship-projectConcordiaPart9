@@ -79,7 +79,7 @@ public class TaskControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest_AUTORIZED() throws Exception {
+    void insertTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(taskService.insert(Mockito.any(Task.class)))
                 .thenReturn(modelResponse);
@@ -127,7 +127,7 @@ public class TaskControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void deleteByIdTest_AUTORIZED() throws Exception {
+    void deleteByIdTest_AUTHORIZED() throws Exception {
         Mockito
                 .when(taskService.deleteById(Mockito.anyString()))
                 .thenReturn(modelResponse);

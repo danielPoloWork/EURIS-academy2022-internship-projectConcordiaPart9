@@ -1,6 +1,5 @@
 package com.euris.academy2022.concordia.businessLogics.services;
 
-import com.euris.academy2022.concordia.ConcordiaApplication;
 import com.euris.academy2022.concordia.businessLogics.services.impls.TaskServiceImpl;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,7 +25,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ConcordiaApplication.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
 class TaskServiceTest {
 

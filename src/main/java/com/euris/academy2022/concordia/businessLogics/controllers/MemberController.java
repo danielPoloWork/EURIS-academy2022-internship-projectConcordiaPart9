@@ -30,7 +30,7 @@ public class MemberController {
     @PostMapping
     public ResponseDto<MemberDto> insert(@RequestBody MemberPostRequest memberDto) {
         ResponseDto<MemberDto> response = memberService.insert(memberDto.toModel());
-        if (response.getBody() != null) {
+        if (response != null && response.getBody() != null) {
             Member member = Member.builder()
                     .username(memberDto.getUsername())
                     .password(memberDto.getPassword())
@@ -44,7 +44,7 @@ public class MemberController {
     @PutMapping
     public ResponseDto<MemberDto> update(@RequestBody MemberPutRequest memberDto) {
         ResponseDto<MemberDto> response = memberService.update(memberDto.toModel());
-        if (response.getBody() != null) {
+        if (response != null && response.getBody() != null) {
             Member member = Member.builder()
                     .username(response.getBody().getUsername())
                     .password(memberDto.getPassword())
@@ -58,7 +58,7 @@ public class MemberController {
     @DeleteMapping("/{uuid}")
     public ResponseDto<MemberDto> removeByUuid(@PathVariable String uuid) {
         ResponseDto<MemberDto> response = memberService.removeByUuid(uuid);
-        if (response.getBody() != null) {
+        if (response != null && response.getBody() != null) {
             userDetailsManagerService.responseDeleteByUsername(response.getBody().getUsername());
         }
         return response;

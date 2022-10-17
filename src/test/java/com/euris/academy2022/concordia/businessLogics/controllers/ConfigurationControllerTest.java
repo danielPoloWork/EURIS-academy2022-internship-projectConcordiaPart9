@@ -73,7 +73,7 @@ public class ConfigurationControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest_AUTORIZED() throws Exception {
+    void insertTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.insert(Mockito.any(Configuration.class)))
@@ -106,7 +106,7 @@ public class ConfigurationControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void updateTest_AUTORIZED() throws Exception {
+    void updateTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.update(Mockito.any(Configuration.class)))
@@ -138,7 +138,7 @@ public class ConfigurationControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void deleteByLabelTest_AUTORIZED() throws Exception {
+    void deleteByLabelTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.deleteByLabel(Mockito.anyString()))
@@ -170,7 +170,7 @@ public class ConfigurationControllerTest {
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByLabelTest_AUTORIZED() throws Exception {
+    void getByLabelTest_AUTHORIZED() throws Exception {
 
         Mockito
                 .when(configurationService.getByLabel(Mockito.anyString()))

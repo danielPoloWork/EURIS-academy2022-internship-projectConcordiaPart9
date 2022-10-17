@@ -77,6 +77,10 @@ class MemberServiceTest {
         expectedResponse.setBody(member.toDto());
 
         Mockito
+                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+                .thenReturn(Optional.empty());
+
+        Mockito
                 .when(memberJpaRepository.insert(
                         Mockito.anyString(),
                         Mockito.anyString(),
@@ -90,6 +94,7 @@ class MemberServiceTest {
 
         ResponseDto<MemberDto> response = memberService.insert(member);
 
+        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
         Mockito.verify(memberJpaRepository, Mockito.times(1))
                 .insert(Mockito.anyString(),
                         Mockito.anyString(),
@@ -116,7 +121,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void insertTest_NOT_CREATED() {
+    void insertTest_NOT_CREATED_jpaError() {
 
         ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
@@ -124,6 +129,10 @@ class MemberServiceTest {
         expectedResponse.setHttpResponse(HttpResponseType.NOT_CREATED);
         expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+
+        Mockito
+                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+                .thenReturn(Optional.empty());
 
         Mockito
                 .when(memberJpaRepository.insert(
@@ -139,6 +148,7 @@ class MemberServiceTest {
 
         ResponseDto<MemberDto> response = memberService.insert(member);
 
+        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
         Mockito.verify(memberJpaRepository, Mockito.times(1))
                 .insert(Mockito.anyString(),
                         Mockito.anyString(),
@@ -154,7 +164,31 @@ class MemberServiceTest {
         Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
         Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
         Assertions.assertNull(response.getBody());
+    }
 
+    @Test
+    void insertTest_NOT_CREATED_UsernameAlreadyPresent() {
+
+        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
+
+        expectedResponse.setHttpRequest(HttpRequestType.POST);
+        expectedResponse.setHttpResponse(HttpResponseType.NOT_CREATED);
+        expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
+        expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+
+        Mockito
+                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+                .thenReturn(Optional.of(member));
+
+        ResponseDto<MemberDto> response = memberService.insert(member);
+
+        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
+
+        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
+        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
+        Assertions.assertNull(response.getBody());
     }
 
     @Test
@@ -692,7 +726,6 @@ class MemberServiceTest {
         Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
         Assertions.assertNull(response.getBody());
     }
-
 
 
 }
