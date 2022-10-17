@@ -45,14 +45,16 @@ Devs specific activities:
 ## Technologies
 - **Java**│version 18│
 - **MySql**│version 8.0.30│
--  **Lombok  DEVELOPER TOOLS** Java annotation library which helps to reduce boilerplate code.
--   **Spring Web  WEB**│version 2.7.4│Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.
--   **Spring Security  SECURITY**│version 2.7.4│Highly customizable authentication and access-control framework for Spring applications.    
--  **Spring Data JPA  SQL**│version 2.7.4│Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate.  
--  **MySQL Driver  SQL** MySQL JDBC and R2DBC driver.
--  **Liquibase Migration  SQL** Liquibase database migration and source control library.
+- **Lombok  DEVELOPER TOOLS** Java annotation library which helps to reduce boilerplate code.
+- **Spring Web  WEB**│version 2.7.4│Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.
+- **Spring Security  SECURITY**│version 2.7.4│Highly customizable authentication and access-control framework for Spring applications.    
+- **Spring Data JPA  SQL**│version 2.7.4│Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate.  
+- **MySQL Driver  SQL** MySQL JDBC and R2DBC driver.
+- **Liquibase Migration  SQL** Liquibase database migration and source control library.
 - **Trello**
 - **Postman**
+- **jasperreports**|version 6.20.0|This utilizes jasperreports related api and was used to create pdf's
+- **javax.mail**|version 1.6.2|This is used for creating and sending emails
 ## Test
 - **H2**
 - **JUnit**

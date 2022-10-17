@@ -49,7 +49,9 @@ Pro for using trello batch API:
 - rollback
 
 ## Jasper report and mail service
-..missing..
+We used jaspersoft studio to create two jrxml files which then where turned to pdf's using the jasperreports maven 
+dependency. The two files created contain data about the application. Then we created a service containing a send
+method which is capable of sending e-mails using gmail and the javax.mail api  
 
 ## Web application
 This was the most optional feature, so we did not spend much time on development. To make it simple we did not use 
