@@ -5,8 +5,10 @@ import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.businessLogics.services.TabletService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -50,6 +52,12 @@ class TabletControllerTest {
     private MemberService memberService;
 
     private final String REQUEST_MAPPING = "/api/tablet";
+    private Member member;
+
+    @BeforeEach
+    void init() {
+        member = Member.builder().uuid("uuidMember").build();
+    }
 
 
     @Test
@@ -59,7 +67,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -75,7 +83,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/highPriority/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/highPriority/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -91,7 +99,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/mediumPriority/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/mediumPriority/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -103,11 +111,11 @@ class TabletControllerTest {
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getLowPriorityTasksTest() throws Exception {
-        when(tabletService.getMemberTasksByPriority(anyString(), Mockito.any(TaskPriority.class)))
+        when(tabletService.getMemberTasksByPriority(anyString(), any(TaskPriority.class)))
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/lowPriority/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/lowPriority/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -123,7 +131,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/expiringPriority/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/expiringPriority/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -139,7 +147,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/toDoStatus/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/toDoStatus/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -155,7 +163,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/inProgressStatus/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/inProgressStatus/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -171,7 +179,7 @@ class TabletControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/completedStatus/uuidMember")
+                .perform(get(REQUEST_MAPPING + "/completedStatus/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())

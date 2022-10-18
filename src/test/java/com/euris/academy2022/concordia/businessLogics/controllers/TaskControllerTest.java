@@ -5,6 +5,8 @@ import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.tasks.TaskPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.tasks.TaskPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
@@ -57,11 +59,22 @@ public class TaskControllerTest {
 
     private ObjectMapper objectMapper;
     private final String REQUEST_MAPPING = "/api/task";
-
+    private Task task;
+    private TaskPostRequest taskPostRequest;
+    private TaskPutRequest taskPutRequest;
 
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
+        task = Task.builder()
+                .id("idTask")
+                .title("title")
+                .priority(TaskPriority.HIGH)
+                .status(TaskStatus.TO_DO)
+                .deadLine(LocalDateTime.now())
+                .build();
+        taskPostRequest = TaskPostRequest.builder().id("idTask").build();
+        taskPutRequest = TaskPutRequest.builder().id("idTask").build();
     }
 
     @Test
@@ -74,7 +87,7 @@ public class TaskControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Task())))
+                        .content(objectMapper.writeValueAsString(taskPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -89,7 +102,7 @@ public class TaskControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Task())))
+                        .content(objectMapper.writeValueAsString(taskPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -103,7 +116,7 @@ public class TaskControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Task())))
+                        .content(objectMapper.writeValueAsString(taskPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -118,9 +131,7 @@ public class TaskControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(delete(REQUEST_MAPPING + "/idTask")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Task())))
+                .perform(delete(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -133,9 +144,7 @@ public class TaskControllerTest {
     void deleteByIdTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(delete(REQUEST_MAPPING + "/idTask")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Task())))
+                .perform(delete(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -147,8 +156,7 @@ public class TaskControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -163,8 +171,7 @@ public class TaskControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/idTask")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -179,8 +186,7 @@ public class TaskControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/title=title")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/title=" + task.getTitle()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -194,11 +200,8 @@ public class TaskControllerTest {
         when(taskService.getByPriority(any(TaskPriority.class)))
                 .thenReturn(new ResponseDto<>());
 
-        TaskPriority priority = TaskPriority.HIGH;
-
         client
-                .perform(get(REQUEST_MAPPING + "/priority=" + priority)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/priority=" + task.getPriority()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -212,11 +215,8 @@ public class TaskControllerTest {
         when(taskService.getByStatus(any(TaskStatus.class)))
                 .thenReturn(new ResponseDto<>());
 
-        TaskStatus status = TaskStatus.TO_DO;
-
         client
-                .perform(get(REQUEST_MAPPING + "/status=" + status)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/status=" + task.getStatus()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -232,8 +232,7 @@ public class TaskControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/deadLine=" + LocalDateTime.now())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/deadLine=" + task.getDeadLine()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));

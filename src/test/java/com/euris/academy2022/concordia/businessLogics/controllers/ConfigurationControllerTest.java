@@ -6,6 +6,8 @@ import com.euris.academy2022.concordia.businessLogics.services.ConfigurationServ
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.configurations.ConfigurationPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.configurations.ConfigurationPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,11 +54,17 @@ public class ConfigurationControllerTest {
 
     private final String REQUEST_MAPPING = "/api/configuration";
     private ObjectMapper objectMapper;
+    private Configuration configuration;
+    private ConfigurationPostRequest configurationPostRequest;
+    private ConfigurationPutRequest configurationPutRequest;
 
 
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
+        configuration = Configuration.builder().label("label0").build();
+        configurationPostRequest = ConfigurationPostRequest.builder().label("label1").build();
+        configurationPutRequest = ConfigurationPutRequest.builder().label("label2").build();
     }
 
     @Test
@@ -69,7 +77,7 @@ public class ConfigurationControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configurationPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -85,7 +93,7 @@ public class ConfigurationControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configurationPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -101,7 +109,7 @@ public class ConfigurationControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configurationPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -116,7 +124,7 @@ public class ConfigurationControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configurationPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -130,9 +138,9 @@ public class ConfigurationControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(delete(REQUEST_MAPPING + "/label")
+                .perform(delete(REQUEST_MAPPING + "/" + configuration.getLabel())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configuration)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -145,9 +153,9 @@ public class ConfigurationControllerTest {
     void deleteByLabelTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(delete(REQUEST_MAPPING + "/label")
+                .perform(delete(REQUEST_MAPPING + "/" + configuration.getLabel())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Configuration())))
+                        .content(objectMapper.writeValueAsString(configuration)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -161,7 +169,7 @@ public class ConfigurationControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/label")
+                .perform(get(REQUEST_MAPPING + "/" + configuration.getLabel())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
@@ -175,7 +183,7 @@ public class ConfigurationControllerTest {
     void getByLabelTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/label")
+                .perform(get(REQUEST_MAPPING + "/" + configuration.getLabel())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());

@@ -5,6 +5,8 @@ import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.members.MemberPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,10 +57,16 @@ public class MemberControllerTest {
     private ObjectMapper objectMapper;
     private final String REQUEST_MAPPING = "/api/member";
 
+    private Member member;
+    private MemberPostRequest memberPostRequest;
+    private MemberPutRequest memberPutRequest;
+
     @BeforeEach
     void init() {
-
         objectMapper = new ObjectMapper();
+        member = Member.builder().uuid("uuidMember").username("username").idTrelloMember("idTrello").role(MemberRole.ADMIN).build();
+        memberPostRequest = MemberPostRequest.builder().idTrelloMember("idTrello").build();
+        memberPutRequest = MemberPutRequest.builder().uuid("uuidMember").build();
     }
 
     @Test
@@ -71,7 +79,7 @@ public class MemberControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                        .content(objectMapper.writeValueAsString(memberPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -86,7 +94,7 @@ public class MemberControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                        .content(objectMapper.writeValueAsString(memberPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -101,7 +109,7 @@ public class MemberControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                        .content(objectMapper.writeValueAsString(memberPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -116,7 +124,7 @@ public class MemberControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                        .content(objectMapper.writeValueAsString(memberPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -128,9 +136,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(delete(REQUEST_MAPPING + "/uuidMember")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -143,7 +149,7 @@ public class MemberControllerTest {
     void removeByUuidTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(delete(REQUEST_MAPPING + "/uuidMember")
+                .perform(delete(REQUEST_MAPPING + "/" + member.getUuid())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new Member())))
                 .andDo(MockMvcResultHandlers.print())
@@ -157,8 +163,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -173,9 +178,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/uuidMember")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -188,9 +191,7 @@ public class MemberControllerTest {
     void getByUuidTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/uuidMember")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/" + member.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -202,9 +203,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/idTrelloMember=idTrello")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/idTrelloMember=" + member.getIdTrelloMember()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -217,9 +216,7 @@ public class MemberControllerTest {
     void getByIdTrelloMemberTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/idTrelloMember=idTrello")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/idTrelloMember=" + member.getIdTrelloMember()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -231,9 +228,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/username=username")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/username=" + member.getUsername()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -246,9 +241,7 @@ public class MemberControllerTest {
     void getUsernameTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/username=username")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/username=" + member.getUsername()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -262,9 +255,7 @@ public class MemberControllerTest {
         MemberRole role = MemberRole.A1;
 
         client
-                .perform(get(REQUEST_MAPPING + "/role=" + role)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/role=" + member.getRole()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -277,9 +268,7 @@ public class MemberControllerTest {
     void getByRoleTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/role=role")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/role=" + member.getRole()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -291,9 +280,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/name=name")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/name=" + member.getFirstName()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -306,9 +293,7 @@ public class MemberControllerTest {
     void getByNameTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/name=name")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/name=" + member.getFirstName()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -320,9 +305,7 @@ public class MemberControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/surname=surname")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/surname=" + member.getLastName()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -335,9 +318,7 @@ public class MemberControllerTest {
     void getBySurnameTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(get(REQUEST_MAPPING + "/surname=surname")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new Member())))
+                .perform(get(REQUEST_MAPPING + "/surname=" + member.getLastName()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }

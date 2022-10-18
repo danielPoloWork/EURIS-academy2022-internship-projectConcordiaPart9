@@ -56,9 +56,14 @@ public class AssigneeControllerTest {
     private ObjectMapper objectMapper;
     private final String REQUEST_MAPPING = "/api/assignee";
 
+    private AssigneePostRequest assigneePostRequest;
+    private AssigneeDeleteRequest assigneeDeleteRequest;
+
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
+        assigneePostRequest = AssigneePostRequest.builder().uuidMember("uuidMember").idTask("idTask").build();
+        assigneeDeleteRequest = AssigneeDeleteRequest.builder().uuidMember("uuidMember").idTask("idTask").build();
     }
 
     @Test
@@ -70,7 +75,7 @@ public class AssigneeControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new AssigneePostRequest())))
+                        .content(objectMapper.writeValueAsString(assigneePostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -84,12 +89,10 @@ public class AssigneeControllerTest {
         when(assigneeService.removeByUuidMemberAndIdTask(anyString(), anyString()))
                 .thenReturn(new ResponseDto<>());
 
-        AssigneeDeleteRequest request = AssigneeDeleteRequest.builder().uuidMember("uuidMember").idTask("idTask").build();
-
         client
                 .perform(delete(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(objectMapper.writeValueAsString(assigneeDeleteRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));

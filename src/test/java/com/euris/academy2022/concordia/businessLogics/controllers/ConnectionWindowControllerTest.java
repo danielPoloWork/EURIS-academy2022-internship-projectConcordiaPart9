@@ -5,6 +5,8 @@ import com.euris.academy2022.concordia.businessLogics.services.ConnectionWindowS
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.connectionWindow.ConnectionWindowPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.connectionWindow.ConnectionWindowPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.ConnectionWindow;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,11 +53,17 @@ public class ConnectionWindowControllerTest {
 
     private final String REQUEST_MAPPING = "/api/connectionWindow";
     private ObjectMapper objectMapper;
+    private ConnectionWindow connectionWindow;
+    private ConnectionWindowPostRequest postRequest;
+    private ConnectionWindowPutRequest putRequest;
 
 
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
+        connectionWindow = ConnectionWindow.builder().cron("cron").month(1).build();
+        postRequest = ConnectionWindowPostRequest.builder().cron("cron").build();
+        putRequest = ConnectionWindowPutRequest.builder().cron("cron").build();
     }
 
     @Test
@@ -68,7 +76,7 @@ public class ConnectionWindowControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ConnectionWindow())))
+                        .content(objectMapper.writeValueAsString(postRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -84,7 +92,7 @@ public class ConnectionWindowControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ConnectionWindow())))
+                        .content(objectMapper.writeValueAsString(postRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -100,7 +108,7 @@ public class ConnectionWindowControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ConnectionWindow())))
+                        .content(objectMapper.writeValueAsString(putRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -115,7 +123,7 @@ public class ConnectionWindowControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ConnectionWindow())))
+                        .content(objectMapper.writeValueAsString(putRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -128,11 +136,8 @@ public class ConnectionWindowControllerTest {
         when(connectionWindowService.getByMonth(anyInt()))
                 .thenReturn(new ResponseDto<>());
 
-        int month = 1;
-
         client
-                .perform(get(REQUEST_MAPPING + "/" + month)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/" + connectionWindow.getMonth()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -144,11 +149,8 @@ public class ConnectionWindowControllerTest {
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByMonthTest_FORBIDDEN() throws Exception {
 
-        int month = 1;
-
         client
-                .perform(get(REQUEST_MAPPING + "/" + month)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/" + connectionWindow.getMonth()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }

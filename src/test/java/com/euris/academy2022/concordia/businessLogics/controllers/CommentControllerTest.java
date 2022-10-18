@@ -52,11 +52,17 @@ public class CommentControllerTest {
     private MemberService memberService;
 
     private ObjectMapper objectMapper;
+    private Comment comment;
     private final String REQUEST_MAPPING = "/api/comment";
+    private CommentPostRequest commentPostRequest;
+    private CommentPutRequest commentPutRequest;
 
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
+        comment = Comment.builder().uuid("uuidComment").build();
+        commentPostRequest = CommentPostRequest.builder().uuidMember("uuidMember").idTask("idTask").build();
+        commentPutRequest = CommentPutRequest.builder().uuid("uuid").build();
     }
 
 
@@ -69,7 +75,7 @@ public class CommentControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CommentPostRequest())))
+                        .content(objectMapper.writeValueAsString(commentPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -86,7 +92,7 @@ public class CommentControllerTest {
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CommentPutRequest())))
+                        .content(objectMapper.writeValueAsString(commentPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -101,8 +107,7 @@ public class CommentControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(delete(REQUEST_MAPPING + "/uuidComment")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(delete(REQUEST_MAPPING + "/" + comment.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -117,8 +122,7 @@ public class CommentControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -133,8 +137,7 @@ public class CommentControllerTest {
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/uuidComment")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/" + comment.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
