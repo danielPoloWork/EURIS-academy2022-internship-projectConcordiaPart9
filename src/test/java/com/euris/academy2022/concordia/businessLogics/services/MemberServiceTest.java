@@ -8,11 +8,9 @@ import com.euris.academy2022.concordia.jpaRepositories.MemberJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.MemberRole;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
@@ -23,6 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -30,14 +34,10 @@ class MemberServiceTest {
 
     @MockBean
     private MemberJpaRepository memberJpaRepository;
+
     private MemberService memberService;
-
     private Member member;
-
     private List<Member> memberList;
-
-    private List<MemberDto> memberDtoList;
-
     private BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
@@ -59,7 +59,6 @@ class MemberServiceTest {
 
         memberList = new ArrayList<>();
         memberList.add(member);
-        memberDtoList = memberList.stream().map(Member::toDto).toList();
     }
 
     @Test
@@ -68,663 +67,481 @@ class MemberServiceTest {
         member.setDateCreation(LocalDateTime.now());
         member.setDateUpdate(LocalDateTime.now());
 
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
-
-        expectedResponse.setHttpRequest(HttpRequestType.POST);
-        expectedResponse.setHttpResponse(HttpResponseType.CREATED);
-        expectedResponse.setCode(HttpResponseType.CREATED.getCode());
-        expectedResponse.setDesc(HttpResponseType.CREATED.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+        when(memberJpaRepository.findByUsername(anyString()))
                 .thenReturn(Optional.empty());
 
-        Mockito
-                .when(memberJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(memberJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<MemberDto> response = memberService.insert(member);
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
-        Mockito.verify(memberJpaRepository, Mockito.times(1))
-                .insert(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class));
+        verify(memberJpaRepository, times(1)).findByUsername(anyString());
+        verify(memberJpaRepository, times(1))
+                .insert(anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getUuid(), response.getBody().getUuid());
-        Assertions.assertEquals(expectedResponse.getBody().getIdTrelloMember(), response.getBody().getIdTrelloMember());
-        Assertions.assertEquals(expectedResponse.getBody().getUsername(), response.getBody().getUsername());
-        Assertions.assertEquals(expectedResponse.getBody().toModel().getPassword(), response.getBody().toModel().getPassword());
-        Assertions.assertEquals(expectedResponse.getBody().getRole(), response.getBody().getRole());
-        Assertions.assertEquals(expectedResponse.getBody().getFirstName(), response.getBody().getFirstName());
-        Assertions.assertEquals(expectedResponse.getBody().getLastName(), response.getBody().getLastName());
-        Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(HttpRequestType.POST, response.getHttpRequest());
+        assertEquals(HttpResponseType.CREATED, response.getHttpResponse());
+        assertEquals(HttpResponseType.CREATED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.CREATED.getDesc(), response.getDesc());
+        assertEquals(member.getUuid(), response.getBody().getUuid());
+        assertEquals(member.getIdTrelloMember(), response.getBody().getIdTrelloMember());
+        assertEquals(member.getUsername(), response.getBody().getUsername());
+        assertEquals(member.getRole(), response.getBody().getRole());
+        assertEquals(member.getFirstName(), response.getBody().getFirstName());
+        assertEquals(member.getLastName(), response.getBody().getLastName());
+        assertEquals(member.getDateCreation(), response.getBody().getDateCreation());
+        assertEquals(member.getDateUpdate(), response.getBody().getDateUpdate());
     }
 
     @Test
     void insertTest_NOT_CREATED_jpaError() {
 
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
-
-        expectedResponse.setHttpRequest(HttpRequestType.POST);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_CREATED);
-        expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+        when(memberJpaRepository.findByUsername(anyString()))
                 .thenReturn(Optional.empty());
 
-        Mockito
-                .when(memberJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(memberJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<MemberDto> response = memberService.insert(member);
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
-        Mockito.verify(memberJpaRepository, Mockito.times(1))
-                .insert(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class));
+        verify(memberJpaRepository, times(1)).findByUsername(anyString());
+        verify(memberJpaRepository, times(1))
+                .insert(anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.POST, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_CREATED, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_CREATED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_CREATED.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void insertTest_NOT_CREATED_UsernameAlreadyPresent() {
 
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
-
-        expectedResponse.setHttpRequest(HttpRequestType.POST);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_CREATED);
-        expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+        when(memberJpaRepository.findByUsername(anyString()))
                 .thenReturn(Optional.of(member));
 
         ResponseDto<MemberDto> response = memberService.insert(member);
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByUsername(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.POST, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_CREATED, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_CREATED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_CREATED.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
-    void updateTest_FOUND_UPDATED() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
+    void updateTest_UPDATED() {
 
         member.setDateUpdate(LocalDateTime.now());
 
-        expectedResponse.setHttpRequest(HttpRequestType.PUT);
-        expectedResponse.setHttpResponse(HttpResponseType.UPDATED);
-        expectedResponse.setCode(HttpResponseType.UPDATED.getCode());
-        expectedResponse.setDesc(HttpResponseType.UPDATED.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.of(member));
 
-        Mockito
-                .when(memberJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class)))
+        when(memberJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<MemberDto> response = memberService.update(member);
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1))
-                .update(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class));
+        verify(memberJpaRepository, times(1))
+                .update(anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getUuid(), response.getBody().getUuid());
-        Assertions.assertEquals(expectedResponse.getBody().toModel().getPassword(), response.getBody().toModel().getPassword());
-        Assertions.assertEquals(expectedResponse.getBody().getRole(), response.getBody().getRole());
-        Assertions.assertEquals(expectedResponse.getBody().getFirstName(), response.getBody().getFirstName());
-        Assertions.assertEquals(expectedResponse.getBody().getLastName(), response.getBody().getLastName());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(HttpRequestType.PUT, response.getHttpRequest());
+        assertEquals(HttpResponseType.UPDATED, response.getHttpResponse());
+        assertEquals(HttpResponseType.UPDATED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.UPDATED.getDesc(), response.getDesc());
+        assertEquals(member.getUuid(), response.getBody().getUuid());
+        assertEquals(member.getRole(), response.getBody().getRole());
+        assertEquals(member.getFirstName(), response.getBody().getFirstName());
+        assertEquals(member.getLastName(), response.getBody().getLastName());
+        assertEquals(member.getDateUpdate(), response.getBody().getDateUpdate());
     }
 
     @Test
-    void updateTest_FOUND_NOT_UPDATED() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
+    void updateTest_NOT_UPDATED() {
 
-        expectedResponse.setHttpRequest(HttpRequestType.PUT);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_UPDATED);
-        expectedResponse.setCode(HttpResponseType.NOT_UPDATED.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.of(member));
 
-        Mockito
-                .when(memberJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class)))
+        when(memberJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<MemberDto> response = memberService.update(member);
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1))
-                .update(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class));
+        verify(memberJpaRepository, times(1))
+                .update(anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.PUT, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_UPDATED, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_UPDATED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_UPDATED.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void updateTest_NOT_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.PUT);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<MemberDto> response = memberService.update(member);
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.PUT, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
-    void deleteByUuidTest_FOUND_DELETED() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
+    void deleteByUuidTest_DELETED() {
 
-        expectedResponse.setHttpRequest(HttpRequestType.DELETE);
-        expectedResponse.setHttpResponse(HttpResponseType.DELETED);
-        expectedResponse.setCode(HttpResponseType.DELETED.getCode());
-        expectedResponse.setDesc(HttpResponseType.DELETED.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.of(member));
 
-        Mockito
-                .when(memberJpaRepository.removeByUuid(Mockito.anyString()))
+        when(memberJpaRepository.removeByUuid(anyString()))
                 .thenReturn(1);
 
-        ResponseDto<MemberDto> response = memberService.removeByUuid(Mockito.anyString());
+        ResponseDto<MemberDto> response = memberService.removeByUuid(anyString());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).removeByUuid(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).removeByUuid(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getUuid(), response.getBody().getUuid());
+        assertEquals(HttpRequestType.DELETE, response.getHttpRequest());
+        assertEquals(HttpResponseType.DELETED, response.getHttpResponse());
+        assertEquals(HttpResponseType.DELETED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.DELETED.getDesc(), response.getDesc());
+        assertEquals(member.getUuid(), response.getBody().getUuid());
     }
 
     @Test
-    void deleteByUuidTest_FOUND_NOT_DELETED() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
+    void deleteByUuidTest_NOT_DELETED() {
 
-        expectedResponse.setHttpRequest(HttpRequestType.DELETE);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_DELETED);
-        expectedResponse.setCode(HttpResponseType.NOT_DELETED.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_DELETED.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.of(member));
 
-        Mockito
-                .when(memberJpaRepository.removeByUuid(Mockito.anyString()))
+        when(memberJpaRepository.removeByUuid(anyString()))
                 .thenReturn(0);
 
-        ResponseDto<MemberDto> response = memberService.removeByUuid(Mockito.anyString());
+        ResponseDto<MemberDto> response = memberService.removeByUuid(anyString());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).removeByUuid(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).removeByUuid(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.DELETE, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_DELETED, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_DELETED.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_DELETED.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void deleteByUuidTest_NOT_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.DELETE);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.empty());
 
-        ResponseDto<MemberDto> response = memberService.removeByUuid(Mockito.anyString());
+        ResponseDto<MemberDto> response = memberService.removeByUuid(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.DELETE, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getAllTest_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(memberDtoList);
-
-        Mockito
-                .when(memberJpaRepository.findAll())
+        when(memberJpaRepository.findAll())
                 .thenReturn(memberList);
 
         ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
+        verify(memberJpaRepository, times(1)).findAll();
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getUuid(), response.getBody().get(0).getUuid());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(memberList.size(), response.getBody().size());
+        assertEquals(member.getUuid(), response.getBody().get(0).getUuid());
     }
 
     @Test
     void getAllTest_NOT_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findAll())
+        when(memberJpaRepository.findAll())
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<MemberDto>> response = memberService.getAllMemberDto();
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findAll();
+        verify(memberJpaRepository, times(1)).findAll();
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByUuidTest_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.of(member));
 
         ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByUuid(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getUuid(), response.getBody().getUuid());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(member.getUuid(), response.getBody().getUuid());
     }
 
     @Test
     void getByUuidTest_NOT_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUuid(Mockito.anyString()))
+        when(memberJpaRepository.findByUuid(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<MemberDto> response = memberService.getMemberDtoByUuid(member.getUuid());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUuid(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByUuid(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByIdTrelloTest_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByIdTrelloMember(Mockito.anyString()))
+        when(memberJpaRepository.findByIdTrelloMember(anyString()))
                 .thenReturn(Optional.of(member));
 
         ResponseDto<MemberDto> response = memberService.getByIdTrelloMember(member.getIdTrelloMember());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByIdTrelloMember(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByIdTrelloMember(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getIdTrelloMember(), response.getBody().getIdTrelloMember());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(member.getIdTrelloMember(), response.getBody().getIdTrelloMember());
     }
 
     @Test
     void getByIdTrelloTest_NOT_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByIdTrelloMember(Mockito.anyString()))
+        when(memberJpaRepository.findByIdTrelloMember(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<MemberDto> response = memberService.getByIdTrelloMember(member.getIdTrelloMember());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByIdTrelloMember(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByIdTrelloMember(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByUsernameTest_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(member.toDto());
-
-        Mockito
-                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+        when(memberJpaRepository.findByUsername(anyString()))
                 .thenReturn(Optional.of(member));
 
         ResponseDto<MemberDto> response = memberService.getByUsername(member.getUsername());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByUsername(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getUsername(), response.getBody().getUsername());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(member.getUsername(), response.getBody().getUsername());
     }
 
     @Test
     void getByUsernameTest_NOT_FOUND() {
-        ResponseDto<MemberDto> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByUsername(Mockito.anyString()))
+        when(memberJpaRepository.findByUsername(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<MemberDto> response = memberService.getByUsername(member.getUsername());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByUsername(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByUsername(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByFirstNameTest_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(memberDtoList);
-
-        Mockito
-                .when(memberJpaRepository.findByFirstName(Mockito.anyString()))
+        when(memberJpaRepository.findByFirstName(anyString()))
                 .thenReturn(memberList);
 
         ResponseDto<List<MemberDto>> response = memberService.getByFirstName(member.getFirstName());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByFirstName(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByFirstName(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getFirstName(), response.getBody().get(0).getFirstName());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(memberList.size(), response.getBody().size());
+        assertEquals(member.getFirstName(), response.getBody().get(0).getFirstName());
     }
 
     @Test
     void getByFirstNameTest_NOT_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByFirstName(Mockito.anyString()))
+        when(memberJpaRepository.findByFirstName(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<MemberDto>> response = memberService.getByFirstName(member.getFirstName());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByFirstName(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByFirstName(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByLastNameTest_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(memberDtoList);
-
-        Mockito
-                .when(memberJpaRepository.findByLastName(Mockito.anyString()))
+        when(memberJpaRepository.findByLastName(anyString()))
                 .thenReturn(memberList);
 
         ResponseDto<List<MemberDto>> response = memberService.getByLastName(member.getFirstName());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByLastName(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByLastName(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getLastName(), response.getBody().get(0).getLastName());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(memberList.size(), response.getBody().size());
+        assertEquals(member.getLastName(), response.getBody().get(0).getLastName());
     }
 
     @Test
     void getByLastNameTest_NOT_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByLastName(Mockito.anyString()))
+        when(memberJpaRepository.findByLastName(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<MemberDto>> response = memberService.getByLastName(member.getFirstName());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByLastName(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByLastName(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void getByRoleTest_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.FOUND);
-        expectedResponse.setCode(HttpResponseType.FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
-        expectedResponse.setBody(memberDtoList);
-
-        Mockito
-                .when(memberJpaRepository.findByRole(Mockito.anyString()))
+        when(memberJpaRepository.findByRole(anyString()))
                 .thenReturn(memberList);
 
         ResponseDto<List<MemberDto>> response = memberService.getMemberDtoListByRole(member.getRole());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByRole(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByRole(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getRole(), response.getBody().get(0).getRole());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.FOUND.getDesc(), response.getDesc());
+        assertEquals(memberList.size(), response.getBody().size());
+        assertEquals(member.getRole(), response.getBody().get(0).getRole());
     }
 
     @Test
     void getByRoleTest_NOT_FOUND() {
-        ResponseDto<List<MemberDto>> expectedResponse = new ResponseDto<>();
 
-        expectedResponse.setHttpRequest(HttpRequestType.GET);
-        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
-        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
-        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
-
-        Mockito
-                .when(memberJpaRepository.findByRole(Mockito.anyString()))
+        when(memberJpaRepository.findByRole(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<MemberDto>> response = memberService.getMemberDtoListByRole(member.getRole());
 
-        Mockito.verify(memberJpaRepository, Mockito.times(1)).findByRole(Mockito.anyString());
+        verify(memberJpaRepository, times(1)).findByRole(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(HttpRequestType.GET, response.getHttpRequest());
+        assertEquals(HttpResponseType.NOT_FOUND, response.getHttpResponse());
+        assertEquals(HttpResponseType.NOT_FOUND.getCode(), response.getCode());
+        assertEquals(HttpResponseType.NOT_FOUND.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 

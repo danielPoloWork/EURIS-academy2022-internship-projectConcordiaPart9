@@ -9,7 +9,6 @@ import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -69,21 +74,20 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.CREATED.getDesc());
         expectedResponse.setBody(task.toDto());
 
-        Mockito
-                .when(taskJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(taskJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<TaskDto> response = taskService.insert(task);
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1))
+        verify(taskJpaRepository, times(1))
                 .insert(Mockito.anyString(),
                         Mockito.anyString(),
                         Mockito.anyString(),
@@ -93,17 +97,17 @@ class TaskServiceTest {
                         Mockito.any(LocalDateTime.class),
                         Mockito.any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
-        Assertions.assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
-        Assertions.assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
-        Assertions.assertEquals(TaskPriority.LOW, response.getBody().getPriority());
-        Assertions.assertEquals(TaskStatus.TO_DO, response.getBody().getStatus());
-        Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
+        assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
+        assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
+        assertEquals(TaskPriority.LOW, response.getBody().getPriority());
+        assertEquals(TaskStatus.TO_DO, response.getBody().getStatus());
+        assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
+        assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
     }
 
     @Test
@@ -116,35 +120,34 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(taskJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<TaskDto> response = taskService.insert(task);
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1))
-                .insert(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class));
+        verify(taskJpaRepository, times(1))
+                .insert(anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
 
     }
 
@@ -161,45 +164,43 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.UPDATED.getDesc());
         expectedResponse.setBody(task.toDto());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.of(task));
 
-        Mockito
-                .when(taskJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)
+        when(taskJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)
                 ))
                 .thenReturn(1);
 
         ResponseDto<TaskDto> response = taskService.update(task);
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).update(
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.any(LocalDateTime.class),
-                Mockito.any(LocalDateTime.class));
+        verify(taskJpaRepository, times(1)).findById(anyString());
+        verify(taskJpaRepository, times(1)).update(
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
-        Assertions.assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
-        Assertions.assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
-        Assertions.assertEquals(TaskPriority.DONE, response.getBody().getPriority());
-        Assertions.assertEquals(TaskStatus.COMPLETED, response.getBody().getStatus());
-        Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
+        assertEquals(expectedResponse.getBody().getTitle(), response.getBody().getTitle());
+        assertEquals(expectedResponse.getBody().getDescription(), response.getBody().getDescription());
+        assertEquals(TaskPriority.DONE, response.getBody().getPriority());
+        assertEquals(TaskStatus.COMPLETED, response.getBody().getStatus());
+        assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
+        assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
     }
 
     @Test
@@ -211,39 +212,37 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_UPDATED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.of(task));
 
-        Mockito
-                .when(taskJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)
+        when(taskJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)
                 ))
                 .thenReturn(0);
 
         ResponseDto<TaskDto> response = taskService.update(task);
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).update(
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.any(LocalDateTime.class),
-                Mockito.any(LocalDateTime.class));
+        verify(taskJpaRepository, times(1)).findById(anyString());
+        verify(taskJpaRepository, times(1)).update(
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -255,19 +254,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<TaskDto> response = taskService.update(task);
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findById(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -280,24 +278,22 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.DELETED.getDesc());
         expectedResponse.setBody(task.toDto());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.of(task));
 
-        Mockito
-                .when(taskJpaRepository.removeById(Mockito.anyString()))
+        when(taskJpaRepository.removeById(anyString()))
                 .thenReturn(1);
 
         ResponseDto<TaskDto> response = taskService.deleteById(task.getId());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).removeById(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findById(anyString());
+        verify(taskJpaRepository, times(1)).removeById(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
     }
 
     @Test
@@ -309,24 +305,22 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_DELETED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_DELETED.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.of(task));
 
-        Mockito
-                .when(taskJpaRepository.removeById(Mockito.anyString()))
+        when(taskJpaRepository.removeById(anyString()))
                 .thenReturn(0);
 
         ResponseDto<TaskDto> response = taskService.deleteById(task.getId());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).removeById(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findById(anyString());
+        verify(taskJpaRepository, times(1)).removeById(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -338,19 +332,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findById(Mockito.anyString()))
+        when(taskJpaRepository.findById(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<TaskDto> response = taskService.deleteById(task.getId());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findById(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findById(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -363,19 +356,18 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(task.toDto());
 
-        Mockito
-                .when(taskJpaRepository.findByIdTrelloTask(Mockito.anyString()))
+        when(taskJpaRepository.findByIdTrelloTask(anyString()))
                 .thenReturn(Optional.of(task));
 
         ResponseDto<TaskDto> response = taskService.getByIdTrelloTask(task.getId());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByIdTrelloTask(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByIdTrelloTask(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getId(), response.getBody().getId());
     }
 
     @Test
@@ -387,19 +379,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findByIdTrelloTask(Mockito.anyString()))
+        when(taskJpaRepository.findByIdTrelloTask(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<TaskDto> response = taskService.getByIdTrelloTask(task.getId());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByIdTrelloTask(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByIdTrelloTask(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(expectedResponse.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(expectedResponse.getBody());
     }
 
     @Test
@@ -412,20 +403,19 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(taskDtoList);
 
-        Mockito
-                .when(taskJpaRepository.findAll())
+        when(taskJpaRepository.findAll())
                 .thenReturn(taskList);
 
         ResponseDto<List<TaskDto>> response = taskService.getAll();
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findAll();
+        verify(taskJpaRepository, times(1)).findAll();
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getId(), response.getBody().get(0).getId());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().size(), response.getBody().size());
+        assertEquals(expectedResponse.getBody().get(0).getId(), response.getBody().get(0).getId());
 
     }
 
@@ -438,19 +428,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findAll())
+        when(taskJpaRepository.findAll())
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = taskService.getAll();
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findAll();
+        verify(taskJpaRepository, times(1)).findAll();
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -463,20 +452,19 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(taskDtoList);
 
-        Mockito
-                .when(taskJpaRepository.findByPriority(Mockito.anyString()))
+        when(taskJpaRepository.findByPriority(anyString()))
                 .thenReturn(taskList);
 
         ResponseDto<List<TaskDto>> response = taskService.getByPriority(task.getPriority());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByPriority(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByPriority(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getPriority(), response.getBody().get(0).getPriority());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().size(), response.getBody().size());
+        assertEquals(expectedResponse.getBody().get(0).getPriority(), response.getBody().get(0).getPriority());
     }
 
     @Test
@@ -488,19 +476,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findByPriority(Mockito.anyString()))
+        when(taskJpaRepository.findByPriority(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = taskService.getByPriority(task.getPriority());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByPriority(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByPriority(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -513,20 +500,19 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(taskDtoList);
 
-        Mockito
-                .when(taskJpaRepository.findByStatus(Mockito.anyString()))
+        when(taskJpaRepository.findByStatus(anyString()))
                 .thenReturn(taskList);
 
         ResponseDto<List<TaskDto>> response = taskService.getByStatus(task.getStatus());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByStatus(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByStatus(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getStatus(), response.getBody().get(0).getStatus());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().size(), response.getBody().size());
+        assertEquals(expectedResponse.getBody().get(0).getStatus(), response.getBody().get(0).getStatus());
     }
 
     @Test
@@ -538,19 +524,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findByStatus(Mockito.anyString()))
+        when(taskJpaRepository.findByStatus(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = taskService.getByStatus(task.getStatus());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByStatus(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByStatus(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -563,20 +548,19 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(taskDtoList);
 
-        Mockito
-                .when(taskJpaRepository.findByTitle(Mockito.anyString()))
+        when(taskJpaRepository.findByTitle(anyString()))
                 .thenReturn(taskList);
 
         ResponseDto<List<TaskDto>> response = taskService.getByTitle(task.getTitle());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByTitle(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByTitle(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getTitle(), response.getBody().get(0).getTitle());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().size(), response.getBody().size());
+        assertEquals(expectedResponse.getBody().get(0).getTitle(), response.getBody().get(0).getTitle());
     }
 
     @Test
@@ -588,19 +572,18 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findByTitle(Mockito.anyString()))
+        when(taskJpaRepository.findByTitle(anyString()))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = taskService.getByTitle(task.getTitle());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByTitle(Mockito.anyString());
+        verify(taskJpaRepository, times(1)).findByTitle(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
@@ -613,20 +596,19 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(taskDtoList);
 
-        Mockito
-                .when(taskJpaRepository.findByDeadLine(Mockito.any(LocalDateTime.class)))
+        when(taskJpaRepository.findByDeadLine(any(LocalDateTime.class)))
                 .thenReturn(taskList);
 
         ResponseDto<List<TaskDto>> response = taskService.getByDeadLine(task.getDeadLine());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByDeadLine(Mockito.any(LocalDateTime.class));
+        verify(taskJpaRepository, times(1)).findByDeadLine(any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().size(), response.getBody().size());
-        Assertions.assertEquals(expectedResponse.getBody().get(0).getDeadLine(), response.getBody().get(0).getDeadLine());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().size(), response.getBody().size());
+        assertEquals(expectedResponse.getBody().get(0).getDeadLine(), response.getBody().get(0).getDeadLine());
     }
 
     @Test
@@ -638,45 +620,41 @@ class TaskServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(taskJpaRepository.findByDeadLine(Mockito.any(LocalDateTime.class)))
+        when(taskJpaRepository.findByDeadLine(any(LocalDateTime.class)))
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = taskService.getByDeadLine(task.getDeadLine());
 
-        Mockito.verify(taskJpaRepository, Mockito.times(1)).findByDeadLine(Mockito.any(LocalDateTime.class));
+        verify(taskJpaRepository, times(1)).findByDeadLine(any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
     @Test
     void findAllTasksByMemberUuidTest() {
-        Mockito
-                .when(taskJpaRepository.findAllTasksByMemberUuid(Mockito.anyString()))
+        when(taskJpaRepository.findAllTasksByMemberUuid(anyString()))
                 .thenReturn(taskList);
 
         taskService.findAllTasksByMemberUuid("uuid");
 
-        Mockito
-                .verify(taskJpaRepository, Mockito.times(1))
-                .findAllTasksByMemberUuid(Mockito.anyString());
+        verify(taskJpaRepository, times(1))
+                .findAllTasksByMemberUuid(anyString());
     }
 
     @Test
     void updateExpiringTasksTest() {
 
-        Mockito
-                .when(taskJpaRepository.findAll())
+        when(taskJpaRepository.findAll())
                 .thenReturn(taskList);
 
         List<Task> updatedTasks = taskService.updateExpiringTasks();
 
-        Assertions.assertEquals(taskList.size(), updatedTasks.size());
-        Assertions.assertEquals(TaskPriority.EXPIRING, updatedTasks.get(0).getPriority());
+        assertEquals(taskList.size(), updatedTasks.size());
+        assertEquals(TaskPriority.EXPIRING, updatedTasks.get(0).getPriority());
     }
 
 }
