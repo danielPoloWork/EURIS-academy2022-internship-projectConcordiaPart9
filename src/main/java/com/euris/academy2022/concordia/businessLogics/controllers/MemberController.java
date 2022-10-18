@@ -44,9 +44,10 @@ public class MemberController {
     @PutMapping
     public ResponseDto<MemberDto> update(@RequestBody MemberPutRequest memberDto) {
         ResponseDto<MemberDto> response = memberService.update(memberDto.toModel());
-        if (response != null && response.getBody() != null) {
+        ResponseDto<Member> memberFound = memberService.getMemberByUuid(memberDto.getUuid());
+        if (response != null && response.getBody() != null && memberFound.getBody() != null) {
             Member member = Member.builder()
-                    .username(response.getBody().getUsername())
+                    .username(memberFound.getBody().getUsername())
                     .password(memberDto.getPassword())
                     .role(memberDto.getRole())
                     .build();
