@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Assignee;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
@@ -39,7 +40,6 @@ public class AssigneeServiceImpl implements AssigneeService {
     @Override
     public ResponseDto<AssigneeDto> insert(Assignee assignee) {
         ResponseDto<AssigneeDto> response = new ResponseDto<>();
-
         Optional<Member> memberFound = memberJpaRepository.findByUuid(assignee.getMember().getUuid());
         Optional<Task> taskFound = taskJpaRepository.findById(assignee.getTask().getId());
 
@@ -50,31 +50,40 @@ public class AssigneeServiceImpl implements AssigneeService {
             response.setCode(HttpResponseType.NOT_FOUND.getCode());
             response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
         } else {
-            Integer assigneeCreated = assigneeJpaRepository.insert(
-                    memberFound.get().getUuid(),
-                    taskFound.get().getId(),
-                    LocalDateTime.now());
+            Optional<Assignee> assigneeFound = assigneeJpaRepository.findByUuidMemberAndIdTask(assignee.getMember().getUuid(), assignee.getTask().getId());
 
-            if (assigneeCreated != 1) {
-                response.setHttpResponse(HttpResponseType.NOT_CREATED);
-                response.setCode(HttpResponseType.NOT_CREATED.getCode());
-                response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+            if (assigneeFound.isPresent()) {
+                response.setHttpResponse(HttpResponseType.FOUND);
+                response.setCode(HttpResponseType.FOUND.getCode());
+                response.setDesc(HttpResponseType.FOUND.getDesc());
             } else {
-                if (taskFound.get().getStatus().equals(TaskStatus.TO_DO)) {
-                    taskFound.get().setStatus(TaskStatus.IN_PROGRESS);
-                    taskService.update(taskFound.get());
+                Integer assigneeCreated = assigneeJpaRepository.insert(
+                        memberFound.get().getUuid(),
+                        taskFound.get().getId(),
+                        LocalDateTime.now());
+
+                if (assigneeCreated != 1) {
+                    response.setHttpResponse(HttpResponseType.NOT_CREATED);
+                    response.setCode(HttpResponseType.NOT_CREATED.getCode());
+                    response.setDesc(HttpResponseType.NOT_CREATED.getDesc());
+                } else {
+                    if (taskFound.get().getStatus().equals(TaskStatus.TO_DO)) {
+                        taskFound.get().setStatus(TaskStatus.IN_PROGRESS);
+                        taskService.update(taskFound.get());
+                    }
+                    response.setHttpResponse(HttpResponseType.CREATED);
+                    response.setCode(HttpResponseType.CREATED.getCode());
+                    response.setDesc(HttpResponseType.CREATED.getDesc());
+
+                    AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
+                            .memberDto(memberFound.get().toDto())
+                            .taskDto(taskFound.get().toDto())
+                            .build();
+
+                    response.setBody(assigneeDtoResponse);
                 }
-                response.setHttpResponse(HttpResponseType.CREATED);
-                response.setCode(HttpResponseType.CREATED.getCode());
-                response.setDesc(HttpResponseType.CREATED.getDesc());
-
-                AssigneeDto assigneeDtoResponse = AssigneeDto.builder()
-                        .memberDto(memberFound.get().toDto())
-                        .taskDto(taskFound.get().toDto())
-                        .build();
-
-                response.setBody(assigneeDtoResponse);
             }
+
         }
         return response;
     }
@@ -149,6 +158,29 @@ public class AssigneeServiceImpl implements AssigneeService {
             response.setCode(HttpResponseType.FOUND.getCode());
             response.setDesc(HttpResponseType.FOUND.getDesc());
             response.setBody(assigneeFound.get().toDto());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDto<List<TaskDto>> getAllTaskNotAssignedToThisUuidMember(String uuidMember) {
+        ResponseDto<List<TaskDto>> response = new ResponseDto<>();
+
+        List<Task> allTaskFound = assigneeJpaRepository.findAllTaskNotAssignedToThisUuidMember(uuidMember);
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (allTaskFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(allTaskFound.stream()
+                    .map(Task::toDto)
+                    .collect(Collectors.toList()));
         }
         return response;
     }

@@ -2,6 +2,7 @@ package com.euris.academy2022.concordia.businessLogics.services.impls;
 
 import com.euris.academy2022.concordia.businessLogics.services.CommentService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.CommentFromTrelloDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments.CommentPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Comment;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
@@ -309,6 +310,27 @@ public class CommentServiceImpl implements CommentService {
             response.setBody(commentListFound.stream()
                     .map(Comment::toDto)
                     .collect(Collectors.toList()));
+        }
+
+        return response;
+    }
+
+    @Override
+    public ResponseDto<List<CommentDto>> getAllByIdTask(String idTask) {
+        ResponseDto<List<CommentDto>> response = new ResponseDto<>();
+        List<Comment> commentFound = commentJpaRepository.findAllByIdTask(idTask);
+
+        response.setHttpRequest(HttpRequestType.GET);
+
+        if (commentFound.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+        } else {
+            response.setHttpResponse(HttpResponseType.FOUND);
+            response.setCode(HttpResponseType.FOUND.getCode());
+            response.setDesc(HttpResponseType.FOUND.getDesc());
+            response.setBody(commentFound.stream().map(Comment::toDto).collect(Collectors.toList()));
         }
 
         return response;

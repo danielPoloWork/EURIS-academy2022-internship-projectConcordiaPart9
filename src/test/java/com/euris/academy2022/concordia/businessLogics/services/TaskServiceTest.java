@@ -75,14 +75,14 @@ class TaskServiceTest {
         expectedResponse.setBody(task.toDto());
 
         when(taskJpaRepository.insert(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<TaskDto> response = taskService.insert(task);
@@ -121,14 +121,14 @@ class TaskServiceTest {
         expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
 
         when(taskJpaRepository.insert(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<TaskDto> response = taskService.insert(task);
@@ -168,14 +168,14 @@ class TaskServiceTest {
                 .thenReturn(Optional.of(task));
 
         when(taskJpaRepository.update(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)
-                ))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)
+        ))
                 .thenReturn(1);
 
         ResponseDto<TaskDto> response = taskService.update(task);
@@ -216,14 +216,14 @@ class TaskServiceTest {
                 .thenReturn(Optional.of(task));
 
         when(taskJpaRepository.update(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)
-                ))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)
+        ))
                 .thenReturn(0);
 
         ResponseDto<TaskDto> response = taskService.update(task);
@@ -443,7 +443,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByPriorityTest_FOUND(){
+    void getByPriorityTest_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -468,7 +468,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByPriorityTest_NOT_FOUND(){
+    void getByPriorityTest_NOT_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -491,7 +491,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByStatusTest_FOUND(){
+    void getByStatusTest_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -516,7 +516,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByStatusTest_NOT_FOUND(){
+    void getByStatusTest_NOT_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -539,7 +539,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByTitleTest_FOUND(){
+    void getByTitleTest_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -564,7 +564,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByTitleTest_NOT_FOUND(){
+    void getByTitleTest_NOT_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -587,7 +587,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByDeadLineTest_FOUND(){
+    void getByDeadLineTest_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);
@@ -612,7 +612,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getByDeadLineTest_NOT_FOUND(){
+    void getByDeadLineTest_NOT_FOUND() {
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
 
         expectedResponse.setHttpRequest(HttpRequestType.GET);

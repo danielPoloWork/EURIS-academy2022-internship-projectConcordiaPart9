@@ -50,7 +50,6 @@ public class TaskSync {
                             HttpResponseType.NOT_FOUND.getLabel(),
                             taskCreated.getHttpResponse().getLabel());
                 } else {
-                    //2022-10-14T21:12 Edited if condition
                     if ((!taskFound.getBody().getPriority().getLabel().equals(TaskPriority.DONE.getLabel())
                             || !taskFound.getBody().getPriority().getLabel().equals(TaskPriority.EXPIRING.getLabel()))
                             && (TimeUtil.parseToLocalDateTime(trelloCard.getDateLastActivity()).isAfter(taskFound.getBody().getDateUpdate().truncatedTo(ChronoUnit.SECONDS)))) {

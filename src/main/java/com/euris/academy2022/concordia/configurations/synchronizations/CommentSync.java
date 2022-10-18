@@ -36,12 +36,6 @@ public class CommentSync {
             ResponseDto<List<TrelloCommentDto>> allTrelloComments = trelloCommentService.getAllComments();
             ResponseDto<List<CommentDto>> allConcordiaComments = commentService.getAll();
             forEachTrelloCommentFetchAndPull(allTrelloComments, allConcordiaComments, trelloCommentService, commentService ,memberService);
-//            ResponseDto<List<CommentDto>> allConcordiaCommentsWhereIdTrelloCommentIsNotNUll = commentService.getAllWhereIdTrelloTaskIsNotNull();
-//
-//            removeCommentsDeletedOnTrello(
-//                    allTrelloComments,
-//                    allConcordiaCommentsWhereIdTrelloCommentIsNotNUll,
-//                    commentService);
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             printCatchLog("fetchTrello   ", "*******CommentScheduling", "INTERRUPTED MANUALLY");
@@ -124,53 +118,6 @@ public class CommentSync {
         }
     }
 
-//    private static void removeCommentsDeletedOnTrello(ResponseDto<List<TrelloCommentDto>> allTrelloComments, ResponseDto<List<CommentDto>> allConcordiaComments, CommentService commentService) {
-//        ListUtil<String> listUtil = new ListUtil<>();
-//
-//        List<String> listTrelloId = allTrelloComments
-//                .getBody()
-//                .stream()
-//                .map(f -> new StringIdDto().getId()).toList();
-//        List<String> listConcordiaId = allConcordiaComments
-//                .getBody()
-//                .stream()
-//                .map(f -> new StringIdDto().getId()).toList();
-//
-//        List<String> notMatchingComments = listUtil.findNotMatchingRecords(listConcordiaId, listTrelloId);
-//
-//        ifTrelloAndConcordiaAreNotSynchronizedThenCheckAndDelete(notMatchingComments, allConcordiaComments, commentService);
-//
-//    }
-//
-//    private static void ifTrelloAndConcordiaAreNotSynchronizedThenCheckAndDelete(List<String> notMatchingComments, ResponseDto<List<CommentDto>> allConcordiaComments, CommentService commentService) {
-//        if (notMatchingComments.isEmpty()) {
-//            System.out.printf("%s  [pullComment   ] executed at %s  INFO : NOTHING TO DELETE\n",
-//                    Thread.currentThread().getName(),
-//                    new Date());
-//        } else {
-//            forEachConcordiaCommentCheckIfTrelloCommentIdIsNotMatching(allConcordiaComments, notMatchingComments, commentService);
-//        }
-//    }
-//
-//    private static void forEachConcordiaCommentCheckIfTrelloCommentIdIsNotMatching(ResponseDto<List<CommentDto>> allConcordiaComments, List<String> notMatchingComments, CommentService commentService) {
-//        for (CommentDto comment : allConcordiaComments.getBody()) {
-//            forEachNotMatchingConcordiaCommentIdCheckAndDelete(comment, notMatchingComments, commentService);
-//        }
-//    }
-//
-//    private static void forEachNotMatchingConcordiaCommentIdCheckAndDelete(CommentDto comment, List<String> notMatchingComments, CommentService commentService) {
-//        for (String id : notMatchingComments) {
-//            ifConcordiaCommentEqualsNotMatchingCommentIdThenDelete(comment, id, commentService);
-//        }
-//    }
-//
-//    private static void ifConcordiaCommentEqualsNotMatchingCommentIdThenDelete(CommentDto comment, String id, CommentService commentService) {
-//        if (comment.getIdTrelloComment().equals(id)) {
-//            commentService.removeByUuid(comment.getUuid());
-//            printLog3Labels("pullComment   ", comment.getIdTrelloComment(), HttpResponseType.FOUND.getLabel(), HttpResponseType.DELETED.getLabel());
-//        }
-//    }
-
     /*
      * Insert from localhost to trello: OK
      * Update from localhost to trello: OK
@@ -189,11 +136,6 @@ public class CommentSync {
                     Thread.currentThread().getName(),
                     new Date());
         }
-//        catch (NullPointerException e) {
-//            System.out.printf("%s  [fetchConcordia] executed at %s  WARN : *******CommentScheduling : NULL POINTER\n",
-//                    Thread.currentThread().getName(),
-//                    new Date());
-//        }
     }
 
     private static void forEachCommentFetchAndPush(ResponseDto<List<CommentDto>> allConcordiaComments, ResponseDto<List<TrelloCommentDto>> allTrelloComments, TrelloCommentService trelloCommentService, CommentService commentService, TaskService taskService) {
@@ -265,67 +207,6 @@ public class CommentSync {
             printLog1Label2Response("pushComment   ", concordiaComment.getIdTrelloComment(), HttpResponseType.FAILED.getLabel(), HttpResponseType.NOT_UPDATED.getLabel());
         }
     }
-
-//    private static void checkIfDeletedCommentsAreSynchronized(TrelloCommentService trelloCommentService, CommentService commentService) {
-//        ResponseDto<List<TrelloCommentDto>> allTrelloComments = trelloCommentService.getAllComments();
-//        ResponseDto<List<CommentDto>> allConcordiaCommentsWhereIdTrelloCommentIsNotNUll = commentService.getAllWhereIdTrelloTaskIsNotNull();
-//
-//        removeCommentsDeletedOnConcordia(
-//                allConcordiaCommentsWhereIdTrelloCommentIsNotNUll,
-//                allTrelloComments,
-//                trelloCommentService);
-//    }
-//
-//    private static void removeCommentsDeletedOnConcordia(ResponseDto<List<CommentDto>> allConcordiaCommentsWhereIdTrelloCommentIsNotNUll, ResponseDto<List<TrelloCommentDto>> allTrelloComments, TrelloCommentService trelloCommentService) {
-//        ListUtil<String> listUtil = new ListUtil<>();
-//
-//        List<String> listTrelloId = allTrelloComments
-//                .getBody()
-//                .stream()
-//                .map(f -> new StringIdDto().getId()).toList();
-//        List<String> listConcordiaId = allConcordiaCommentsWhereIdTrelloCommentIsNotNUll
-//                .getBody()
-//                .stream()
-//                .map(f -> new StringIdDto().getId()).toList();
-//
-//        List<String> notMatchingComments = listUtil.findNotMatchingRecords(listTrelloId, listConcordiaId);
-//
-//        ifConcordiaAndTrelloAreNotSynchronizedThenCheckAndDelete(notMatchingComments, allTrelloComments, trelloCommentService);
-//    }
-//
-//    private static void ifConcordiaAndTrelloAreNotSynchronizedThenCheckAndDelete(List<String> notMatchingComments, ResponseDto<List<TrelloCommentDto>> allTrelloComments, TrelloCommentService trelloCommentService) {
-//        if (notMatchingComments.isEmpty()) {
-//            System.out.printf("%s  [pullComment    ] executed at %s  INFO : NOTHING TO DELETE\n",
-//                    Thread.currentThread().getName(),
-//                    new Date());
-//        } else {
-//            forEachTrelloCommentCheckIfConcordiaCommentIdIsNotMatching(allTrelloComments, notMatchingComments, trelloCommentService);
-//        }
-//    }
-//
-//    private static void forEachTrelloCommentCheckIfConcordiaCommentIdIsNotMatching(ResponseDto<List<TrelloCommentDto>> allTrelloComments, List<String> notMatchingComments, TrelloCommentService trelloCommentService) {
-//        for (TrelloCommentDto comment : allTrelloComments.getBody()) {
-//            forEachNotMatchingTrelloCommentIdCheckAndDelete(comment, notMatchingComments, trelloCommentService);
-//        }
-//    }
-//
-//    private static void forEachNotMatchingTrelloCommentIdCheckAndDelete(TrelloCommentDto comment, List<String> notMatchingComments, TrelloCommentService trelloCommentService) {
-//        for (String id : notMatchingComments) {
-//            ifTrelloCommentEqualsNotMatchingCommentIdThenDelete(comment, id, trelloCommentService);
-//        }
-//    }
-//
-//    private static void ifTrelloCommentEqualsNotMatchingCommentIdThenDelete(TrelloCommentDto comment, String id, TrelloCommentService trelloCommentService) {
-//        if (comment.getId().equals(id)) {
-//            trelloCommentService.removeCommentByIdCardAndIdComment(comment.getIdCard(), comment.getId());
-//            System.out.printf("%s  [pullComment    ] executed at %s  INFO : %s : %s → %s\n",
-//                    Thread.currentThread().getName(),
-//                    new Date(),
-//                    comment.getId(),
-//                    HttpResponseType.FOUND.getLabel(),
-//                    HttpResponseType.DELETED.getLabel());
-//        }
-//    }
 
     private static void printCatchLog(String operation, String schedule, String error) {
         //e.printStackTrace();

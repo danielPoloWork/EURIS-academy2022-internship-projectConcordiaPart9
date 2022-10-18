@@ -8,17 +8,21 @@ import com.euris.academy2022.concordia.dataPersistences.models.Configuration;
 import com.euris.academy2022.concordia.jpaRepositories.ConfigurationJpaRepository;
 import com.euris.academy2022.concordia.utils.enums.HttpRequestType;
 import com.euris.academy2022.concordia.utils.enums.HttpResponseType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
@@ -55,30 +59,29 @@ public class ConfigurationServiceTest {
         expectedResponse.setDesc(HttpResponseType.CREATED.getDesc());
         expectedResponse.setBody(configuration.toDto());
 
-        Mockito
-                .when(configurationJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(configurationJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<ConfigurationDto> response = configurationService.insert(configuration);
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1))
-                .insert(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class));
+        verify(configurationJpaRepository, times(1))
+                .insert(anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
-        Assertions.assertEquals(expectedResponse.getBody().getValue(), response.getBody().getValue());
-        Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
+        assertEquals(expectedResponse.getBody().getValue(), response.getBody().getValue());
+        assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
+        assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
     }
 
     @Test
@@ -91,27 +94,26 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_CREATED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_CREATED.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.insert(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class)))
+        when(configurationJpaRepository.insert(
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<ConfigurationDto> response = configurationService.insert(configuration);
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1))
-                .insert(Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class),
-                        Mockito.any(LocalDateTime.class));
+        verify(configurationJpaRepository, times(1))
+                .insert(anyString(),
+                        anyString(),
+                        any(LocalDateTime.class),
+                        any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 
@@ -126,33 +128,31 @@ public class ConfigurationServiceTest {
         expectedResponse.setDesc(HttpResponseType.UPDATED.getDesc());
         expectedResponse.setBody(configuration.toDto());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.of(configuration));
 
-        Mockito
-                .when(configurationJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class)))
+        when(configurationJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<ConfigurationDto> response = configurationService.update(configuration);
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).update(
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.any(LocalDateTime.class));
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
+        verify(configurationJpaRepository, times(1)).update(
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
-        Assertions.assertEquals(expectedResponse.getBody().getValue(), response.getBody().getValue());
-        Assertions.assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
-        Assertions.assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
+        assertEquals(expectedResponse.getBody().getValue(), response.getBody().getValue());
+        assertEquals(expectedResponse.getBody().getDateCreation(), response.getBody().getDateCreation());
+        assertEquals(expectedResponse.getBody().getDateUpdate(), response.getBody().getDateUpdate());
 
     }
 
@@ -165,30 +165,28 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_UPDATED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.of(configuration));
 
-        Mockito
-                .when(configurationJpaRepository.update(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.any(LocalDateTime.class)))
+        when(configurationJpaRepository.update(
+                        anyString(),
+                        anyString(),
+                        any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<ConfigurationDto> response = configurationService.update(configuration);
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).update(
-                Mockito.anyString(),
-                Mockito.anyString(),
-                Mockito.any(LocalDateTime.class));
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
+        verify(configurationJpaRepository, times(1)).update(
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class));
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 
@@ -201,19 +199,18 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<ConfigurationDto> response = configurationService.update(configuration);
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 
@@ -228,25 +225,23 @@ public class ConfigurationServiceTest {
         expectedResponse.setDesc(HttpResponseType.DELETED.getDesc());
         expectedResponse.setBody(configuration.toDto());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.of(configuration));
 
-        Mockito
-                .when(configurationJpaRepository.removeByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.removeByLabel(anyString()))
                 .thenReturn(1);
 
         ResponseDto<ConfigurationDto> response = configurationService.deleteByLabel(configuration.getLabel());
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).removeByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
+        verify(configurationJpaRepository, times(1)).removeByLabel(anyString());
 
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
     }
 
 
@@ -259,24 +254,22 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_DELETED.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_DELETED.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.of(configuration));
 
-        Mockito
-                .when(configurationJpaRepository.removeByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.removeByLabel(anyString()))
                 .thenReturn(0);
 
         ResponseDto<ConfigurationDto> response = configurationService.deleteByLabel(configuration.getLabel());
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).removeByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
+        verify(configurationJpaRepository, times(1)).removeByLabel(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 
@@ -289,19 +282,18 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.findById(Mockito.anyString()))
+        when(configurationJpaRepository.findById(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<ConfigurationDto> response = configurationService.deleteByLabel(configuration.getLabel());
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(response.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
     }
 
 
@@ -315,19 +307,18 @@ public class ConfigurationServiceTest {
         expectedResponse.setDesc(HttpResponseType.FOUND.getDesc());
         expectedResponse.setBody(configuration.toDto());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.of(configuration));
 
         ResponseDto<ConfigurationDto> response = configurationService.getByLabel(configuration.getLabel());
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertEquals(expectedResponse.getBody().getLabel(), response.getBody().getLabel());
     }
 
     @Test
@@ -339,19 +330,18 @@ public class ConfigurationServiceTest {
         expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
         expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
 
-        Mockito
-                .when(configurationJpaRepository.findByLabel(Mockito.anyString()))
+        when(configurationJpaRepository.findByLabel(anyString()))
                 .thenReturn(Optional.empty());
 
         ResponseDto<ConfigurationDto> response = configurationService.getByLabel(configuration.getLabel());
 
-        Mockito.verify(configurationJpaRepository, Mockito.times(1)).findByLabel(Mockito.anyString());
+        verify(configurationJpaRepository, times(1)).findByLabel(anyString());
 
-        Assertions.assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
-        Assertions.assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
-        Assertions.assertEquals(expectedResponse.getCode(), response.getCode());
-        Assertions.assertEquals(expectedResponse.getDesc(), response.getDesc());
-        Assertions.assertNull(expectedResponse.getBody());
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(expectedResponse.getBody());
     }
 
 }

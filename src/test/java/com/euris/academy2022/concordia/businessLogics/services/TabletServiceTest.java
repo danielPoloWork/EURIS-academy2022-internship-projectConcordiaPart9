@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -180,6 +181,32 @@ class TabletServiceTest {
     }
 
     @Test
+    void getMemberTasksByPriorityTest_EmptyFilterBody() {
+
+        taskList.forEach(task1 -> task1.setPriority(TaskPriority.LOW));
+
+        ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
+
+        expectedResponse.setHttpRequest(HttpRequestType.GET);
+        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
+        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
+        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        when(taskService.findAllTasksByMemberUuid(anyString()))
+                .thenReturn(taskList);
+
+        ResponseDto<List<TaskDto>> response = tabletService.getMemberTasksByPriority(member.getUuid(), TaskPriority.HIGH);
+
+        verify(taskService, times(1)).findAllTasksByMemberUuid(anyString());
+
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
+    }
+
+    @Test
     void getMemberTasksByPriorityTest_FOUND() {
 
         ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
@@ -219,6 +246,32 @@ class TabletServiceTest {
                 .thenReturn(new ArrayList<>());
 
         ResponseDto<List<TaskDto>> response = tabletService.getMemberTasksByStatus(member.getUuid(), task.getStatus());
+
+        verify(taskService, times(1)).findAllTasksByMemberUuid(anyString());
+
+        assertEquals(expectedResponse.getHttpRequest(), response.getHttpRequest());
+        assertEquals(expectedResponse.getHttpResponse(), response.getHttpResponse());
+        assertEquals(expectedResponse.getCode(), response.getCode());
+        assertEquals(expectedResponse.getDesc(), response.getDesc());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void getMemberTasksByStatusTest_EmptyFilterBody() {
+
+        taskList.forEach(task1 -> task1.setStatus(TaskStatus.TO_DO));
+
+        ResponseDto<List<TaskDto>> expectedResponse = new ResponseDto<>();
+
+        expectedResponse.setHttpRequest(HttpRequestType.GET);
+        expectedResponse.setHttpResponse(HttpResponseType.NOT_FOUND);
+        expectedResponse.setCode(HttpResponseType.NOT_FOUND.getCode());
+        expectedResponse.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        when(taskService.findAllTasksByMemberUuid(anyString()))
+                .thenReturn(taskList);
+
+        ResponseDto<List<TaskDto>> response = tabletService.getMemberTasksByStatus(member.getUuid(), TaskStatus.IN_PROGRESS);
 
         verify(taskService, times(1)).findAllTasksByMemberUuid(anyString());
 

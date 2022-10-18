@@ -46,7 +46,6 @@ public class BatchProcessingCfg {
     public void synchronize() {
         //fetchTrelloAndPullToConcordia();
         //fetchConcordiaAndPushToTrello();
-        //emailService.send();
     }
 
     private void fetchTrelloAndPullToConcordia() {

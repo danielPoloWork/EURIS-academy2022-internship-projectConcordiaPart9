@@ -3,9 +3,12 @@ package com.euris.academy2022.concordia.businessLogics.controllers;
 import com.euris.academy2022.concordia.businessLogics.services.AssigneeService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.AssigneeDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneePostRequest;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.assignees.AssigneeDeleteRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/assignee")
@@ -25,5 +28,9 @@ public class AssigneeController {
     @DeleteMapping
     public ResponseDto<AssigneeDto> remove(@RequestBody AssigneeDeleteRequest deleteRequest) {
         return assigneeService.removeByUuidMemberAndIdTask(deleteRequest.getUuidMember(), deleteRequest.getIdTask());
+    }
+    @GetMapping("/excludeUuidMember={uuidMember}")
+    ResponseDto<List<TaskDto>> getAllTaskNotAssignedToThisUuidMember(@PathVariable String uuidMember) {
+        return assigneeService.getAllTaskNotAssignedToThisUuidMember(uuidMember);
     }
 }

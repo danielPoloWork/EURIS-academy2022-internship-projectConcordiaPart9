@@ -1,6 +1,6 @@
 package com.euris.academy2022.concordia.businessLogics.services.impls;
 
-import com.euris.academy2022.concordia.businessLogics.services.trelloServices.UserDetailsManagerService;
+import com.euris.academy2022.concordia.businessLogics.services.UserDetailsManagerService;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
 import com.euris.academy2022.concordia.dataPersistences.models.Member;

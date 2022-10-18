@@ -31,6 +31,11 @@ public class TaskController {
         return taskService.update(taskDto.toModel());
     }
 
+    @PutMapping("/{id}")
+    public ResponseDto<TaskDto> lockTask(@PathVariable String id) {
+        return taskService.lockTask(id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseDto<TaskDto> deleteById(@PathVariable String id) {
         return taskService.deleteById(id);
