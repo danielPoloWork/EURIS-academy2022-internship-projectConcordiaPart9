@@ -1,13 +1,13 @@
 package com.euris.academy2022.concordia.businessLogics.controllers;
 
 import com.euris.academy2022.concordia.businessLogics.configurations.TestSecurityCfg;
-import com.euris.academy2022.concordia.businessLogics.services.ConnectionWindowService;
+import com.euris.academy2022.concordia.businessLogics.services.CommentService;
 import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.connectionWindow.ConnectionWindowPostRequest;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.connectionWindow.ConnectionWindowPutRequest;
-import com.euris.academy2022.concordia.dataPersistences.models.ConnectionWindow;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments.CommentPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.comments.CommentPutRequest;
+import com.euris.academy2022.concordia.dataPersistences.models.Comment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +24,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.*;
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_BASIC_MEMBER;
+import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.BEAN_USERNAME_BASIC_MEMBER;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -37,121 +37,113 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         SecurityCfg.class
 })
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ConnectionWindowController.class)
+@WebMvcTest(CommentController.class)
 @TestPropertySource(locations = "classpath:application.test.properties")
-public class ConnectionWindowControllerTest {
+public class CommentControllerTest {
 
     @Autowired
     private MockMvc client;
     @Autowired
-    private UserDetailsManager beanUdmAdmin;
+    private UserDetailsManager beanUdmBasicMember;
 
     @MockBean
-    private ConnectionWindowService connectionWindowService;
+    private CommentService commentService;
     @MockBean
     private MemberService memberService;
 
-    private final String REQUEST_MAPPING = "/api/connectionWindow";
     private ObjectMapper objectMapper;
-    private ConnectionWindow connectionWindow;
-    private ConnectionWindowPostRequest postRequest;
-    private ConnectionWindowPutRequest putRequest;
-
+    private Comment comment;
+    private final String REQUEST_MAPPING = "/api/comment";
+    private CommentPostRequest commentPostRequest;
+    private CommentPutRequest commentPutRequest;
 
     @BeforeEach
     void init() {
         objectMapper = new ObjectMapper();
-        connectionWindow = ConnectionWindow.builder().cron("cron").month(1).build();
-        postRequest = ConnectionWindowPostRequest.builder().cron("cron").build();
-        putRequest = ConnectionWindowPutRequest.builder().cron("cron").build();
+        comment = Comment.builder().uuid("uuidComment").build();
+        commentPostRequest = CommentPostRequest.builder().uuidMember("uuidMember").idTask("idTask").build();
+        commentPutRequest = CommentPutRequest.builder().uuid("uuid").build();
     }
 
-    @Test
-    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void insertTest_AUTHORIZED() throws Exception {
 
-        when(connectionWindowService.insert(any(ConnectionWindow.class)))
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void insertTest() throws Exception {
+        when(commentService.insert(any(Comment.class)))
                 .thenReturn(new ResponseDto<>());
 
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(postRequest)))
+                        .content(objectMapper.writeValueAsString(commentPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(connectionWindowService, times(1)).insert(any(ConnectionWindow.class));
-
+        verify(commentService, times(1)).insert(any(Comment.class));
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
-    void insertTest_FORBIDDEN() throws Exception {
-
-        client
-                .perform(post(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(postRequest)))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
-    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void updateTest_AUTHORIZED() throws Exception {
-
-        when(connectionWindowService.update(any(ConnectionWindow.class)))
+    void updateTest() throws Exception {
+        when(commentService.update(any(Comment.class)))
                 .thenReturn(new ResponseDto<>());
 
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(putRequest)))
+                        .content(objectMapper.writeValueAsString(commentPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(connectionWindowService, times(1)).update(any(ConnectionWindow.class));
+        verify(commentService, times(1)).update(any(Comment.class));
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
-    void updateTest_FORBIDDEN() throws Exception {
-
-        client
-                .perform(put(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(putRequest)))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
-    @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
-    void getByMonthTest_AUTHORIZED() throws Exception {
-
-        when(connectionWindowService.getByMonth(anyInt()))
+    void removeByUuidTest() throws Exception {
+        when(commentService.removeByUuid(anyString()))
                 .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/" + connectionWindow.getMonth()))
+                .perform(delete(REQUEST_MAPPING + "/" + comment.getUuid()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(connectionWindowService, times(1)).getByMonth(anyInt());
+        verify(commentService, times(1)).removeByUuid(anyString());
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
-    void getByMonthTest_FORBIDDEN() throws Exception {
+    void getAllTest() throws Exception {
+        when(commentService.getAll())
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/" + connectionWindow.getMonth()))
+                .perform(get(REQUEST_MAPPING))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        verify(commentService, times(1)).getAll();
     }
+
+    @Test
+    @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
+    void getByUuidTest() throws Exception {
+        when(commentService.getByUuid(anyString()))
+                .thenReturn(new ResponseDto<>());
+
+        client
+                .perform(get(REQUEST_MAPPING + "/" + comment.getUuid()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        verify(commentService, times(1)).getByUuid(anyString());
+    }
+
+
 }

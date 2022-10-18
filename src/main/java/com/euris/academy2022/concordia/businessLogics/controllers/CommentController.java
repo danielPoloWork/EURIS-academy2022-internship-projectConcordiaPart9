@@ -24,7 +24,7 @@ public class CommentController {
         return commentService.insert(comment.toModel());
     }
     @PutMapping
-    public ResponseDto<CommentDto> updateByUuid(@RequestBody CommentPutRequest comment) {
+    public ResponseDto<CommentDto> update(@RequestBody CommentPutRequest comment) {
         return commentService.update(comment.toModel());
     }
     @DeleteMapping("/{Uuid}")

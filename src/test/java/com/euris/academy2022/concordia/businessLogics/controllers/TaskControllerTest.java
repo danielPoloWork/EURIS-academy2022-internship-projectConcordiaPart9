@@ -5,7 +5,8 @@ import com.euris.academy2022.concordia.businessLogics.services.MemberService;
 import com.euris.academy2022.concordia.businessLogics.services.TaskService;
 import com.euris.academy2022.concordia.configurations.SecurityCfg;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;
-import com.euris.academy2022.concordia.dataPersistences.DTOs.TaskDto;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.tasks.TaskPostRequest;
+import com.euris.academy2022.concordia.dataPersistences.DTOs.requests.tasks.TaskPutRequest;
 import com.euris.academy2022.concordia.dataPersistences.models.Task;
 import com.euris.academy2022.concordia.utils.enums.TaskPriority;
 import com.euris.academy2022.concordia.utils.enums.TaskStatus;
@@ -27,9 +28,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static com.euris.academy2022.concordia.utils.constants.SecurityConstant.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,43 +58,41 @@ public class TaskControllerTest {
     private MemberService memberService;
 
     private ObjectMapper objectMapper;
-    private Task task;
     private final String REQUEST_MAPPING = "/api/task";
-    private ResponseDto<TaskDto> modelResponse;
-    private ResponseDto<List<TaskDto>> listResponse;
+    private Task task;
+    private TaskPostRequest taskPostRequest;
+    private TaskPutRequest taskPutRequest;
 
     @BeforeEach
     void init() {
-
         objectMapper = new ObjectMapper();
         task = Task.builder()
                 .id("idTask")
-                .title("titleTask")
-                .description("descriptionTask")
+                .title("title")
                 .priority(TaskPriority.HIGH)
                 .status(TaskStatus.TO_DO)
+                .deadLine(LocalDateTime.now())
                 .build();
-        modelResponse = new ResponseDto<>();
-        listResponse = new ResponseDto<>();
-
+        taskPostRequest = TaskPostRequest.builder().id("idTask").build();
+        taskPutRequest = TaskPutRequest.builder().id("idTask").build();
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void insertTest_AUTHORIZED() throws Exception {
-        Mockito
-                .when(taskService.insert(Mockito.any(Task.class)))
-                .thenReturn(modelResponse);
+
+        when(taskService.insert(any(Task.class)))
+                .thenReturn(new ResponseDto<>());
 
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                        .content(objectMapper.writeValueAsString(taskPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).insert(Mockito.any(Task.class));
+        verify(taskService, times(1)).insert(any(Task.class));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class TaskControllerTest {
         client
                 .perform(post(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                        .content(objectMapper.writeValueAsString(taskPostRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -110,37 +110,33 @@ public class TaskControllerTest {
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void updateTest() throws Exception {
-        Mockito
-                .when(taskService.update(Mockito.any(Task.class)))
-                .thenReturn(modelResponse);
+        when(taskService.update(any(Task.class)))
+                .thenReturn(new ResponseDto<>());
 
         client
                 .perform(put(REQUEST_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                        .content(objectMapper.writeValueAsString(taskPutRequest)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).update(Mockito.any(Task.class));
+        verify(taskService, times(1)).update(any(Task.class));
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_ADMIN, value = BEAN_USERNAME_ADMIN)
     void deleteByIdTest_AUTHORIZED() throws Exception {
-        Mockito
-                .when(taskService.deleteById(Mockito.anyString()))
-                .thenReturn(modelResponse);
+        when(taskService.deleteById(anyString()))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + task.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                .perform(delete(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).deleteById(Mockito.anyString());
+        verify(taskService, times(1)).deleteById(Mockito.anyString());
     }
 
     @Test
@@ -148,9 +144,7 @@ public class TaskControllerTest {
     void deleteByIdTest_FORBIDDEN() throws Exception {
 
         client
-                .perform(delete(REQUEST_MAPPING + "/" + task.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                .perform(delete(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isForbidden());
     }
@@ -158,105 +152,91 @@ public class TaskControllerTest {
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getAllTest() throws Exception {
-        Mockito
-                .when(taskService.getAll())
-                .thenReturn(listResponse);
+        when(taskService.getAll())
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING)
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getAll();
+        verify(taskService, times(1)).getAll();
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByIdTest() throws Exception {
-        Mockito
-                .when(taskService.getByIdTrelloTask(Mockito.anyString()))
-                .thenReturn(modelResponse);
+        when(taskService.getByIdTrelloTask(anyString()))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/" + task.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/" + task.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getByIdTrelloTask(Mockito.anyString());
+        verify(taskService, times(1)).getByIdTrelloTask(anyString());
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByTitle() throws Exception {
-        Mockito
-                .when(taskService.getByTitle(Mockito.anyString()))
-                .thenReturn(listResponse);
+        when(taskService.getByTitle(anyString()))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/title=" + task.getTitle())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/title=" + task.getTitle()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getByTitle(Mockito.anyString());
+        verify(taskService, times(1)).getByTitle(anyString());
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByPriority() throws Exception {
-        Mockito
-                .when(taskService.getByPriority(Mockito.any(TaskPriority.class)))
-                .thenReturn(listResponse);
+        when(taskService.getByPriority(any(TaskPriority.class)))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/priority=" + task.getPriority())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/priority=" + task.getPriority()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getByPriority(Mockito.any(TaskPriority.class));
+        verify(taskService, times(1)).getByPriority(any(TaskPriority.class));
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByStatus() throws Exception {
-        Mockito
-                .when(taskService.getByStatus(Mockito.any(TaskStatus.class)))
-                .thenReturn(listResponse);
+        when(taskService.getByStatus(any(TaskStatus.class)))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/status=" + task.getStatus())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/status=" + task.getStatus()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getByStatus(Mockito.any(TaskStatus.class));
+        verify(taskService, times(1)).getByStatus(any(TaskStatus.class));
     }
 
     @Test
     @WithUserDetails(userDetailsServiceBeanName = BEAN_BASIC_MEMBER, value = BEAN_USERNAME_BASIC_MEMBER)
     void getByDeadLine() throws Exception {
 
-        task.setDeadLine(LocalDateTime.now());
-
-        Mockito
-                .when(taskService.getByDeadLine(Mockito.any(LocalDateTime.class)))
-                .thenReturn(listResponse);
+        when(taskService.getByDeadLine(any(LocalDateTime.class)))
+                .thenReturn(new ResponseDto<>());
 
         client
-                .perform(get(REQUEST_MAPPING + "/deadLine=" + task.getDeadLine())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(get(REQUEST_MAPPING + "/deadLine=" + task.getDeadLine()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        Mockito.verify(taskService, Mockito.times(1)).getByDeadLine(Mockito.any(LocalDateTime.class));
+        verify(taskService, times(1)).getByDeadLine(any(LocalDateTime.class));
     }
 }
