@@ -16,15 +16,18 @@ The following PDFs/PNGs show the database schemas for different Concordia versio
 - [**Open PDF/PNG v1.1**](uml-diagram.v1-1.md)
 - [**Open PDF/PNG v1.2**](uml-diagram.v1-2.md)
 - [**Open PDF/PNG v1.3**](uml-diagram.v1-3.md)
-- [**Open PDF/PNG v1.3**](uml-diagram.v1-4.md)
+- [**Open PDF/PNG v1.4**](uml-diagram.v1-4.md)
 
 The database schema is also described in ../java/resources/database/changeLog/ xml files in the Concordia web 
 application. All entitymodel.xml file has an XML definition of all Concordia database tables, table columns, and their 
 data type. Some relationships between tables also appear in the files.
 - [**Assignee**](../../../../../main/resources/database/changeLog/create.table.assignee.xml)
 - [**Comment**](../../../../../main/resources/database/changeLog/create.table.comment.xml)
+- [**Configuration**](../../../../../main/resources/database/changeLog/create.table.configuration.xml)
+- [**Connection Window**](../../../../../main/resources/database/changeLog/create.table.connection-window.xml)
 - [**Member**](../../../../../main/resources/database/changeLog/create.table.member.xml)
 - [**Task**](../../../../../main/resources/database/changeLog/create.table.task.xml)
+
 
 The generation of the schema is manual and must be carried out by an administrator while the creation of the tables is 
 automated through the previous XML scripts and scheduled through the liquibase framework that also offers an excellent 
