@@ -1,0 +1,3977 @@
+{
+	"info": {
+		"_postman_id": "d4269c51-1726-4aea-babe-cd4c31426987",
+		"name": "OpenAPI definition",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22329048"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "assignee",
+					"item": [
+						{
+							"name": "insert 5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"uuidMember\": \"ipsum et conse\",\n  \"idTask\": \"laboris\",\n  \"dateCreation\": \"1964-06-08T05:28:06.861Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/assignee",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"assignee"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uuidMember\": \"ipsum et conse\",\n  \"idTask\": \"laboris\",\n  \"dateCreation\": \"1964-06-08T05:28:06.861Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/assignee",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"assignee"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "remove",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"uuidMember\": \"proident veniam\",\n  \"idTask\": \"sint in do eiusmod\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/assignee",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"assignee"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uuidMember\": \"proident veniam\",\n  \"idTask\": \"sint in do eiusmod\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/assignee",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"assignee"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get All Task Not Assigned To This Uuid Member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/assignee/excludeUuidMember={{uuidMember}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"assignee",
+										"excludeUuidMember={{uuidMember}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/assignee/excludeUuidMember={{uuidMember}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"assignee",
+												"excludeUuidMember={{uuidMember}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "comment",
+					"item": [
+						{
+							"name": "{Uuid}",
+							"item": [
+								{
+									"name": "get By Uuid 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/comment/:Uuid",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment",
+												":Uuid"
+											],
+											"variable": [
+												{
+													"key": "Uuid",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/comment/:Uuid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"comment",
+														":Uuid"
+													],
+													"variable": [
+														{
+															"key": "Uuid",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "remove By Uuid 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/comment/:Uuid",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment",
+												":Uuid"
+											],
+											"variable": [
+												{
+													"key": "Uuid",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/comment/:Uuid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"comment",
+														":Uuid"
+													],
+													"variable": [
+														{
+															"key": "Uuid",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get All 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/comment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"comment"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/comment",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "update By Uuid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"uuid\": \"ullamco\",\n  \"idTrelloComment\": \"aliqua\",\n  \"text\": \"ex veniam adipisicing nulla\",\n  \"dateUpdate\": \"2010-02-19T14:05:44.496Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/comment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"comment"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uuid\": \"ullamco\",\n  \"idTrelloComment\": \"aliqua\",\n  \"text\": \"ex veniam adipisicing nulla\",\n  \"dateUpdate\": \"2010-02-19T14:05:44.496Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/comment",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "insert 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"idTrelloComment\": \"magna velit\",\n  \"idTask\": \"elit dolore in officia\",\n  \"uuidMember\": \"amet\",\n  \"text\": \"in minim ex laborum officia\",\n  \"dateCreation\": \"1999-02-14T23:18:34.973Z\",\n  \"dateUpdate\": \"1975-02-05T20:52:58.700Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/comment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"comment"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idTrelloComment\": \"magna velit\",\n  \"idTask\": \"elit dolore in officia\",\n  \"uuidMember\": \"amet\",\n  \"text\": \"in minim ex laborum officia\",\n  \"dateCreation\": \"1999-02-14T23:18:34.973Z\",\n  \"dateUpdate\": \"1975-02-05T20:52:58.700Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/comment",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get All By Id Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/comment/idTask={{idTask}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"comment",
+										"idTask={{idTask}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/comment/idTask={{idTask}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"comment",
+												"idTask={{idTask}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "configuration",
+					"item": [
+						{
+							"name": "{label}",
+							"item": [
+								{
+									"name": "get By Label",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/configuration/:label",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"configuration",
+												":label"
+											],
+											"variable": [
+												{
+													"key": "label",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/configuration/:label",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"configuration",
+														":label"
+													],
+													"variable": [
+														{
+															"key": "label",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "delete By Label",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/configuration/:label",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"configuration",
+												":label"
+											],
+											"variable": [
+												{
+													"key": "label",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/configuration/:label",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"configuration",
+														":label"
+													],
+													"variable": [
+														{
+															"key": "label",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "update 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"label\": \"ullamco occaecat mollit minim dolore\",\n  \"value\": \"anim est qu\",\n  \"dateUpdate\": \"1950-12-05T21:55:17.256Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/configuration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"configuration"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"label\": \"ullamco occaecat mollit minim dolore\",\n  \"value\": \"anim est qu\",\n  \"dateUpdate\": \"1950-12-05T21:55:17.256Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/configuration",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"configuration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "insert 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"label\": \"dolore sint dolor\",\n  \"value\": \"occaecat voluptate eu adipisicing\",\n  \"dateCreation\": \"1992-03-06T03:12:56.384Z\",\n  \"dateUpdate\": \"2000-06-06T21:05:53.730Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/configuration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"configuration"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"label\": \"dolore sint dolor\",\n  \"value\": \"occaecat voluptate eu adipisicing\",\n  \"dateCreation\": \"1992-03-06T03:12:56.384Z\",\n  \"dateUpdate\": \"2000-06-06T21:05:53.730Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/configuration",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"configuration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "connection Window",
+					"item": [
+						{
+							"name": "update 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"month\": 76383354,\n  \"cron\": \"veniam laborum sed\",\n  \"dateUpdate\": \"2002-10-12T12:41:40.569Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/connectionWindow",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"connectionWindow"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"month\": 76383354,\n  \"cron\": \"veniam laborum sed\",\n  \"dateUpdate\": \"2002-10-12T12:41:40.569Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/connectionWindow",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"connectionWindow"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "insert 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"month\": 14072254,\n  \"cron\": \"cupidatat pariatur\",\n  \"dateCreation\": \"1945-09-14T01:17:45.028Z\",\n  \"dateUpdate\": \"2016-09-18T04:13:08.893Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/connectionWindow",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"connectionWindow"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"month\": 14072254,\n  \"cron\": \"cupidatat pariatur\",\n  \"dateCreation\": \"1945-09-14T01:17:45.028Z\",\n  \"dateUpdate\": \"2016-09-18T04:13:08.893Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/connectionWindow",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"connectionWindow"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Month",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/connectionWindow/:month",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"connectionWindow",
+										":month"
+									],
+									"variable": [
+										{
+											"key": "month",
+											"value": "-5903562",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/connectionWindow/:month",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"connectionWindow",
+												":month"
+											],
+											"variable": [
+												{
+													"key": "month",
+													"value": "-5903562",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "member",
+					"item": [
+						{
+							"name": "{uuid}",
+							"item": [
+								{
+									"name": "get By Uuid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/:uuid",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												":uuid"
+											],
+											"variable": [
+												{
+													"key": "uuid",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/member/:uuid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"member",
+														":uuid"
+													],
+													"variable": [
+														{
+															"key": "uuid",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "remove By Uuid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/:uuid",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												":uuid"
+											],
+											"variable": [
+												{
+													"key": "uuid",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/member/:uuid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"member",
+														":uuid"
+													],
+													"variable": [
+														{
+															"key": "uuid",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get All 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "update 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"uuid\": \"\",\n  \"password\": \"commodo\",\n  \"role\": \"A2\",\n  \"firstName\": \"do irure\",\n  \"lastName\": \"aute nisi\",\n  \"dateCreation\": \"1943-10-28T11:26:23.158Z\",\n  \"dateUpdate\": \"2005-01-22T00:07:40.357Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"uuid\": \"\",\n  \"password\": \"commodo\",\n  \"role\": \"A2\",\n  \"firstName\": \"do irure\",\n  \"lastName\": \"aute nisi\",\n  \"dateCreation\": \"1943-10-28T11:26:23.158Z\",\n  \"dateUpdate\": \"2005-01-22T00:07:40.357Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/member",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "insert 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"idTrelloMember\": \"consequat ex anim Excepteur\",\n  \"username\": \"fugiat veniam ut occaecat mollit\",\n  \"password\": \"in occaecat ess\",\n  \"role\": \"A2\",\n  \"firstName\": \"Lorem\",\n  \"lastName\": \"labore sed irur\",\n  \"dateCreation\": \"2012-10-12T09:47:47.407Z\",\n  \"dateUpdate\": \"1974-05-03T08:01:41.141Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/member",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idTrelloMember\": \"consequat ex anim Excepteur\",\n  \"username\": \"fugiat veniam ut occaecat mollit\",\n  \"password\": \"in occaecat ess\",\n  \"role\": \"A2\",\n  \"firstName\": \"Lorem\",\n  \"lastName\": \"labore sed irur\",\n  \"dateCreation\": \"2012-10-12T09:47:47.407Z\",\n  \"dateUpdate\": \"1974-05-03T08:01:41.141Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/member",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member/username={{username}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member",
+										"username={{username}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/username={{username}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												"username={{username}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Surname",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member/surname={{surname}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member",
+										"surname={{surname}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/surname={{surname}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												"surname={{surname}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Role",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member/role={{role}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member",
+										"role={{role}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/role={{role}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												"role={{role}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member/name={{name}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member",
+										"name={{name}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/name={{name}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												"name={{name}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Id Trello Member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/member/idTrelloMember={{idTrelloMember}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"member",
+										"idTrelloMember={{idTrelloMember}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/member/idTrelloMember={{idTrelloMember}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"member",
+												"idTrelloMember={{idTrelloMember}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "pdf",
+					"item": [
+						{
+							"name": "tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/pdf/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pdf",
+										"tasks"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pdf/tasks",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pdf",
+												"tasks"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "performances",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/pdf/performances",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pdf",
+										"performances"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pdf/performances",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pdf",
+												"performances"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "tablet",
+					"item": [
+						{
+							"name": "get Member Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get To Do Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/toDoStatus/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"toDoStatus",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/toDoStatus/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"toDoStatus",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Medium Priority Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/mediumPriority/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"mediumPriority",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/mediumPriority/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"mediumPriority",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Low Priority Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/lowPriority/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"lowPriority",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/lowPriority/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"lowPriority",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get In Progress Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/inProgressStatus/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"inProgressStatus",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/inProgressStatus/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"inProgressStatus",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get High Priority Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/highPriority/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"highPriority",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/highPriority/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"highPriority",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Expiring Priority Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/expiringPriority/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"expiringPriority",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/expiringPriority/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"expiringPriority",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Completed Tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/tablet/completedStatus/:uuidMember",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"tablet",
+										"completedStatus",
+										":uuidMember"
+									],
+									"variable": [
+										{
+											"key": "uuidMember",
+											"value": "in reprehenderit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/tablet/completedStatus/:uuidMember",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"tablet",
+												"completedStatus",
+												":uuidMember"
+											],
+											"variable": [
+												{
+													"key": "uuidMember",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "task",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "get By Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/task/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"task",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "lock Task",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/task/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"task",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "delete By Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let timeStamp = new Date();\r",
+													"console.log(timeStamp);\r",
+													"\r",
+													"pm.test(\"Check if status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    console.log(\"Status code 200: PASSED\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "in reprehenderit",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/task/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"task",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "in reprehenderit",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get All",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/task",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"Lorem culpa magna elit\",\n  \"title\": \"nulla enim nisi sed\",\n  \"description\": \"reprehenderit adipisicing dolor veniam ut\",\n  \"priority\": \"ARCHIVED\",\n  \"status\": \"TO_DO\",\n  \"deadLine\": \"1948-12-04T04:57:04.155Z\",\n  \"dateCreation\": \"1966-08-01T05:31:51.429Z\",\n  \"dateUpdate\": \"1962-02-05T15:02:38.671Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"Lorem culpa magna elit\",\n  \"title\": \"nulla enim nisi sed\",\n  \"description\": \"reprehenderit adipisicing dolor veniam ut\",\n  \"priority\": \"ARCHIVED\",\n  \"status\": \"TO_DO\",\n  \"deadLine\": \"1948-12-04T04:57:04.155Z\",\n  \"dateCreation\": \"1966-08-01T05:31:51.429Z\",\n  \"dateUpdate\": \"1962-02-05T15:02:38.671Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/task",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "insert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"Lorem culpa magna elit\",\n  \"title\": \"nulla enim nisi sed\",\n  \"description\": \"reprehenderit adipisicing dolor veniam ut\",\n  \"priority\": \"ARCHIVED\",\n  \"status\": \"TO_DO\",\n  \"deadLine\": \"1948-12-04T04:57:04.155Z\",\n  \"dateCreation\": \"1966-08-01T05:31:51.429Z\",\n  \"dateUpdate\": \"1962-02-05T15:02:38.671Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"Lorem culpa magna elit\",\n  \"title\": \"nulla enim nisi sed\",\n  \"description\": \"reprehenderit adipisicing dolor veniam ut\",\n  \"priority\": \"ARCHIVED\",\n  \"status\": \"TO_DO\",\n  \"deadLine\": \"1948-12-04T04:57:04.155Z\",\n  \"dateCreation\": \"1966-08-01T05:31:51.429Z\",\n  \"dateUpdate\": \"1962-02-05T15:02:38.671Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/task",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/task/title={{title}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"title={{title}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/title={{title}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												"title={{title}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/task/status={{status}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"status={{status}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/status={{status}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												"status={{status}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Priority",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/task/priority={{priority}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"priority={{priority}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/priority={{priority}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												"priority={{priority}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get By Dead Line",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/task/deadLine={{deadLine}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"deadLine={{deadLine}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/task/deadLine={{deadLine}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"task",
+												"deadLine={{deadLine}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "user Detail Manager",
+					"item": [
+						{
+							"name": "fetch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let timeStamp = new Date();\r",
+											"console.log(timeStamp);\r",
+											"\r",
+											"pm.test(\"Check if status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Status code 200: PASSED\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/userDetailManager",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"userDetailManager"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/userDetailManager",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"userDetailManager"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "title",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "status",
+			"value": "TO_DO",
+			"type": "any"
+		},
+		{
+			"key": "priority",
+			"value": "HIGH",
+			"type": "any"
+		},
+		{
+			"key": "deadLine",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "username",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "surname",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "role",
+			"value": "C1",
+			"type": "any"
+		},
+		{
+			"key": "name",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "idTrelloMember",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "idTask",
+			"value": "in reprehenderit",
+			"type": "any"
+		},
+		{
+			"key": "uuidMember",
+			"value": "in reprehenderit",
+			"type": "any"
+		}
+	]
+}

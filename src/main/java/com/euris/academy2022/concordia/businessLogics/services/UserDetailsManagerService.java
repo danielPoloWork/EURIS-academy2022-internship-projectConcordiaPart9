@@ -1,4 +1,4 @@
-package com.euris.academy2022.concordia.businessLogics.services.trelloServices;
+package com.euris.academy2022.concordia.businessLogics.services;
 
 import com.euris.academy2022.concordia.dataPersistences.DTOs.MemberDto;
 import com.euris.academy2022.concordia.dataPersistences.DTOs.ResponseDto;

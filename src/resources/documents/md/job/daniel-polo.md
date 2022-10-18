@@ -63,9 +63,9 @@
 - Studied how to schedule sync operations
 - Created BatchProcessingCfg to schedule sync
 - Created schedule jobs:
-  - CardScheduling
-  - MemberScheduling
-  - TaskScheduling
+  - CardSync
+  - MemberSync
+  - TaskSync
 - Fixed and refactored many classes to make the application work properly
 - Created interfaces that works as constants and explained it to the team:
   - AssigneeConstant
@@ -95,3 +95,7 @@
     - all JPAs
     - all service
     - all serviceImpl
+- Fixed all bugs of Sync classes and removed delete features
+- Created Website
+- Added simple test on postman
+- Fixed bugs on many classes

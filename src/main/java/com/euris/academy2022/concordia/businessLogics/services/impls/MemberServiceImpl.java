@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (optionalMember.isEmpty()) {
             Integer memberCreated = memberJpaRepository.insert(
-                    TrelloConstant.MEMBER_CRS_ID,
+                    null,
                     member.getUsername(),
                     passwordEncoder.encode(member.getPassword()),
                     member.getRole().getLabel(),

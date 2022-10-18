@@ -173,6 +173,36 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public ResponseDto<TaskDto> lockTask(String id) {
+        ResponseDto<TaskDto> response = new ResponseDto<>();
+        Optional<Task> optionalTask = taskJpaRepository.findById(id);
+
+        response.setHttpRequest(HttpRequestType.PUT);
+
+        if (optionalTask.isEmpty()) {
+            response.setHttpResponse(HttpResponseType.NOT_FOUND);
+            response.setCode(HttpResponseType.NOT_FOUND.getCode());
+            response.setDesc(HttpResponseType.NOT_FOUND.getDesc());
+
+        } else {
+            Integer updatedTask = taskJpaRepository.lockTask(id);
+
+            if (updatedTask != 1) {
+                response.setHttpResponse(HttpResponseType.NOT_UPDATED);
+                response.setCode(HttpResponseType.NOT_UPDATED.getCode());
+                response.setDesc(HttpResponseType.NOT_UPDATED.getDesc());
+
+            } else {
+                response.setHttpResponse(HttpResponseType.UPDATED);
+                response.setCode(HttpResponseType.UPDATED.getCode());
+                response.setDesc(HttpResponseType.UPDATED.getDesc());
+                response.setBody(optionalTask.get().toDto());
+            }
+        }
+        return response;
+    }
+
+    @Override
     public ResponseDto<TaskDto> deleteById(String id) {
         ResponseDto<TaskDto> response = new ResponseDto<>();
         Optional<Task> optionalTask = taskJpaRepository.findById(id);

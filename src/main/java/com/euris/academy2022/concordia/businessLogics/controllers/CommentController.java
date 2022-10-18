@@ -39,4 +39,8 @@ public class CommentController {
     public ResponseDto<CommentDto> getByUuid(@PathVariable String Uuid) {
         return commentService.getByUuid(Uuid);
     }
+    @GetMapping("/idTask={idTask}")
+    ResponseDto<List<CommentDto>> getAllByIdTask(@PathVariable String idTask) {
+        return commentService.getAllByIdTask(idTask);
+    }
 }

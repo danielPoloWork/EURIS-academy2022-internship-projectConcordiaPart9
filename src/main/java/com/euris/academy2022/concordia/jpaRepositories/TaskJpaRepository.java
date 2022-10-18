@@ -24,6 +24,11 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
                     + "SET Task.title = :title, Task.description = :description, Task.priority = :priority, Task.status = :status, Task.deadLine = :deadLine, Task.dateUpdate = :dateUpdate "
                     + "WHERE Task.id = :id";
 
+    String LOCK_TASK =
+            "UPDATE Task "
+                    + "SET Task.priority = 'DONE', Task.status = 'COMPLETED', Task.dateUpdate = NOW() "
+                    + "WHERE Task.id = :id";
+
     String DELETE_AUTHORIZATION =
             "DELETE FROM Task "
                     + "WHERE Task.id = :id";
@@ -80,6 +85,12 @@ public interface TaskJpaRepository extends JpaRepository<Task, String> {
             @Param("status") String status,
             @Param("deadLine") LocalDateTime deadLine,
             @Param("dateUpdate") LocalDateTime dateUpdate);
+
+    @Modifying
+    @Query(value = LOCK_TASK, nativeQuery = true)
+    @Transactional
+    Integer lockTask(
+            @Param("id") String id);
 
     @Modifying
     @Query(value = DELETE_AUTHORIZATION, nativeQuery = true)
