@@ -7,7 +7,6 @@
     - Service
     - Implementation of the service
     - Controller
-    - Controller tests
 - Develop Trello fetching and pushing methods:
     - Studied resttemplate
     - Comment insertions

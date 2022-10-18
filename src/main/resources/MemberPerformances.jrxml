@@ -4,7 +4,7 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="user" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
 	<field name="taskNumber" class="java.lang.Float"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -38,7 +38,7 @@
 		<band height="24" splitType="Stretch">
 			<textField>
 				<reportElement x="-10" y="3" width="310" height="21" uuid="300e96fb-9424-4885-a249-e8b28df1b30b"/>
-				<textFieldExpression><![CDATA[$F{user}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="310" y="0" width="241" height="21" uuid="a61feb8e-d6f8-4c82-b9af-8127c032b44b"/>
@@ -47,10 +47,37 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="150" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="9" width="541" height="131" uuid="12cfe2b3-8324-420b-bc12-3ce04935f52d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="Report"/>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{username}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{taskNumber}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="80" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

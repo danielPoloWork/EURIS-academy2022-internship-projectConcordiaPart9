@@ -4,12 +4,9 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="idList" class="java.lang.String"/>
-	<field name="id" class="java.lang.String"/>
-	<field name="idLabels" class="java.lang.String"/>
-	<field name="completed" class="java.lang.Integer"/>
-	<field name="todo" class="java.lang.Integer"/>
-	<field name="inprogress" class="java.lang.Integer"/>
+	<field name="completed" class="java.lang.Long"/>
+	<field name="todo" class="java.lang.Long"/>
+	<field name="inprogress" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -20,7 +17,7 @@
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>
-				<text><![CDATA[APP DATA]]></text>
+				<text><![CDATA[TASKS PROGRESS]]></text>
 			</staticText>
 		</band>
 	</title>
