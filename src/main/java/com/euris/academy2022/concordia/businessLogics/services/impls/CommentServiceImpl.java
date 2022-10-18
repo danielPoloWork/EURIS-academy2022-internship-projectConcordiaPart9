@@ -117,7 +117,7 @@ public class CommentServiceImpl implements CommentService {
                 response.setHttpResponse(HttpResponseType.CREATED);
                 response.setCode(HttpResponseType.CREATED.getCode());
                 response.setDesc(HttpResponseType.CREATED.getDesc());
-                response.setBody(comment.toDto());
+                response.setBody(commentFound.get().toDto());
             }
         }
         return response;
