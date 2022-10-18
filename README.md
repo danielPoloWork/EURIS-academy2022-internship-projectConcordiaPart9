@@ -53,8 +53,9 @@ Devs specific activities:
 - **Liquibase Migration  SQL** Liquibase database migration and source control library.
 - **Trello**
 - **Postman**
-- **jasperreports**|version 6.20.0|This utilizes jasperreports related api and was used to create pdf's
-- **javax.mail**|version 1.6.2|This is used for creating and sending emails
+- **Jasperreports**|version 6.20.0|This utilizes jasperreports related api and was used to create pdf's
+- **Javax.mail**|version 1.6.2|This is used for creating and sending emails
+- **Json**|version 20220924|Used for json deserialization
 ## Test
 - **H2**
 - **JUnit**
