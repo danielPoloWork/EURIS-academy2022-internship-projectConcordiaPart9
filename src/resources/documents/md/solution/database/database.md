@@ -16,7 +16,7 @@ The following PDFs/PNGs show the database schemas for different Concordia versio
 - [**Open PDF/PNG v1.1**](uml-diagram.v1-1.md)
 - [**Open PDF/PNG v1.2**](uml-diagram.v1-2.md)
 - [**Open PDF/PNG v1.3**](uml-diagram.v1-3.md)
-- [**Open PDF/PNG v1.3**](uml-diagram.v1-4.md)
+- [**Open PDF/PNG v1.4**](uml-diagram.v1-4.md)
 
 The database schema is also described in ../java/resources/database/changeLog/ xml files in the Concordia web 
 application. All entitymodel.xml file has an XML definition of all Concordia database tables, table columns, and their 
