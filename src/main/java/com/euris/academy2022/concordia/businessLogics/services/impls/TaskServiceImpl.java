@@ -253,6 +253,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseDto<List<TaskDto>> getAll() {
+
+        updateExpiringTasks();
+
         ResponseDto<List<TaskDto>> response = new ResponseDto<>();
         List<Task> taskList = taskJpaRepository.findAll();
 

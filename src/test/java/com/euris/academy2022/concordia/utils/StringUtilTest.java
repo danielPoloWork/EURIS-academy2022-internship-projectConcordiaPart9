@@ -41,9 +41,13 @@ class StringUtilTest {
 
         assertEquals("---", case0[0]);
         assertEquals("---", case0[1]);
+
         assertEquals("string", case1[0]);
         assertEquals("---", case1[1]);
+
         assertEquals("string1", caseDefault[0]);
         assertEquals("string2", caseDefault[1]);
     }
+
+
 }
