@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.euris.academy2022.concordia.utils.constants.controller.TabletControllerConstant.*;
+
 @RestController
-@RequestMapping("/api/tablet")
+@RequestMapping(TABLET_REQUEST_MAPPING)
 public class TabletController {
     private final TabletService tabletService;
 
@@ -21,42 +23,42 @@ public class TabletController {
         this.tabletService = tabletService;
     }
 
-    @GetMapping("/{uuidMember}")
+    @GetMapping(GET_BY_UUID)
     public ResponseDto<List<TaskDto>> getMemberTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasks(uuidMember);
     }
 
-    @GetMapping("/highPriority/{uuidMember}")
+    @GetMapping(GET_BY_HIGH_PRIORITY)
     public ResponseDto<List<TaskDto>> getHighPriorityTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByPriority(uuidMember, TaskPriority.HIGH);
     }
 
-    @GetMapping("/mediumPriority/{uuidMember}")
+    @GetMapping(GET_BY_MEDIUM_PRIORITY)
     public ResponseDto<List<TaskDto>> getMediumPriorityTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByPriority(uuidMember, TaskPriority.MEDIUM);
     }
 
-    @GetMapping("/lowPriority/{uuidMember}")
+    @GetMapping(GET_BY_LOW_PRIORITY)
     public ResponseDto<List<TaskDto>> getLowPriorityTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByPriority(uuidMember, TaskPriority.LOW);
     }
 
-    @GetMapping("/expiringPriority/{uuidMember}")
+    @GetMapping(GET_BY_EXPIRING_PRIORITY)
     public ResponseDto<List<TaskDto>> getExpiringPriorityTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByPriority(uuidMember, TaskPriority.EXPIRING);
     }
 
-    @GetMapping("/toDoStatus/{uuidMember}")
+    @GetMapping(GET_BY_TO_DO_STATUS)
     public ResponseDto<List<TaskDto>> getToDoTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByStatus(uuidMember, TaskStatus.TO_DO);
     }
 
-    @GetMapping("/inProgressStatus/{uuidMember}")
+    @GetMapping(GET_BY_IN_PROGRESS_STATUS)
     public ResponseDto<List<TaskDto>> getInProgressTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByStatus(uuidMember, TaskStatus.IN_PROGRESS);
     }
 
-    @GetMapping("/completedStatus/{uuidMember}")
+    @GetMapping(GET_BY_COMPLETED_STATUS)
     public ResponseDto<List<TaskDto>> getCompletedTasks(@PathVariable String uuidMember) {
         return tabletService.getMemberTasksByStatus(uuidMember, TaskStatus.COMPLETED);
     }

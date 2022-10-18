@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.euris.academy2022.concordia.utils.constants.controller.TaskControllerConstant.*;
+
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping(TASK_REQUEST_MAPPING)
 public class TaskController {
 
     private final TaskService taskService;
@@ -31,7 +33,7 @@ public class TaskController {
         return taskService.update(taskDto.toModel());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(DELETE_BY_ID)
     public ResponseDto<TaskDto> deleteById(@PathVariable String id) {
         return taskService.deleteById(id);
     }
@@ -41,27 +43,27 @@ public class TaskController {
         return taskService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(GET_BY_ID)
     public ResponseDto<TaskDto> getById(@PathVariable String id) {
         return taskService.getByIdTrelloTask(id);
     }
 
-    @GetMapping("/title={title}")
+    @GetMapping(GET_BY_TITLE)
     public ResponseDto<List<TaskDto>> getByTitle(@PathVariable String title) {
         return taskService.getByTitle(title);
     }
 
-    @GetMapping("/priority={priority}")
+    @GetMapping(GET_BY_PRIORITY)
     public ResponseDto<List<TaskDto>> getByPriority(@PathVariable TaskPriority priority) {
         return taskService.getByPriority(priority);
     }
 
-    @GetMapping("/status={status}")
+    @GetMapping(GET_BY_STATUS)
     public ResponseDto<List<TaskDto>> getByStatus(@PathVariable TaskStatus status) {
         return taskService.getByStatus(status);
     }
 
-    @GetMapping("/deadLine={deadLine}")
+    @GetMapping(GET_BY_DEADLINE)
     public ResponseDto<List<TaskDto>> getByDeadLine(@PathVariable String deadLine) {
         LocalDateTime deadLineParsed = LocalDateTime.parse(deadLine);
         return taskService.getByDeadLine(deadLineParsed);
