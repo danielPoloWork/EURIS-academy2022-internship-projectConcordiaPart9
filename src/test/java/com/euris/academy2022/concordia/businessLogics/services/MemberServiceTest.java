@@ -71,14 +71,14 @@ class MemberServiceTest {
                 .thenReturn(Optional.empty());
 
         when(memberJpaRepository.insert(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<MemberDto> response = memberService.insert(member);
@@ -115,14 +115,14 @@ class MemberServiceTest {
                 .thenReturn(Optional.empty());
 
         when(memberJpaRepository.insert(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<MemberDto> response = memberService.insert(member);
@@ -171,12 +171,12 @@ class MemberServiceTest {
                 .thenReturn(Optional.of(member));
 
         when(memberJpaRepository.update(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class)))
                 .thenReturn(1);
 
         ResponseDto<MemberDto> response = memberService.update(member);
@@ -207,12 +207,12 @@ class MemberServiceTest {
                 .thenReturn(Optional.of(member));
 
         when(memberJpaRepository.update(
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        anyString(),
-                        any(LocalDateTime.class)))
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                anyString(),
+                any(LocalDateTime.class)))
                 .thenReturn(0);
 
         ResponseDto<MemberDto> response = memberService.update(member);
