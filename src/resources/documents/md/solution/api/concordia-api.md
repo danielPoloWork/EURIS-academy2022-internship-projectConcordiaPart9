@@ -30,6 +30,18 @@
 - [**POST** /api/member](member/member.api-post.md) Create a new member.
 - [**PUT** /api/member/{uuid}](member/member.api-put.md) Update a member.
 
+## Task
+
+- [**DELETE** api/task/{id}](task/task.api-delete.md) Delete a task.
+- [**GET ALL** api/task](task/task.api-get-all.md) Get all tasks.
+- [**GET BY DEADLINE** api/task/deadLine={deadline}](task/task.api-getByDeadLine.md) Get tasks by deadline.
+- [**GET BY ID** api/task/{id}](task/task.api-getById.md) Get task by id.
+- [**GET BY PRIORITY** api/task/priority={priority}](task/task.api-getByPriority.md) Get tasks by priority.
+- [**GET BY STATUS** api/task/status={status}](task/task.api-getByStatus.md) Get tasks by status.
+- [**GET BY TITLE** api/task/title={title}](task/task.api-getByTitle.md) Get tasks by title.
+- [**POST** api/task](task/task.api-post.md) Create a new task.
+- [**PUT** api/task](task/task.api-put.md) Update an existing task.
+
 
 ## Tablet
 
