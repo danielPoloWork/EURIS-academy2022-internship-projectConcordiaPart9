@@ -1,5 +1,8 @@
 # APIs Concordia
 
+## Open API
+- [**JSON file**](../../../../../main/resources/openAPI/open-api.json)
+
 ## Assignee
 
 - [**DELETE** /api/assignee](assignee/assignee.api-deleteByUuidMemberIdTask.md) Delete an assignee by member uuid and task id.

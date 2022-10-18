@@ -33,9 +33,6 @@ Scientists have tablets, at their disposal, with which they are connected to the
 - [**APIs Trello**](src/resources/documents/md/solution/api/trello-api.md)
 
 ## Job schedule
-Small desc of how we sorted jobs.
-Who did what and why.
-
 Devs specific activities:
 - [**Antonio Collinassi**](src/resources/documents/md/job/antonio-collinassi.md)
 - [**Daniel Polo**](src/resources/documents/md/job/daniel-polo.md)
@@ -56,6 +53,12 @@ Devs specific activities:
 - **Jasperreports**|version 6.20.0|This utilizes jasperreports related api and was used to create pdf's
 - **Javax.mail**|version 1.6.2|This is used for creating and sending emails
 - **Json**|version 20220924|Used for json deserialization
+- **HTML**
+- **CSS**
+- **JavaScript**
+- **JQuery**
+- **Foundation css 6 Framework**
+
 ## Test
 - **H2**
 - **JUnit**
@@ -63,4 +66,4 @@ Devs specific activities:
 - UAT tests with **Postman**
 ## Estimated development time
 3 weeks
-###### © 2022 All rights reserved. Developed by Cescutti Marcello, Collinassi Antonio, Coppetti Simone, Polo Daniel 
+###### © 2022 All rights reserved. Developed by Cescutti Marcello, Collinassi Antonio, Copetti Simone, Polo Daniel 
