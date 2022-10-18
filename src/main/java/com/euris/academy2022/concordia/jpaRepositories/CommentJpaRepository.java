@@ -51,6 +51,11 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
                     "FROM Comment " +
                     "WHERE Comment.idTrelloComment IS NOT NULL";
 
+    String SELECT_ALL_BY_ID_TASK =
+            "SELECT Comment.uuid, Comment.idTrelloComment, Comment.idTask, Comment.uuidMember, Comment.text, Comment.dateCreation, Comment.dateUpdate " +
+                    "FROM Comment " +
+                    "WHERE Comment.idTask = :idTask";
+
     @Modifying
     @Query(value = INSERT_INTO_COMMENT, nativeQuery = true)
     @Transactional
@@ -109,4 +114,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, String> {
     List<Comment> findAllWhereIdTrelloCommentIsNotNull();
 
     Optional<Comment> findByUuid(String uuid);
+
+    @Query(value = SELECT_ALL_BY_ID_TASK, nativeQuery = true)
+    List<Comment> findAllByIdTask(@Param("idTask") String idTask);
 }

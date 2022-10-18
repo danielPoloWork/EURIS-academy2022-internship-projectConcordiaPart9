@@ -16,6 +16,7 @@ public interface TaskService {
     ResponseDto<TaskDto> insertFromTrello(Task task);
     ResponseDto<TaskDto> update(Task task);
     ResponseDto<TaskDto> updateFromTrello(Task task);
+    ResponseDto<TaskDto> lockTask(String id);
     ResponseDto<TaskDto> deleteById(String id);
     ResponseDto<TaskDto> getByIdTrelloTask(String id);
     ResponseDto<List<TaskDto>> getAll();

@@ -34,6 +34,7 @@ public class SecurityCfg {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, MAPPING_MEMBER).permitAll()
+                .antMatchers("/src/**").permitAll()
                 .antMatchers("/admin.html").hasRole(ADMIN)
                 .antMatchers("/researcher.html").hasAnyRole(A1, A2, A3, B1, C1, C2)
                 // MAPPING MEMBER
@@ -53,7 +54,8 @@ public class SecurityCfg {
                 .antMatchers(HttpMethod.GET, MAPPING_TASK + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
                 // MAPPING ASSIGNEE
                 .antMatchers(HttpMethod.POST, MAPPING_ASSIGNEE + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
-                .antMatchers(HttpMethod.DELETE, MAPPING_ASSIGNEE + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
+                .antMatchers(HttpMethod.DELETE, MAPPING_ASSIGNEE + "**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
+                .antMatchers(HttpMethod.GET, MAPPING_ASSIGNEE + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
                 // MAPPING COMMENT
                 .antMatchers(HttpMethod.POST, MAPPING_COMMENT + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
                 .antMatchers(HttpMethod.PUT, MAPPING_COMMENT + "/**").hasAnyRole(ADMIN, A1, A2, A3, B1, C1, C2)
@@ -74,7 +76,7 @@ public class SecurityCfg {
                 //
 //                .anyRequest().authenticated()
                 .and().httpBasic()
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().formLogin()
                 .and().build();
     }
