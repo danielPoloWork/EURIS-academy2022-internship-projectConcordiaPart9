@@ -44,13 +44,13 @@ public class BatchProcessingCfg {
 
     @Scheduled(cron = "${cron.expression.sync}") /* Every second, just for testing */
     public void synchronize() {
-        //fetchTrelloAndPullToConcordia();
-        //fetchConcordiaAndPushToTrello();
+        fetchTrelloAndPullToConcordia();
+        fetchConcordiaAndPushToTrello();
     }
 
     private void fetchTrelloAndPullToConcordia() {
         printFetchTrelloStart(Thread.currentThread().getName());
-        MemberSync.fetchAndPull(trelloMemberService, memberService, configurationService.getByLabel(ID_BOARD_VALUE).getBody().getValue());
+        MemberSync.fetchAndPull(trelloMemberService, memberService, ID_BOARD_VALUE);
         TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.TO_DO);
         TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.IN_PROGRESS);
         TaskSync.fetchAndPull(trelloCardService, taskService, TaskStatus.COMPLETED);
