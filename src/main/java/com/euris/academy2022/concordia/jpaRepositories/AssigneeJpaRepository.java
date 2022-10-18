@@ -23,7 +23,7 @@ public interface AssigneeJpaRepository extends JpaRepository<Assignee, String> {
                     +"WHERE Assignee.uuidMember = :uuidMember AND Assignee.idTask = :idTask ";
 
     String SELECT_ASSIGNEE_BY_ID_TASK_AND_UUID_MEMBER =
-            "SELECT Assignee.uuidMember, Assignee.idTask, Assignee.dateCreation "
+            "SELECT Assignee.uuid, Assignee.uuidMember, Assignee.idTask, Assignee.dateCreation "
                     + "FROM Assignee "
                     + "WHERE Assignee.uuidMember LIKE :uuidMember "
                     + "AND Assignee.idTask LIKE :idTask";
